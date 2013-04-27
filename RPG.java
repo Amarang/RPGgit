@@ -46,6 +46,7 @@ public class RPG extends Applet implements KeyListener
 	Image player2a;
 	
 	
+	
 	int playerposition=1;
 	int mapx=0;
 	int mapy=0;
@@ -66,6 +67,10 @@ public class RPG extends Applet implements KeyListener
 	int pdamagedealt;
   	int mdamagedealt;
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1);
+	
+	
+	HUD hud;
+	
 	Sprite[] sp= new Sprite[5];;
 	Monster m;
 	BufferedReader br;
@@ -274,7 +279,8 @@ public class RPG extends Applet implements KeyListener
 	}
 	public void PlayerMenu(Graphics g)
 	{
-		g.setFont(title);
+	
+		/*g.setFont(title);
 		g.setColor(Color.white);
 		g.fillRect(0,0,800,100);
 		g.setColor(Color.darkGray);
@@ -285,9 +291,11 @@ public class RPG extends Applet implements KeyListener
 		g.drawString("Lvl: "+p.getLevel(),10,25);
 		g.drawString("Hp: "+p.getHealth(),10,45);
 		g.drawString("Gold: "+p.getGold(),10,65);
-		g.drawString("Exp: "+p.getExperience(),10,85);
+		g.drawString("Exp: "+p.getExperience(),10,85);*/
 		
 		
+		hud = new HUD(p);
+		hud.draw(g);
 	}
 	public void update(Graphics g) {
 		Graphics offgc;
