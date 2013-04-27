@@ -20,7 +20,7 @@ class Sprite extends Applet
 	private Image image;
 	private Image[] frames;
 	private int numFrames = 5;
-	
+	private int TILESIZE = 20;
 	private int currentFrame = 0;
 	private long previousTime = 0;
 	private int msPerFrame = 100;
@@ -29,16 +29,17 @@ class Sprite extends Applet
 		isReady = false;
 	}
 	
-	public Sprite(Image image, int x, int y) {
+	public Sprite(Image image, int x, int y, int TS) {
 		System.out.println("instantiated single image sprite");
 		isReady = true;
 		multiframe = false;
 		this.x = x;
 		this.y = y;
 		this.image = image;
+		TILESIZE = TS;
 	}
 	
-	public Sprite(Image[] images, int x, int y) {
+	public Sprite(Image[] images, int x, int y, int TS) {
 		System.out.println("instantiated multi-image sprite");
 		isReady = true;
 		multiframe = true;
@@ -46,8 +47,10 @@ class Sprite extends Applet
 		this.y = y;
 		this.frames = images;
 		numFrames = images.length;
+		TILESIZE = TS;
 	}
-	
+	public void addX (int d) {x+=d;}
+	public void addY (int d) {y+=d;}
 	public void setPos(int x, int y) { this.x = x; this.y = y; }
 	public int getX() { return x; }
 	public int getY() { return y; }
@@ -61,11 +64,11 @@ class Sprite extends Applet
 	}
 	
 	public void drawSprite(Graphics g) {
-		g.drawImage(image,x,y, this);
+		g.drawImage(image,x*(TILESIZE/2),y*(TILESIZE/2), this);
 	}
 	
 	public void drawFrame(Graphics g, int frame) {
-		g.drawImage(frames[frame],x,y, this);
+		g.drawImage(frames[frame],x*(TILESIZE/2),y*(TILESIZE/2), this);
 	}
 	
 	public void start() { running = true; }
@@ -85,7 +88,7 @@ class Sprite extends Applet
 		
 		if(running) {
 		
-				System.out.println("drawing frame " + currentFrame);
+				//System.out.println("drawing frame " + currentFrame);
 				drawFrame(g, currentFrame);
 			if(previousTime == 0 || time - previousTime >= msPerFrame) {
 			

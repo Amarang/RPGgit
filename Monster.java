@@ -69,7 +69,7 @@ class Monster
     public void setDefense(int d) { defense-=d; }
     public void attack() { damage= rand.nextInt(speed) + strength; }
     public void spell() { damage= rand.nextInt(speed) + mana; }
-    public void defend() { defense+=3; }
+    public void defend() { defense*=2; }
    // public void run() { if(canRun()) run=true; }
     
     public boolean canRun() 

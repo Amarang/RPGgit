@@ -59,6 +59,7 @@ public class RPG extends Applet implements KeyListener
 	boolean mdefended = false;
 	boolean firstTimeBattle = true;
 	boolean firststep = false;
+	boolean oktomove = true;
 	static String map;
 	int startx=800/2/TILESIZE;//MAPWIDTH / 2;
 	int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
@@ -70,7 +71,7 @@ public class RPG extends Applet implements KeyListener
 	BufferedReader br;
 	AudioClip intro;
      URL base;
-
+	WaitThread wait;
      MediaTracker mt;
 	 
 	public static void main(String[] args) { } 
@@ -79,7 +80,8 @@ public class RPG extends Applet implements KeyListener
 	{
 		
 		start();
-		
+		wait = new WaitThread();
+		wait.start();
 		try 
 		{
 			URL soundURL = getClass().getResource("music/glory.wav");
@@ -123,7 +125,7 @@ public class RPG extends Applet implements KeyListener
          Image[] playerImgs = new Image[] {player, player1, player2, player1a, player2a};
          for (int i = 0; i<5; i++)
          {
-         	sp[i] = new Sprite(playerImgs, rand.nextInt(40)*20, rand.nextInt(30)*20);
+         	sp[i] = new Sprite(playerImgs, rand.nextInt(40)*2, rand.nextInt(30)*2,TILESIZE);
          }
 		 
 		 
@@ -136,12 +138,15 @@ public class RPG extends Applet implements KeyListener
   	public void keyPressed(KeyEvent evt) 
 	{
 		int key=0; key = evt.getKeyCode(); 
+		if (oktomove)
+		{
 		if(key==KeyEvent.VK_A)
 		{
 			released = false;
 			c.setPointer(1);
 			if (!battle)
 			step('l');
+			oktomove=false;
 		}
 		if(key==KeyEvent.VK_S)
 		{
@@ -149,6 +154,7 @@ public class RPG extends Applet implements KeyListener
 			c.setPointer(2);
 			if (!battle)
 			step('d');
+			oktomove=false;
 		}
 		if(key==KeyEvent.VK_D)
 		{
@@ -156,6 +162,7 @@ public class RPG extends Applet implements KeyListener
 			c.setPointer(3);
 			if (!battle)
 			step('r');
+			oktomove=false;
 		}
 		if(key==KeyEvent.VK_W)
 		{
@@ -163,19 +170,33 @@ public class RPG extends Applet implements KeyListener
 			c.setPointer(0);
 			if (!battle)
 			step('u');
-			
+			oktomove=false;
 		}
-		if(key==KeyEvent.VK_SPACE)
+		/*if(key==KeyEvent.VK_SPACE)
 		{
 			key_space=true;
-		}
+		}*/
 		if(key==KeyEvent.VK_ENTER)
 		{
 			c.setPointer(7);
 			key_enter=true;
 		}
+		}
 	}
+	public class WaitThread extends Thread { //create thread class
 	
+	WaitThread() {//bring in arguments for the thread to use	
+		}
+		public void run() { //executes when thread is called
+			
+			while(true)
+			{
+			delay(200);
+			oktomove=true;
+			repaint();	
+			}	
+	}
+	}
 	public void DrawMap(Graphics g)
 	{	
 		checkx = 0;
@@ -205,12 +226,19 @@ public class RPG extends Applet implements KeyListener
 			{
 				g.drawImage(player1a,startx*TILESIZE,starty*TILESIZE, this);
 				firststep=true;
+				if(c.getPointer()==0) for (int i = 0; i<5; i++) {sp[i].addY(1);}
+				if(c.getPointer()==1) for (int i = 0; i<5; i++) {sp[i].addX(1);}
+				if(c.getPointer()==2) for (int i = 0; i<5; i++) {sp[i].addY(-1);}
 				
 			}
 			else{
 				g.drawImage(player1,startx*TILESIZE,starty*TILESIZE, this);
 				firststep=false;
+					if(c.getPointer()==0) for (int i = 0; i<5; i++) {sp[i].addY(1);}
+					if(c.getPointer()==1) for (int i = 0; i<5; i++) {sp[i].addX(1);}
+					if(c.getPointer()==2) for (int i = 0; i<5; i++) {sp[i].addY(-1);}
 				c.setPointer(5);
+				repaint();
 			}
 		}
 		else if (c.getPointer()==3)
@@ -219,13 +247,14 @@ public class RPG extends Applet implements KeyListener
 			{
 				g.drawImage(player2a,startx*TILESIZE,starty*TILESIZE, this);
 				firststep=true;
-				
+				for (int i = 0; i<5; i++) {sp[i].addX(-1);}
 			}
 			else{
 				g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);
 				firststep=false;
 				c.setPointer(6);
-				
+				for (int i = 0; i<5; i++) {sp[i].addX(-1);}
+				repaint();
 			}
 		}	
 		else if (c.getPointer()==5)
@@ -294,19 +323,22 @@ public class RPG extends Applet implements KeyListener
 		
 		else if (battle)
 		{
+			
 			p.setBattleCondition(true);
 			if(firstTimeBattle) {
+				wait.suspend();
 				intro.stop();
 				battlemusic.play(true);
 				b = new Battle(g, p, monsterImages,c,hit);
 				firstTimeBattle = false;
 			} else {
 				
-				if(!b.BattleSequence(g, key_space)) {
+				if(!b.BattleSequence(g, key_space, key_enter)) {
 					battle = false;
 					firstTimeBattle = true;
 					battlemusic.stop();
 					intro.play();
+					wait.resume();
 				}
 				key_space=false;
 			}	
@@ -324,7 +356,7 @@ public class RPG extends Applet implements KeyListener
 			case 'u': p.moveUp(); break;
 			case 'd': p.moveDown(); break;
 		}
-		if (rand.nextInt(200)==1&&!td.isBattleRestricted(currTile))
+		if (rand.nextInt(50)==1&&!td.isBattleRestricted(currTile))
 		{
 			battle=true;
 			//Battle b = new Battle (g, p, monsterImages, c);
@@ -346,18 +378,21 @@ public class RPG extends Applet implements KeyListener
 
 	public void keyReleased(KeyEvent evt)	
 		{
-		repaint();	
+		int key=0; key = evt.getKeyCode(); 
+		oktomove=true;
+		repaint();
+		if(key==KeyEvent.VK_SPACE)
+			{
+			key_space=true;
+			}	
 		} 	
     public void keyTyped(KeyEvent evt)		{
 			int key=0; key = evt.getKeyCode(); 
-			if(key==KeyEvent.VK_A)
+			if(key==KeyEvent.VK_ENTER)
 			{
 				key_enter=true;
 			}
-			if(key==KeyEvent.VK_SPACE) 
-			{
-				key_space=false;
-			}
+			
     	} 
     public void delay(double n)
 	{

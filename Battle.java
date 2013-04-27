@@ -27,6 +27,7 @@ class Battle extends Applet//extends RPG
 	private boolean battle=true;
 	private boolean initialize = false;
 	private boolean mdefended = false;
+	private boolean pdefended = false;
 	private int xp;
 	private int gold;
 	
@@ -45,15 +46,15 @@ class Battle extends Applet//extends RPG
 	private boolean key_w2=false;
 	private boolean key_space=false;
 	private boolean key_enter=false;
-	
+	private boolean buffer=false;
 	private int pdamagedealt;
   	private int mdamagedealt;
+  	private boolean levelup = false;
+  	private boolean playernotgone = true;
 	
 	/*public Battle() {
 
-		  //System.out.println("got stuff");
-		  Player p = new Player(2,2,2,2,2,2,2);
-		  Pointer c = new Pointer(0);
+
 		  
 	}*/
     public Battle(Graphics gr, Player pl, Image[] mi, Pointer cl,SoundClip hit) {
@@ -63,7 +64,6 @@ class Battle extends Applet//extends RPG
 		this.monsterImages = mi;
 		this.hit = hit;
 		//m = new Monster(20,2,8,3,1,rand.nextInt(6));
-		  System.out.println("got stuff");
 	}
 	public boolean getBattle() { return battle; }
 	public boolean getSpace() { return key_space; }
@@ -71,35 +71,70 @@ class Battle extends Applet//extends RPG
 		g.drawString("IN BATTLE CLASS!!",100,100);
 	}
 	*/
-	public boolean BattleSequence(Graphics g, boolean key_space)
+	public boolean BattleSequence(Graphics g, boolean key_space,boolean key_enter)
 	{
 	this.key_space = key_space;
-	System.out.println("keyspace " + key_space);
+	this.key_enter = key_enter;
+	if (battle)
+	{
 	if (!initialize)
 	{
 	Initialize(g);
 	//repaint();
 	}
+	if (m.getHealth()>=0&&p.getHealth()>=0)
 	ShowPane(g);
 	if (m.getHealth()<=0)
 	{
+		if (buffer==false)
+		{
+		key_space=false;
+		buffer=true;
+		xp=m.getId()+1*rand.nextInt(3)+1;
+		gold=m.getId()+1*rand.nextInt(3)*rand.nextInt(4)+1/(rand.nextInt(4)+1);
+  		p.setGold(gold);
+  		if (p.setExperience(xp))
+  			levelup=true;	
+		}
 		Victory(g);
-			battle=false;
+		if (key_space)
+		{
+		battle=false;
 		initialize = false;
+		}
+			
+	}
+	if (p.getHealth()<=0)
+	{
+		if (buffer==false)
+		{
+		key_space=false;
+		buffer=true;
+		
+		xp=-(p.getExperience()/2);
+		gold=-(p.getGold()/2);
+  		p.setGold(gold);
+  		if (p.setExperience(xp))
+  		g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);	
+		}
+		Defeat(g);
+		if (key_space)
+		{
+		battle=false;
+		initialize = false;	
+		p.setHealth(p.getHealthMax()/4);
+		}
+			
+	}
 	}	
 	//repaint();
 		
 	return battle;
 		
 	}
-	
-	public void Victory(Graphics g)
+	public void Display(Graphics g)
 	{
-		m.resetDamage();
-		p.resetDamage();
 		g.setFont(title);
-		g.setColor(Color.black);
-		g.fillRect(0,0,800,600);
 		g.setColor(Color.white);
 		drawMonster(g);
 		g.drawString("Enemy: "+ m.getName(),30,30);
@@ -109,12 +144,33 @@ class Battle extends Applet//extends RPG
   		g.drawString("your health = "+ p.getHealth(),300,50);
   		g.drawString("strength = "+ p.getStrength(),300,71);
   		g.drawString("defense = "+ p.getDefense(),300,91);
-  		xp=m.getId()+1*rand.nextInt(3)+1;
+	}
+	public void Defeat(Graphics g)
+	{
+		m.resetDamage();
+		p.resetDamage();
+		g.setColor(Color.black);
+		g.fillRect(0,0,800,600);
+		Display(g);
+		g.setFont(title);
+		g.setColor(Color.white);
+  		g.drawString("You were killed by the "+m.getName()+"! Exp lost : "+xp,50,500);
+  		g.drawString("Gold lost : "+gold,50,520);
+  		g.drawString("You take some time to tend to your wounds.",50,540);
+  		
+	}
+	public void Victory(Graphics g)
+	{
+		m.resetDamage();
+		p.resetDamage();
+		g.setColor(Color.black);
+		g.fillRect(0,0,800,600);
+		Display(g);
+		g.setFont(title);
+		g.setColor(Color.white);
   		g.drawString("Congratulations on defeating the "+m.getName()+"! Exp earned : "+xp,50,500);
-  		if (p.setExperience(xp))
+  		if (levelup)
   		g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);
-  		gold=m.getId()+1*rand.nextInt(3)*rand.nextInt(4)+1/(rand.nextInt(4)+1);
-  		p.setGold(gold);
   		g.drawString("Gold earned : "+gold,50,520);
 	}
 	public void drawMonster(Graphics g)
@@ -129,12 +185,10 @@ class Battle extends Applet//extends RPG
 		 c.reset();
 		 initialize = true;
 		mdefended=false;
-		System.out.println("initializing");
 		 
 	}
 	public void ShowPane(Graphics g)
 	{
-		System.out.println("showing pane");	
 		m.resetDamage();
 		p.resetDamage();
 		g.setFont(title);
@@ -143,13 +197,7 @@ class Battle extends Applet//extends RPG
 		g.setColor(Color.white);
 		drawMonster(g);
 		Actions(g);
-		g.drawString("Enemy: "+ m.getName(),30,30);
-  		g.drawString("monster health = "+ m.getHealth(),30,50);
-  		g.drawString("strength = "+ m.getStrength(),30,71);
-  		g.drawString("defense = "+ m.getDefense(),30,91);
-  		g.drawString("your health = "+ p.getHealth(),300,50);
-  		g.drawString("strength = "+ p.getStrength(),300,71);
-  		g.drawString("defense = "+ p.getDefense(),300,91);
+		Display(g);
   	
   		g.setColor(Color.red);
   		switch(c.getPointer()) {
@@ -166,31 +214,28 @@ class Battle extends Applet//extends RPG
 				g.drawRect(459,399,72,22); 
 					break;
   		}
-  		//System.out.println("enemyhealth="+m.getHealth());
-
-  			//g.drawString("Damage dealt: "+ pdamagedealt,400,500);
-  	
-  			//g.drawString("Damage dealt: "+ mdamagedealt,50,500);
-  			System.out.println("showed pane");	
-  		//repaint();
 	}
 	
 	
 	public void Actions(Graphics g)
 	{
-		System.out.println("showing actions");	
 		g.drawString("Attack",380,400);
   		g.drawString("Spell",310,420);
   		g.drawString("Defend",380,420);
   		g.drawString("Run",460,420);
   		hit.stop();
-		if (key_space)
+		if (key_space&&c.getPointer()<4&&playernotgone)
 		{
+			if (pdefended)
+			{
+			p.setDefense(p.getDefense()/2);
+			pdefended=false;	
+			}
 			switch(c.getPointer()) {
 			case 0: 
 				hit.play();
 				p.attack(); 
-				g.drawString("Damage dealt: "+ p.getDamage(),400,500);
+				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",400,500);
 				mdamagedealt=(p.getDamage()-m.getDefense());
   				if (mdamagedealt>0)
   				m.setDamage(mdamagedealt);	 
@@ -198,14 +243,15 @@ class Battle extends Applet//extends RPG
 			case 1: 
 				hit.play();
 				p.spell();
-				g.drawString("Damage dealt: "+ p.getDamage(),400,500);	
+				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",400,500);	
 				mdamagedealt=(p.getDamage()-m.getDefense());
   				if (mdamagedealt>0)
   				m.setDamage(mdamagedealt); 
 					break;
 			case 2: 
 				p.defend(); 
-				g.drawString("Defending! Damage dealt: "+ p.getDamage(),400,500); 
+				g.drawString("Defending! You braced yourself!",400,500); 
+					pdefended=true;
 					break;
 			case 3: 
 				if (rand.nextInt(2)==0)
@@ -214,14 +260,20 @@ class Battle extends Applet//extends RPG
 				g.drawString("NO ESCAPE",400,500);
 					break;
 			}
+			key_space=false;
+			playernotgone=false;
+			if (m.getHealth()>0)
+			g.drawString("The "+m.getName()+" is ready!",50,540); 
 		}
-		if (key_space&&c.getPointer()<4)
+		
+		if (key_space&&c.getPointer()<4&&!playernotgone&&m.getHealth()>0)
 		{
+			playernotgone=true;
 			key_space=false;
 			c.setPointer(5);
 			if (mdefended)
 			{
-			m.setDefense(3);
+			m.setDefense(m.getDefense()/2);
 			mdefended=false;	
 			}
 			key_w=false;key_a=false;key_s=false;key_d=false;
@@ -230,7 +282,7 @@ class Battle extends Applet//extends RPG
 			{
 				hit.play();
 				m.attack();
-				g.drawString("Attack! Damage dealt: "+ m.getDamage(),50,500);
+				g.drawString("Attack! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",50,500);
 				pdamagedealt=(m.getDamage()-p.getDefense());
   				if (pdamagedealt>0)
   					p.setDamage(pdamagedealt);	
@@ -240,7 +292,7 @@ class Battle extends Applet//extends RPG
 			{
 				hit.play();
 				m.spell();
-				g.drawString("Spell! Damage dealt: "+ m.getDamage(),50,500);	
+				g.drawString("Spell! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",50,500);	
 				pdamagedealt=(m.getDamage()-p.getDefense());
   				if (pdamagedealt>0)
   					p.setDamage(pdamagedealt);	
@@ -248,21 +300,28 @@ class Battle extends Applet//extends RPG
 			}
 			if (monstaction==2)
 			{
-				//System.out.print("def");
 				m.defend();
-				g.drawString("Defending! Damage dealt: "+ m.getDamage(),50,500);	
+				g.drawString("Defending! Enemy has braced itself!",50,500);	
 					mdefended=true;
 			}
-			if (monstaction==3&&m.canRun())
+			if (monstaction==3)
 			{
-				//System.out.print("def");
-				g.drawString("Tried to run! Damage dealt: "+ m.getDamage(),50,500);
+				g.drawString("Tried to run!",50,500);
+				if(m.canRun())
+					battle=false;
 			}
 					
 				//battle=false;
 				
 		}
-	System.out.println("showed actions");		 
+		key_space=false;	 
+	}
+	public void delay(double n)
+	{
+		long startDelay = System.currentTimeMillis();
+		long endDelay = 0;
+		while (endDelay - startDelay < n)
+			endDelay = System.currentTimeMillis();	
 	}
 		
 }

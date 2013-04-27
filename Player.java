@@ -65,7 +65,8 @@ class Player
     
     public int getX() { return x; }
     public int getY() { return y; }
-    
+    public void setX(int h) { x=h; }
+    public void setY(int h) { y=h; }
     public void setBattleCondition(boolean n) { battling = n; }
     public void moveLeft() { if(canMoveLeft()&&!battling) x--; }
     public void moveRight() { if(canMoveRight()&&!battling) x++; }
@@ -84,6 +85,7 @@ class Player
     public int getExperience() { return experience; }
     
     public void setDamage(int d) { health-=d; }
+    public void setDefense(int d) { defense-=d; }
     public void setGold(int d) { gold+=d; }
     public void pay(int d) {gold-=d;}
     public void setHealth(int d) { health=d; }
@@ -101,7 +103,7 @@ class Player
     
     public void attack() { damage= rand.nextInt(speed) + strength; }
     public void spell() { damage= rand.nextInt(speed) + mana; }
-    public void defend() { defense+=3; }
+    public void defend() { defense*=2; }
     public void levelUp()
     	{ 
     		
