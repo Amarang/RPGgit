@@ -27,6 +27,7 @@ class Player
     private int defense;
     private int gold;
     private int experience;
+	private int levelExperience;
     private int level;
     private int lasttownx;
     private int lasttowny;
@@ -57,6 +58,7 @@ class Player
         gold = g;
         experience = xp;
         level = lvl;
+		levelExperience = lvl * 10;
     }
     
     public void reset() {
@@ -91,6 +93,7 @@ class Player
     public int getHealthMax() { return healthmax; }
     public int getGold() { return gold; }
     public int getExperience() { return experience; }
+    public int getLevelExperience() { return levelExperience; }
     
     public void setDamage(int d) { health-=d; }
     public void setDefense(int d) { defense-=d; }
@@ -100,7 +103,7 @@ class Player
     public boolean setExperience(int d) 
     	{ 
     		experience+=d; 
-    		if(experience >=level*20) 
+    		if(experience >= levelExperience) 
     			{
     				levelUp();
     				return true;
@@ -114,7 +117,6 @@ class Player
     public void defend() { defense*=2; }
     public void levelUp()
     	{ 
-    		
     			experience = 0;
     			level++; 
     			healthmax+=rand.nextInt(4)+1;
@@ -123,6 +125,7 @@ class Player
     			speed+=rand.nextInt(4)+1;
     			defense+=rand.nextInt(4)+1;
     			
+				levelExperience = 10*level;
     	}
     
     
