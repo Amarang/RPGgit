@@ -72,8 +72,10 @@ class HUD extends Applet
 		else textColor = Color.BLACK;
 		
 		drawLabel(g, Integer.toString(p.getGold()), 30, (int)(thickness*3.7), textColor);
-		drawLabel(g, Integer.toString(p.getGold()), 110, (int)(thickness*3.7), textColor);
-		drawLabel(g, Integer.toString(p.getGold()), 190, (int)(thickness*3.7), textColor);
+		drawLabel(g, Integer.toString(p.getDefense()), 110, (int)(thickness*3.7), textColor);
+		drawLabel(g, Integer.toString(p.getStrength()), 190, (int)(thickness*3.7), textColor);
+		
+		drawLabel(g, p.getName() + " (level " + Integer.toString(p.getLevel()) + ")", 10, (int)(thickness*4.7), textColor);
 		
 		drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
 				  15, (int)(0.7*thickness), Color.WHITE);

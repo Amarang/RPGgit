@@ -31,6 +31,7 @@ class Player
     private int level;
     private int lasttownx;
     private int lasttowny;
+    private String name;
     Random rand = new Random();
     
     private boolean battling=false;
@@ -44,7 +45,7 @@ class Player
 	//int[] restricted = td.getRestricted();
 	
     
-    public Player(int xPos, int yPos,int h, int m, int str, int spd,int def,int g,int xp,int lvl) {
+    public Player(int xPos, int yPos,int h, int m, int str, int spd,int def,int g,int xp,int lvl,String playerName) {
         x = xPos;
         y = yPos;
         lasttownx = xPos;
@@ -58,6 +59,7 @@ class Player
         gold = g;
         experience = xp;
         level = lvl;
+		name = playerName;
 		levelExperience = lvl * 10;
     }
     
@@ -94,6 +96,7 @@ class Player
     public int getGold() { return gold; }
     public int getExperience() { return experience; }
     public int getLevelExperience() { return levelExperience; }
+    public String getName() { return name; }
     
     public void setDamage(int d) { health-=d; }
     public void setDefense(int d) { defense-=d; }

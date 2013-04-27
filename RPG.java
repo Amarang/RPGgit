@@ -69,7 +69,7 @@ public class RPG extends Applet implements KeyListener
 	int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
 	int pdamagedealt;
   	int mdamagedealt;
-	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1);
+	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "POOPOO");
 	
 	HUD hud;
 
@@ -118,7 +118,7 @@ public class RPG extends Applet implements KeyListener
 			mt.addImage(img, i+1);
 			tileImages[i] = img;
 		 }
-		 for(int i = 0; i < 6; i++) {
+		 for(int i = 0; i < monsterImages.length; i++) {
 			Image img = getImage(base, "images/entities/monsters/id"+Integer.toString(i) + ".png");
 			mt.addImage(img, i+1);
 			monsterImages[i] = img;
