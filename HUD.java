@@ -67,7 +67,7 @@ class HUD extends Applet
 		
 		float percentage = (float)currentVal / (float)maxVal;
 		
-		g.setColor(new Color(0,0,0));
+		g.setColor(color.darker());
 		g.drawRect(xStart, yStart, length, thickness);
 		
 		
