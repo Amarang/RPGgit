@@ -138,7 +138,9 @@ public class RPG extends Applet implements KeyListener
                mt.waitForAll(); 
           } catch (InterruptedException  e) {}
 		  
-		addKeyListener(this);	
+		addKeyListener(this);
+		
+		hud = new HUD(p);	
 	}
   	public void keyPressed(KeyEvent evt) 
 	{
@@ -279,8 +281,11 @@ public class RPG extends Applet implements KeyListener
 	}
 	public void PlayerMenu(Graphics g)
 	{
-		hud = new HUD(p);
 		hud.draw(g);
+		if (c.getPointer()==7)
+		{
+			hud.drawInventory(g);
+		}
 	}
 	public void update(Graphics g) {
 		Graphics offgc;
@@ -301,7 +306,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			p.setBattleCondition(false);
 			DrawMap(g);	
-			PlayerMenu(g);
+			
 			
 			for (int i = 0; i<5; i++)
          	{
@@ -312,7 +317,7 @@ public class RPG extends Applet implements KeyListener
 				sp[i].updateAnimation(g, System.currentTimeMillis());
 				}
          	}
-			
+			PlayerMenu(g);
 		}
 		
 		else if (battle)
@@ -357,7 +362,6 @@ public class RPG extends Applet implements KeyListener
 		}
 		if (td.isTown(currTile))
 		{
-		System.out.println("lookey I am here");
 		p.setTownX(p.getX());
 		p.setTownY(p.getY());
 		for (int i=0;i<5;i++)

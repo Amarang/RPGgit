@@ -36,6 +36,13 @@ class HUD extends Applet
         this.p = p;
 		this.m = m;
     }
+	public void drawInventory(Graphics g) {
+	g.setColor(Color.white);
+	g.fillRect(600,0,200,400);
+	g.setColor(Color.black);
+	g.drawRect(600,0,200,400);
+	g.drawString("Gold: "+p.getGold(),620,20);
+	}
 	
 	public void draw(Graphics g) {
 		int health = p.getHealth();
