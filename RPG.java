@@ -17,7 +17,7 @@ public class RPG extends Applet implements KeyListener
 	
 	Battle b;	
 	Random rand = new Random(); 
- 	Font title = new Font("DialogInput",Font.PLAIN,20);	
+ 	Font title = new Font("DialogInput",Font.BOLD,20);	
 	static int TILESIZE = 20;
 	static int MAPWIDTH = 400;
 	static int MAPHEIGHT = 300;
@@ -168,6 +168,7 @@ public class RPG extends Applet implements KeyListener
 		}
 		if(key==KeyEvent.VK_ENTER)
 		{
+			c.setPointer(7);
 			key_enter=true;
 		}
 	}
@@ -190,6 +191,10 @@ public class RPG extends Applet implements KeyListener
 						   (startx-p.getX())*TILESIZE - checkx*TILESIZE/2 + x*TILESIZE,
 						   (starty-p.getY())*TILESIZE - checky*TILESIZE/2 + y*TILESIZE, this);
 			}
+		}
+		if (c.getPointer()==7)
+		{
+			PlayerMenu(g);
 		}
 		if (c.getPointer()<3)
 		{
@@ -235,7 +240,23 @@ public class RPG extends Applet implements KeyListener
 		delay(20);
 		repaint();			
 	}
-
+	public void PlayerMenu(Graphics g)
+	{
+		g.setFont(title);
+		g.setColor(Color.white);
+		g.fillRect(0,0,800,100);
+		g.setColor(Color.darkGray);
+		g.drawRect(0,1,799,99);
+		g.setColor(Color.lightGray);
+		g.drawRect(1,0,799,99);
+		g.setColor(Color.black);
+		g.drawString("Lvl: "+p.getLevel(),10,25);
+		g.drawString("Hp: "+p.getHealth(),10,45);
+		g.drawString("Gold: "+p.getGold(),10,65);
+		g.drawString("Exp: "+p.getExperience(),10,85);
+		
+		
+	}
 	public void update(Graphics g) {
 		Graphics offgc;
 		Image offscreen = null;
@@ -304,8 +325,11 @@ public class RPG extends Applet implements KeyListener
 			battle=true;
 			//Battle b = new Battle (g, p, monsterImages, c);
 		}
-		if (td.isBattleRestricted(currTile))
+		if (td.isBattleRestricted(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>20)
+		{
 			p.setHealth(p.getHealthMax());
+			p.pay(20);
+		}
 		if(sound) {	
 			int sID = td.getSoundID(currTile);
 			if(sID != -1) {

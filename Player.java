@@ -80,9 +80,12 @@ class Player
     public int getDamage() { return damage; }
     public int getLevel() { return level; }
     public int getHealthMax() { return healthmax; }
+    public int getGold() { return gold; }
+    public int getExperience() { return experience; }
     
     public void setDamage(int d) { health-=d; }
     public void setGold(int d) { gold+=d; }
+    public void pay(int d) {gold-=d;}
     public void setHealth(int d) { health=d; }
     public boolean setExperience(int d) 
     	{ 
