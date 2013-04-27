@@ -58,7 +58,10 @@ class Monster
     }
 
     
-    public int getHealth() { return health; }
+    public int getHealth() {
+		if(health < 0) return 0;
+		else return health;
+	}
     public int getHealthMax() { return healthmax; }
     public int getMana() { return mana; }
     public int getStrength() { return strength; }
