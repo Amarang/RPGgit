@@ -67,15 +67,11 @@ public class RPG extends Applet implements KeyListener
 	int pdamagedealt;
   	int mdamagedealt;
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1);
-<<<<<<< HEAD
-	
 	
 	HUD hud;
-	
-	Sprite[] sp= new Sprite[5];;
-=======
+
 	Sprite[] sp= new Sprite[5];
->>>>>>> origin/spawn-at-city
+	
 	Monster m;
 	BufferedReader br;
 	AudioClip intro;
