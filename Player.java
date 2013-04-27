@@ -28,6 +28,8 @@ class Player
     private int gold;
     private int experience;
     private int level;
+    private int lasttownx;
+    private int lasttowny;
     Random rand = new Random();
     
     private boolean battling=false;
@@ -44,6 +46,8 @@ class Player
     public Player(int xPos, int yPos,int h, int m, int str, int spd,int def,int g,int xp,int lvl) {
         x = xPos;
         y = yPos;
+        lasttownx = xPos;
+        lasttowny = yPos;
         health = h;
         healthmax=h;
         mana = m;
@@ -72,6 +76,10 @@ class Player
     public void moveRight() { if(canMoveRight()&&!battling) x++; }
     public void moveUp() { if(canMoveUp()&&!battling) y--; }
     public void moveDown() { if(canMoveDown()&&!battling) y++; }
+    public int getTownX() { return lasttownx; }
+    public int getTownY() { return lasttowny; }
+    public void setTownX(int h) { lasttownx=h; }
+    public void setTownY(int h) { lasttowny=h; }
     
     public int getHealth() { return health; }
     public int getMana() { return mana; }

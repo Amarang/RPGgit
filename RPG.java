@@ -67,11 +67,15 @@ public class RPG extends Applet implements KeyListener
 	int pdamagedealt;
   	int mdamagedealt;
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1);
+<<<<<<< HEAD
 	
 	
 	HUD hud;
 	
 	Sprite[] sp= new Sprite[5];;
+=======
+	Sprite[] sp= new Sprite[5];
+>>>>>>> origin/spawn-at-city
 	Monster m;
 	BufferedReader br;
 	AudioClip intro;
@@ -323,7 +327,7 @@ public class RPG extends Applet implements KeyListener
 				wait.suspend();
 				intro.stop();
 				battlemusic.play(true);
-				b = new Battle(g, p, monsterImages,c,hit);
+				b = new Battle(g, p, monsterImages,c,hit,sp);
 				firstTimeBattle = false;
 			} else {
 				
@@ -355,7 +359,12 @@ public class RPG extends Applet implements KeyListener
 			battle=true;
 			//Battle b = new Battle (g, p, monsterImages, c);
 		}
-		if (td.isBattleRestricted(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>20)
+		if (td.isTown(currTile))
+		{
+		p.setTownX(p.getX());
+		p.setTownY(p.getY());	
+		}
+		if (td.isTown(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>20)
 		{
 			p.setHealth(p.getHealthMax());
 			p.pay(20);
@@ -373,6 +382,7 @@ public class RPG extends Applet implements KeyListener
 	public void keyReleased(KeyEvent evt)	
 		{
 		int key=0; key = evt.getKeyCode(); 
+		if (battle)
 		oktomove=true;
 		repaint();
 		if(key==KeyEvent.VK_SPACE)

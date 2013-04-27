@@ -12,6 +12,7 @@ class TileData
 	private int[] restricted = new int[] {-1, 2, 3}; //-1 is outside map
 	private int[] walkRestricted = new int[] {-1, 2, 3};
 	private int[] battleRestricted = new int[] {-1, 4};
+	private int town = 4;
 	
     
     public TileData() {
@@ -36,7 +37,12 @@ class TileData
 				return true;
 		return false;
 	}
-	
+	public boolean isTown(int t)
+	{
+		if (t==town)
+			return true;
+		else return false;
+	}
 	public boolean isBattleRestricted(int t)
 	{
 		for(int i = 0; i < battleRestricted.length; i++)
