@@ -17,24 +17,27 @@ class HUD extends Applet
 	private Player p;
 	private Monster m;
 	
+	private Image[] icons;
+	
 	private Color HPColor = new Color(230, 0, 0);
 	private Color ManaColor = new Color(0, 0, 170);
 	private Color ExperienceColor = new Color(255, 255, 50);
 	
 	private int thickness = 20;
 	
+	private boolean battleHUD = false;
+	
     
-    public HUD(Player p) {
+    public HUD(Player p, Image[] icons) {
         this.p = p;
+		this.icons = icons;
     }
 	
-	public HUD(Monster m) {
-		this.m = m;
-	}
-	
-	public HUD(Player p, Monster m) {
+		
+	public HUD(Player p, Monster m, Image[] icons) {
         this.p = p;
 		this.m = m;
+		this.icons = icons;
     }
 	public void drawInventory(Graphics g) {
 	g.setColor(Color.white);
@@ -53,10 +56,24 @@ class HUD extends Applet
 		int mana = p.getMana();
 		int levelExperience = p.getLevelExperience();
 		
+		//g.drawImage(icons[1], 20,thickness*2, null);
+		//g.drawImage(icons[2], 20,thickness*3, null);
+		
 		
 		drawBar(g, 0, 0*thickness, 250, thickness, HPColor, health, healthmax);
 		drawBar(g, 0, 1*thickness, 250, thickness, ManaColor, mana, mana);
 		drawBar(g, 0, 2*thickness, 250, thickness, ExperienceColor, experience, levelExperience);
+		g.drawImage(icons[0], 0,3*thickness, null); //gold
+		g.drawImage(icons[1], 80,3*thickness, null); //shield
+		g.drawImage(icons[2], 160,3*thickness, null); //sword
+		
+		Color textColor;
+		if(battleHUD) textColor = Color.WHITE;
+		else textColor = Color.BLACK;
+		
+		drawLabel(g, Integer.toString(p.getGold()), 30, (int)(thickness*3.7), textColor);
+		drawLabel(g, Integer.toString(p.getGold()), 110, (int)(thickness*3.7), textColor);
+		drawLabel(g, Integer.toString(p.getGold()), 190, (int)(thickness*3.7), textColor);
 		
 		drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
 				  15, (int)(0.7*thickness), Color.WHITE);
@@ -65,6 +82,8 @@ class HUD extends Applet
 		drawLabel(g, Integer.toString(experience)+" / "+Integer.toString(levelExperience),
 				  15, (int)(2.7*thickness), Color.BLACK);
 	}
+	
+	
 	
     public void drawBar(Graphics g, int xStart, int yStart, int length, int thickness, Color color, int currentVal, int maxVal) {
 		//System.out.println("drawing bar");
@@ -91,8 +110,11 @@ class HUD extends Applet
 	}
 	
 	public void battleDraw(Graphics g) {
+	
+		battleHUD = true;
 		draw(g);
 	
+		
 		
 		int health = m.getHealth();
 		int healthmax = m.getHealthMax();

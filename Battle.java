@@ -18,6 +18,7 @@ class Battle extends Applet//extends RPG
 	private Monster m;
 	private Pointer c;
 	private Image[] monsterImages;// = new Image[6];
+	private Image[] icons;
 	private Sprite[] sp;
 	private Player p;
 	private Random rand = new Random(); 
@@ -58,13 +59,14 @@ class Battle extends Applet//extends RPG
 
 		  
 	}*/
-    public Battle(Graphics gr, Player pl, Image[] mi, Pointer cl,SoundClip hit,Sprite[] sp) {
+    public Battle(Graphics gr, Player pl, Image[] mi, Pointer cl,SoundClip hit,Sprite[] sp,Image[] icons) {
 		this.g = gr;
 		this.p = pl;
 		this.c = cl;
 		this.monsterImages = mi;
 		this.hit = hit;
 		this.sp = sp;
+		this.icons = icons;
 		//m = new Monster(20,2,8,3,1,rand.nextInt(6));
 	}
 	public boolean getBattle() { return battle; }
@@ -154,7 +156,7 @@ class Battle extends Applet//extends RPG
   		g.drawString("strength = "+ p.getStrength(),30,71+100+100);
   		g.drawString("defense = "+ p.getDefense(),30,91+100);
 		
-		HUD hud = new HUD(p, m);
+		HUD hud = new HUD(p, m, icons);
 		hud.battleDraw(g);
 	}
 	public void Defeat(Graphics g)

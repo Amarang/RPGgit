@@ -33,7 +33,10 @@ public class RPG extends Applet implements KeyListener
 	SoundClip[] soundClips = new SoundClip[2];
 	SoundClip hit;
 	SoundClip battlemusic;
+	
 	Image[] monsterImages = new Image[6];
+	Image[] icons = new Image[3];
+	
 	TileData td = new TileData();
 	int appSizeX = 800;
 	int appSizeY = 600;
@@ -120,6 +123,11 @@ public class RPG extends Applet implements KeyListener
 			mt.addImage(img, i+1);
 			monsterImages[i] = img;
 		 }
+		 for(int i = 0; i < icons.length; i++) {
+			Image img = getImage(base, "images/icons/"+Integer.toString(i) + ".png");
+			mt.addImage(img, i+1);
+			icons[i] = img;
+		 }
 		 
 		 
 		player = getImage(base,"images/entities/player/player.png");
@@ -140,7 +148,7 @@ public class RPG extends Applet implements KeyListener
 		  
 		addKeyListener(this);
 		
-		hud = new HUD(p);	
+		hud = new HUD(p, icons);	
 	}
   	public void keyPressed(KeyEvent evt) 
 	{
@@ -328,7 +336,7 @@ public class RPG extends Applet implements KeyListener
 				wait.suspend();
 				intro.stop();
 				battlemusic.play(true);
-				b = new Battle(g, p, monsterImages,c,hit,sp);
+				b = new Battle(g, p, monsterImages,c,hit,sp, icons);
 				firstTimeBattle = false;
 			} else {
 				
