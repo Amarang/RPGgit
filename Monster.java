@@ -16,6 +16,7 @@ import javax.sound.sampled.*;
 class Monster
 {
     private int health;
+    private int healthmax;
     private int mana;
     private int strength;
     private int speed;
@@ -37,6 +38,7 @@ class Monster
     public Monster(int h, int m, int str, int spd,int def,int identity) {
     	
         health = h;
+        healthmax = h;
         mana = m;
         strength = str;
         speed=spd;
@@ -48,15 +50,16 @@ class Monster
     	health = 0;
         mana = 0;
         strength = 0;
-        speed=0;
+        speed = 0;
         defense = 0;
     }
     public void resetDamage() {
-    	damage=0;
+    	damage = 0;
     }
 
     
     public int getHealth() { return health; }
+    public int getHealthMax() { return healthmax; }
     public int getMana() { return mana; }
     public int getStrength() { return strength; }
     public int getSpeed() { return speed; }

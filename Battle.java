@@ -137,13 +137,17 @@ class Battle extends Applet//extends RPG
 		g.setFont(title);
 		g.setColor(Color.white);
 		drawMonster(g);
-		g.drawString("Enemy: "+ m.getName(),30,30);
-  		g.drawString("monster health = "+ m.getHealth(),30,50);
-  		g.drawString("strength = "+ m.getStrength(),30,71);
-  		g.drawString("defense = "+ m.getDefense(),30,91);
-  		g.drawString("your health = "+ p.getHealth(),300,50);
-  		g.drawString("strength = "+ p.getStrength(),300,71);
-  		g.drawString("defense = "+ p.getDefense(),300,91);
+		g.drawString("Enemy: "+ m.getName(),300,30+100);
+  		g.drawString("monster health = "+ m.getHealth(),300,50+100);
+  		g.drawString("strength = "+ m.getStrength(),300,71+100);
+  		g.drawString("defense = "+ m.getDefense(),300,91+100);
+		
+  		g.drawString("your health = "+ p.getHealth(),30,50);
+  		g.drawString("strength = "+ p.getStrength(),30,71+100+100);
+  		g.drawString("defense = "+ p.getDefense(),30,91+100);
+		
+		HUD hud = new HUD(p, m);
+		hud.battleDraw(g);
 	}
 	public void Defeat(Graphics g)
 	{
@@ -168,10 +172,10 @@ class Battle extends Applet//extends RPG
 		Display(g);
 		g.setFont(title);
 		g.setColor(Color.white);
-  		g.drawString("Congratulations on defeating the "+m.getName()+"! Exp earned : "+xp,50,500);
+  		g.drawString("Congratulations on defeating the "+m.getName()+"! Exp earned: "+xp,50,500);
   		if (levelup)
-  		g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);
-  		g.drawString("Gold earned : "+gold,50,520);
+  		g.drawString("congrats on leveling up to level "+p.getLevel(),50,540);
+  		g.drawString("Gold earned: "+gold,50,520);
 	}
 	public void drawMonster(Graphics g)
 	{	

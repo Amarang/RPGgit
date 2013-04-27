@@ -350,7 +350,7 @@ public class RPG extends Applet implements KeyListener
 			case 'u': p.moveUp(); break;
 			case 'd': p.moveDown(); break;
 		}
-		if (rand.nextInt(50)==1&&!td.isBattleRestricted(currTile))
+		if (rand.nextInt(5)==1&&!td.isBattleRestricted(currTile))
 		{
 			battle=true;
 			//Battle b = new Battle (g, p, monsterImages, c);
