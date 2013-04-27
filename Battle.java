@@ -127,8 +127,7 @@ class Battle extends Applet//extends RPG
 		p.setHealth(p.getHealthMax());
 		for (int i=0; i<5; i++)
 		{
-			sp[i].addX(p.getTownX()-p.getX());
-			sp[i].addY(p.getTownY()-p.getY());
+			sp[i].reset();
 		}	
 		p.setX(p.getTownX());
 		p.setY(p.getTownY());

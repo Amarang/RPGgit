@@ -17,6 +17,7 @@ class Sprite extends Applet
 	private boolean isReady = false;
 	private boolean running = false;
 	private int x, y;
+	private int originx, originy;
 	private Image image;
 	private Image[] frames;
 	private int numFrames = 5;
@@ -36,6 +37,8 @@ class Sprite extends Applet
 		this.x = x;
 		this.y = y;
 		this.image = image;
+		originx=x;
+		originy=y;
 		TILESIZE = TS;
 	}
 	
@@ -45,6 +48,8 @@ class Sprite extends Applet
 		multiframe = true;
 		this.x = x;
 		this.y = y;
+		originx=x;
+		originy=y;
 		this.frames = images;
 		numFrames = images.length;
 		TILESIZE = TS;
@@ -54,7 +59,8 @@ class Sprite extends Applet
 	public void setPos(int x, int y) { this.x = x; this.y = y; }
 	public int getX() { return x; }
 	public int getY() { return y; }
-	
+	public void resetOrigin() { originx=x; originy=y; }
+	public void reset() { x=originx; y=originy; }
 	
 	public boolean isReady() { return isReady; }
 	
