@@ -196,7 +196,7 @@ public class RPG extends Applet implements KeyListener
 			
 			while(true)
 			{
-			delay(200);
+			delay(250);
 			oktomove=true;
 			repaint();	
 			}	
@@ -279,21 +279,6 @@ public class RPG extends Applet implements KeyListener
 	}
 	public void PlayerMenu(Graphics g)
 	{
-	
-		/*g.setFont(title);
-		g.setColor(Color.white);
-		g.fillRect(0,0,800,100);
-		g.setColor(Color.darkGray);
-		g.drawRect(0,1,799,99);
-		g.setColor(Color.lightGray);
-		g.drawRect(1,0,799,99);
-		g.setColor(Color.black);
-		g.drawString("Lvl: "+p.getLevel(),10,25);
-		g.drawString("Hp: "+p.getHealth(),10,45);
-		g.drawString("Gold: "+p.getGold(),10,65);
-		g.drawString("Exp: "+p.getExperience(),10,85);*/
-		
-		
 		hud = new HUD(p);
 		hud.draw(g);
 	}
