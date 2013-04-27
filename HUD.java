@@ -21,6 +21,8 @@ class HUD extends Applet
 	private Color ManaColor = new Color(0, 0, 170);
 	private Color ExperienceColor = new Color(255, 255, 50);
 	
+	private int thickness = 20;
+	
     
     public HUD(Player p) {
         this.p = p;
@@ -45,17 +47,16 @@ class HUD extends Applet
 		int levelExperience = p.getLevelExperience();
 		
 		
-		int thickness = 20;
 		drawBar(g, 0, 0*thickness, 250, thickness, HPColor, health, healthmax);
 		drawBar(g, 0, 1*thickness, 250, thickness, ManaColor, mana, mana);
 		drawBar(g, 0, 2*thickness, 250, thickness, ExperienceColor, experience, levelExperience);
 		
 		drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
-				  15, (int)(0.8*thickness), Color.WHITE);
+				  15, (int)(0.7*thickness), Color.WHITE);
 		drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(mana),
-				  15, (int)(1.8*thickness), Color.WHITE);
+				  15, (int)(1.7*thickness), Color.WHITE);
 		drawLabel(g, Integer.toString(experience)+" / "+Integer.toString(levelExperience),
-				  15, (int)(2.8*thickness), Color.BLACK);
+				  15, (int)(2.7*thickness), Color.BLACK);
 	}
 	
     public void drawBar(Graphics g, int xStart, int yStart, int length, int thickness, Color color, int currentVal, int maxVal) {
@@ -85,20 +86,20 @@ class HUD extends Applet
 	public void battleDraw(Graphics g) {
 		draw(g);
 	
-		int thickness = 20;
-		int mhealth = m.getHealth();
-		int mhealthmax = m.getHealthMax();
-		int mmana = m.getMana();
-		int mOffset = 550;
 		
-		drawBar(g, mOffset, 0*thickness, 250, thickness, HPColor, mhealth, mhealthmax);
-		drawBar(g, mOffset, 1*thickness, 250, thickness, ManaColor, mmana, mmana);
+		int health = m.getHealth();
+		int healthmax = m.getHealthMax();
+		int mana = m.getMana();
+		int offset = 550;
+		
+		drawBar(g, offset, 0*thickness, 250, thickness, HPColor, health, healthmax);
+		drawBar(g, offset, 1*thickness, 250, thickness, ManaColor, mana, mana);
 		//drawBar(g, 0, 2*thickness, 250, thickness, new Color(255, 255, 50), level, levelExperience);
 		
-		drawLabel(g, Integer.toString(mhealth)+" / "+Integer.toString(mhealthmax),
-				  mOffset+15, (int)(0.8*thickness), Color.WHITE);
-		drawLabel(g, Integer.toString(mmana)+" / "+Integer.toString(mmana),
-				  mOffset+15, (int)(1.8*thickness), Color.WHITE);
+		drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
+				  offset+15, (int)(0.7*thickness), Color.WHITE);
+		drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(mana),
+				  offset+15, (int)(1.7*thickness), Color.WHITE);
 		//drawLabel(g, Integer.toString(experience)+" / "+Integer.toString(levelExperience),
 		//		  15, (int)(2.8*thickness), new Color(0, 0, 0));
 	}
