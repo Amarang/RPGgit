@@ -65,7 +65,7 @@ public class RPG extends Applet implements KeyListener
 	int pdamagedealt;
   	int mdamagedealt;
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1);
-	Sprite sp;
+	Sprite[] sp= new Sprite[5];;
 	Monster m;
 	BufferedReader br;
 	AudioClip intro;
@@ -121,8 +121,11 @@ public class RPG extends Applet implements KeyListener
 		player1a = getImage(base,"images/entities/player/player1a.png");
 		player2a = getImage(base,"images/entities/player/player2a.png");
          Image[] playerImgs = new Image[] {player, player1, player2, player1a, player2a};
-         
-		 sp = new Sprite(playerImgs, 200, 200);
+         for (int i = 0; i<5; i++)
+         {
+         	sp[i] = new Sprite(playerImgs, rand.nextInt(40)*20, rand.nextInt(30)*20);
+         }
+		 
 		 
          try { 
                mt.waitForAll(); 
@@ -277,14 +280,15 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
-			
-			if(sp.isReady()) {
-				sp.drawSprite(g);
-				sp.setSpeed(1000);
-				sp.start();
-				sp.updateAnimation(g, System.currentTimeMillis());
+			for (int i = 0; i<5; i++)
+         	{
+			if(sp[i].isReady()) {
+				sp[i].drawSprite(g);
+				sp[i].setSpeed(1000);
+				sp[i].start();
+				sp[i].updateAnimation(g, System.currentTimeMillis());
 				}
-			
+         	}
 			
 		}
 		
