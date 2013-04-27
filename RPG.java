@@ -357,12 +357,13 @@ public class RPG extends Applet implements KeyListener
 		}
 		if (td.isTown(currTile))
 		{
+		System.out.println("lookey I am here");
 		p.setTownX(p.getX());
 		p.setTownY(p.getY());
-		for (int i=0;i>5;i++)
+		for (int i=0;i<5;i++)
 		sp[i].resetOrigin();	
 		}
-		if (td.isTown(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>20)
+		if (td.isTown(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>=20)
 		{
 			p.setHealth(p.getHealthMax());
 			p.pay(20);

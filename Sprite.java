@@ -59,8 +59,8 @@ class Sprite extends Applet
 	public void setPos(int x, int y) { this.x = x; this.y = y; }
 	public int getX() { return x; }
 	public int getY() { return y; }
-	public void resetOrigin() { originx=x; originy=y; }
-	public void reset() { x=originx; y=originy; }
+	public void resetOrigin() { originx=x; originy=y; System.out.println(originx + " " + originy); }
+	public void reset() { x=originx; y=originy;System.out.println(x + " " + y );}
 	
 	public boolean isReady() { return isReady; }
 	
