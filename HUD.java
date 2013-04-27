@@ -11,22 +11,8 @@ import java.awt.event.*;
 import java.lang.Math;
 import javax.sound.sampled.*;
 
-
-
-
 class HUD extends Applet
 {
-    private int health;
-    private int healthmax;
-    private int mana;
-    private int strength;
-    private int speed;
-    private int damage;
-    private int defense;
-    private int gold;
-    private int experience;
-	private int levelExperience;
-    private int level;
 	
 	private Player p;
 	private Monster m;
@@ -38,20 +24,6 @@ class HUD extends Applet
     
     public HUD(Player p) {
         this.p = p;
-		/////
-		health = p.getHealth();
-		healthmax = p.getHealthMax();
-		level = p.getLevel();
-		gold = p.getGold();
-		experience = p.getExperience();
-		/////
-		mana = p.getMana();
-		/////
-		damage = p.getDamage();
-		defense = p.getDefense();
-		speed = p.getSpeed();
-		strength = p.getStrength();
-		levelExperience = level*20;
     }
 	
 	public HUD(Monster m) {
@@ -60,25 +32,19 @@ class HUD extends Applet
 	
 	public HUD(Player p, Monster m) {
         this.p = p;
-		/////
-		health = p.getHealth();
-		healthmax = p.getHealthMax();
-		level = p.getLevel();
-		gold = p.getGold();
-		experience = p.getExperience();
-		/////
-		mana = p.getMana();
-		/////
-		damage = p.getDamage();
-		defense = p.getDefense();
-		speed = p.getSpeed();
-		strength = p.getStrength();
-		levelExperience = level*20;
-		
 		this.m = m;
     }
 	
 	public void draw(Graphics g) {
+		int health = p.getHealth();
+		int healthmax = p.getHealthMax();
+		int level = p.getLevel();
+		int gold = p.getGold();
+		int experience = p.getExperience();
+		int mana = p.getMana();
+		int levelExperience = p.getLevelExperience();
+		
+		
 		int thickness = 20;
 		drawBar(g, 0, 0*thickness, 250, thickness, HPColor, health, healthmax);
 		drawBar(g, 0, 1*thickness, 250, thickness, ManaColor, mana, mana);
