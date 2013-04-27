@@ -316,6 +316,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			p.setBattleCondition(false);
 			DrawMap(g);	
+			PlayerMenu(g);
 			
 			for (int i = 0; i<5; i++)
          	{
