@@ -18,6 +18,7 @@ class Battle extends Applet//extends RPG
 	private Monster m;
 	private Pointer c;
 	private Image[] monsterImages;// = new Image[6];
+	private Sprite[] sp;
 	private Player p;
 	private Random rand = new Random(); 
  	private Font title = new Font("DialogInput",Font.PLAIN,20);	
@@ -57,12 +58,13 @@ class Battle extends Applet//extends RPG
 
 		  
 	}*/
-    public Battle(Graphics gr, Player pl, Image[] mi, Pointer cl,SoundClip hit) {
+    public Battle(Graphics gr, Player pl, Image[] mi, Pointer cl,SoundClip hit,Sprite[] sp) {
 		this.g = gr;
 		this.p = pl;
 		this.c = cl;
 		this.monsterImages = mi;
 		this.hit = hit;
+		this.sp = sp;
 		//m = new Monster(20,2,8,3,1,rand.nextInt(6));
 	}
 	public boolean getBattle() { return battle; }
@@ -122,7 +124,14 @@ class Battle extends Applet//extends RPG
 		{
 		battle=false;
 		initialize = false;	
-		p.setHealth(p.getHealthMax()/4);
+		p.setHealth(p.getHealthMax());
+		for (int i=0; i<5; i++)
+		{
+			sp[i].addX(p.getTownX()-p.getX());
+			sp[i].addY(p.getTownY()-p.getY());
+		}	
+		p.setX(p.getTownX());
+		p.setY(p.getTownY());
 		}
 			
 	}
@@ -181,7 +190,7 @@ class Battle extends Applet//extends RPG
 	{
 		
 		g.setFont(title);
-		 m = new Monster(20,2,8,3,1,rand.nextInt(6));
+		 m = new Monster(20,2,20,3,1,rand.nextInt(6));
 		 c.reset();
 		 initialize = true;
 		mdefended=false;
