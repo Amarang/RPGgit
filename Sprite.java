@@ -23,13 +23,21 @@ class Sprite extends Applet
 	private int numFrames = 5;
 	private int TILESIZE = 20;
 	private int currentFrame = 0;
+	Random rand = new Random();
 	private long previousTime = 0;
 	private int msPerFrame = 100;
 	
+	private boolean l = true;
+    private boolean r = true;
+    private boolean u = true;
+    private boolean d = true;
+	
+	int xmove;
+	int ymove;
 	public Sprite() {
 		isReady = false;
 	}
-	
+	TileData td = new TileData();
 	public Sprite(Image image, int x, int y, int TS) {
 		System.out.println("instantiated single image sprite");
 		isReady = true;
@@ -98,10 +106,30 @@ class Sprite extends Applet
 				drawFrame(g, currentFrame);
 			if(previousTime == 0 || time - previousTime >= msPerFrame) {
 			
-				currentFrame++;
+				currentFrame=rand.nextInt(5);
+				xmove=rand.nextInt(3);
+				ymove=rand.nextInt(3);
+				if (xmove==0){moveLeft();}
+				if (xmove==2){moveRight();}
+				if (ymove==0){moveDown();}
+				if (ymove==2){moveUp();}
 				previousTime = time;
 			}
 		}
 		if(currentFrame == numFrames) currentFrame = 0;
+	}
+	public void moveLeft() { if(canMoveLeft()) x--; }
+    public void moveRight() { if(canMoveRight()) x++; }
+    public void moveUp() { if(canMoveUp()) y--; }
+    public void moveDown() { if(canMoveDown()) y++; }
+	private boolean canMoveLeft() { return l; }
+    private boolean canMoveRight() { return r; }
+    private boolean canMoveUp() { return u; }
+    private boolean canMoveDown() { return d; }    
+	public void allowMove(int[] directions) {
+		l = td.isWalkRestricted(directions[0]) ? false : true;
+		r = td.isWalkRestricted(directions[1]) ? false : true;
+		u = td.isWalkRestricted(directions[2]) ? false : true;
+		d = td.isWalkRestricted(directions[3]) ? false : true;
 	}
 }

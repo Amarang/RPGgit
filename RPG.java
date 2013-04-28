@@ -338,6 +338,7 @@ public class RPG extends Applet implements KeyListener
 				sp[i].setSpeed(1000);
 				sp[i].start();
 				sp[i].updateAnimation(g, System.currentTimeMillis());
+				sp[i].allowMove(theMap.getNeighbors(p.getX(), p.getY()));
 				}
          	}
 			PlayerMenu(g);
