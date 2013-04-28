@@ -25,7 +25,7 @@ class Item
     private int id;
     private int itemid;
     private int numitems;
-    private String names[] = {"pole","sword","sheild","heart medalion","helmet","cursed seal"};
+    private String names[] = {"","sword","sheild","heart medalion","helmet","cursed seal"};
     //String[] s;
     private String itemlist;
 	private BufferedReader br;
@@ -112,7 +112,7 @@ class Item
     public int getDefense() { return defense; }
     public int getDamage() { return damage; }
     public int getId() { return id; }
-    public String getName() { return names[id]; }
+    public String getName() { return names[itemid]; }
     
     public void setDamage(int d) { health-=d; }
     public void setDefense(int d) { defense-=d; }

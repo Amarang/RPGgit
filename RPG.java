@@ -75,6 +75,7 @@ public class RPG extends Applet implements KeyListener
 
 	Sprite[] sp= new Sprite[5];
 	Item[] item= new Item[6];
+
 	
 	Monster m;
 	BufferedReader br;
@@ -104,6 +105,7 @@ public class RPG extends Applet implements KeyListener
 		}
 		for(int i = 0; i < item.length; i++) {
 			item[i] = new Item(i,"items/items.txt");
+			p.addItem(item[i]);
 		}
 		
 		hit=new SoundClip("hit");
@@ -152,8 +154,17 @@ public class RPG extends Applet implements KeyListener
 		addKeyListener(this);
 		
 		hud = new HUD(p, icons);
+		
 		p.equip(item[5]);	
+			
+			
+			
 	}
+	
+	
+	
+	
+	
   	public void keyPressed(KeyEvent evt) 
 	{
 		int key=0; key = evt.getKeyCode(); 

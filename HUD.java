@@ -16,7 +16,8 @@ class HUD extends Applet
 	
 	private Player p;
 	private Monster m;
-	
+	Item[] inventory= new Item[10];
+	Item[] equipped= new Item[10];
 	private Image[] icons;
 	
 	private Color HPColor = new Color(230, 0, 0);
@@ -44,7 +45,15 @@ class HUD extends Applet
 	g.fillRect(600,0,200,400);
 	g.setColor(Color.black);
 	g.drawRect(600,0,200,400);
-	g.drawString("Gold: "+p.getGold(),620,20);
+	g.drawString("Gold: "+p.getGold(),640,20);
+	inventory =p.getInventory();
+	for (int i=0;i<inventory.length;i++)
+	    {
+	    if(inventory[i]!=null)
+	    g.drawString(inventory[i].getName(),640,40+20*i);
+	    if (p.isEquipped(inventory[i])&&inventory[i]!=null)
+	    	g.drawString("e",610,40+20*i);	
+	    }
 	}
 	
 	public void draw(Graphics g) {

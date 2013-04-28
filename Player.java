@@ -71,6 +71,9 @@ class Player
     	damage=0;
     }
     
+    Item[] inventory= new Item[10];
+	Item[] equipped= new Item[10];
+    
     public int getX() { return x; }
     public int getY() { return y; }
     public void setX(int h) { x=h; }
@@ -130,13 +133,61 @@ class Player
     			
 				levelExperience = 10*level;
     	}
-        
+     public void addItem(Item item) 
+    	{ 
+    		for (int i=0;i<inventory.length;i++)
+    			if (inventory[i]==null)
+    			{
+    			inventory[i]=item;	
+    			System.out.println("inventory slot filled");
+    			i=inventory.length;
+    			}
+    			
+    	}
+    public Item[] getInventory() 
+    	{ 
+    		return inventory;
+    	}
+    public boolean isInInventory(Item item)
+    {
+    for (int i=0;i<inventory.length;i++)
+    {
+    if (inventory[i]==item)
+    			return true;	
+    }
+    			
+    return false;	
+    } 
+    public boolean isEquipped(Item item)
+    {
+    for (int i=0;i<equipped.length;i++)
+    {
+    if (equipped[i]==item)
+    			return true;	
+    }
+    			
+    return false;	
+    }   
     public void equip(Item i) 
     	{ 
+    		
+    		if (isInInventory(i))
+    		{
     		strength+=i.getStrength(); 
     		health+=i.getHealth();
     		defense+=i.getDefense();
     		healthmax+=i.getHealth();
+    		{ 
+    		for (int j=0;j<equipped.length;j++)
+    			if (equipped[j]==null)
+    			{
+    			equipped[j]=i;
+    			System.out.println("equip slot filled "+j);
+    			j=equipped.length;
+    			}
+    		}
+    		}
+    		
     	}
     public void unequip(Item i) 
     	{ 
