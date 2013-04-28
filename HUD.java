@@ -16,10 +16,11 @@ class HUD extends Applet
 	
 	private Player p;
 	private Monster m;
+	private Pointer c;
 	Item[] inventory= new Item[10];
 	Item[] equipped= new Item[10];
 	private Image[] icons;
-	
+	private int selectedItem=0;
 	private Color HPColor = new Color(230, 0, 0);
 	private Color ManaColor = new Color(0, 0, 170);
 	private Color ExperienceColor = new Color(255, 255, 50);
@@ -40,11 +41,40 @@ class HUD extends Applet
 		this.m = m;
 		this.icons = icons;
     }
-	public void drawInventory(Graphics g) {
+	public void drawInventory(Graphics g, Pointer c) {
+	this.c=c;
+	if (c.getPointer()==2)
+	{
+		if (selectedItem<10)
+		selectedItem++;
+		c.setPointer(6);	
+	}
+	if (c.getPointer()==0)
+	{
+		if (selectedItem>0)
+		selectedItem--;	
+		c.setPointer(6);
+	}
+	if (c.getPointer()==10)
+	{
+		if (selectedItem<10)
+		{
+			if (!p.isEquipped(inventory[selectedItem]))
+			p.equip(inventory[selectedItem]);
+			else
+			p.unequip(inventory[selectedItem]);
+		c.setPointer(6);	
+		}
+		else
+		c.setPointer(7);//back out of inventory
+	}
 	g.setColor(Color.white);
 	g.fillRect(600,0,200,400);
 	g.setColor(Color.black);
 	g.drawRect(600,0,200,400);
+	g.setColor(Color.red);
+	g.drawRect(600,20+selectedItem*20,200,20);
+	
 	g.drawString("Gold: "+p.getGold(),640,20);
 	inventory =p.getInventory();
 	for (int i=0;i<inventory.length;i++)
@@ -58,6 +88,7 @@ class HUD extends Applet
 	    if (p.isEquipped(inventory[i])&&inventory[i]!=null)
 	    	g.drawString("E",605,40+20*i);	
 	    }
+	g.drawString("Exit",640,40+20*10);
 	}
 	
 	public void draw(Graphics g) {

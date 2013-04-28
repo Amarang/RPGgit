@@ -64,6 +64,7 @@ public class RPG extends Applet implements KeyListener
 	boolean firstTimeBattle = true;
 	boolean firststep = false;
 	boolean oktomove = true;
+	boolean showinventory=false;
 	static String map;
 	int startx=800/2/TILESIZE;//MAPWIDTH / 2;
 	int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
@@ -174,7 +175,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			released = false;
 			c.setPointer(1);
-			if (!battle)
+			if (!battle&&!showinventory)
 			step('l');
 			oktomove=false;
 		}
@@ -182,7 +183,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			released = false;
 			c.setPointer(2);
-			if (!battle)
+			if (!battle&&!showinventory)
 			step('d');
 			oktomove=false;
 		}
@@ -190,7 +191,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			released = false;
 			c.setPointer(3);
-			if (!battle)
+			if (!battle&&!showinventory)
 			step('r');
 			oktomove=false;
 		}
@@ -198,13 +199,13 @@ public class RPG extends Applet implements KeyListener
 		{
 			released = false;
 			c.setPointer(0);
-			if (!battle)
+			if (!battle&&!showinventory)
 			step('u');
 			oktomove=false;
 		}
 		/*if(key==KeyEvent.VK_SPACE)
 		{
-			key_space=true;
+			c.setPointer(10);
 		}*/
 		if(key==KeyEvent.VK_ENTER)
 		{
@@ -231,7 +232,7 @@ public class RPG extends Applet implements KeyListener
 	{	
 		checkx = 0;
 		checky = 0;
-
+		if(!showinventory)
 		switch(c.getPointer())
 		{
 			case 0:checky=1;break;
@@ -248,9 +249,14 @@ public class RPG extends Applet implements KeyListener
 		}
 		if (c.getPointer()==7)
 		{
-			PlayerMenu(g);
+			if(showinventory) showinventory=false;
+			else showinventory=true;	
+				
+				
+			c.setPointer(5);
+			
 		}
-		if (c.getPointer()<3)
+		if (c.getPointer()<3&&!showinventory)
 		{
 			if(firststep==false)
 			{
@@ -271,7 +277,7 @@ public class RPG extends Applet implements KeyListener
 				repaint();
 			}
 		}
-		else if (c.getPointer()==3)
+		else if (c.getPointer()==3&&!showinventory)
 		{
 			if(firststep==false)
 			{
@@ -305,9 +311,9 @@ public class RPG extends Applet implements KeyListener
 	public void PlayerMenu(Graphics g)
 	{
 		hud.draw(g);
-		if (c.getPointer()==7)
+		if (showinventory)
 		{
-			hud.drawInventory(g);
+			hud.drawInventory(g,c);
 		}
 	}
 	public void update(Graphics g) {
@@ -415,6 +421,8 @@ public class RPG extends Applet implements KeyListener
 		if(key==KeyEvent.VK_SPACE)
 			{
 			key_space=true;
+			if (!battle)
+			c.setPointer(10);
 			}	
 		} 	
     public void keyTyped(KeyEvent evt)		{

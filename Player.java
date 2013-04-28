@@ -190,11 +190,18 @@ class Player
     		
     	}
     public void unequip(Item i) 
-    	{ 
+    	{ 	
     		strength-=i.getStrength(); 
     		health-=i.getHealth();
     		defense-=i.getDefense();
     		healthmax-=i.getHealth();
+    		for (int j=0;j<equipped.length;j++)
+    			if (equipped[j]==i)
+    			{
+    			equipped[j]=null;
+    			System.out.println("equip slot removed "+j);
+    			j=equipped.length;
+    			}
     	}
     private boolean canMoveLeft() { return l; }
     private boolean canMoveRight() { return r; }
