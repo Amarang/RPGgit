@@ -130,8 +130,21 @@ class Player
     			
 				levelExperience = 10*level;
     	}
-    
-    
+        
+    public void equip(Item i) 
+    	{ 
+    		strength+=i.getStrength(); 
+    		health+=i.getHealth();
+    		defense+=i.getDefense();
+    		healthmax+=i.getHealth();
+    	}
+    public void unequip(Item i) 
+    	{ 
+    		strength-=i.getStrength(); 
+    		health-=i.getHealth();
+    		defense-=i.getDefense();
+    		healthmax-=i.getHealth();
+    	}
     private boolean canMoveLeft() { return l; }
     private boolean canMoveRight() { return r; }
     private boolean canMoveUp() { return u; }
