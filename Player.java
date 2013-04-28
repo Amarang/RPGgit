@@ -16,6 +16,8 @@ import javax.sound.sampled.*;
 
 class Player
 {
+	private static int NUMITEMS = 10;
+	
     private int x;
     private int y;
     private int health;
@@ -71,8 +73,8 @@ class Player
     	damage=0;
     }
     
-    Item[] inventory= new Item[10];
-	Item[] equipped= new Item[10];
+    Item[] inventory= new Item[NUMITEMS];
+	Item[] equipped= new Item[NUMITEMS];
     
     public int getX() { return x; }
     public int getY() { return y; }
@@ -167,8 +169,10 @@ class Player
 	public boolean alreadySameType(Item item)
 	{
 		System.out.println("checking for same type");
-		for (int i=0;i<equipped.length;i++)
-			if (equipped[i].getType()==item.getType()) return true;	
+		for (int i=0;i<equipped.length;i++) {
+			if(equipped[i] != null)
+				if (equipped[i].getType()==item.getType()) return true;	
+		}
 		return false;	
 		
 	}
