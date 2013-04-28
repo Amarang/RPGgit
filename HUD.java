@@ -50,9 +50,13 @@ class HUD extends Applet
 	for (int i=0;i<inventory.length;i++)
 	    {
 	    if(inventory[i]!=null)
+	    {
 	    g.drawString(inventory[i].getName(),640,40+20*i);
+	    g.drawImage(icons[inventory[i].getIcon()], 620, 25+20*i, null); //icon	
+	    }
+	    
 	    if (p.isEquipped(inventory[i])&&inventory[i]!=null)
-	    	g.drawString("e",610,40+20*i);	
+	    	g.drawString("E",605,40+20*i);	
 	    }
 	}
 	

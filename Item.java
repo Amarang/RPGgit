@@ -25,10 +25,11 @@ class Item
     private int id;
     private int itemid;
     private int numitems;
-    private String names[] = {"","sword","sheild","heart medalion","helmet","cursed seal"};
+    private String names[] = {"bamboo","sword","sheild","heart medalion","helmet","cursed seal"};
     //String[] s;
     private String itemlist;
 	private BufferedReader br;
+	private int icon;
     
     private boolean l = true;
     private boolean r = true;
@@ -71,10 +72,8 @@ class Item
 						counter++;
 					else 
 					{
-					s[counter]+=c;
-					//System.out.println("s["+counter+"]= "+s[counter]);		
-					} 
-						
+					s[counter]+=c;	
+					} 		
 				ii++;
 				c = itemlist.charAt(i+ii);
 				}
@@ -89,6 +88,7 @@ class Item
     	strength = Integer.parseInt(s[0]);
     	defense = Integer.parseInt(s[1]);
     	health = Integer.parseInt(s[2]);
+    	icon = Integer.parseInt(s[3]);
     }
     public void reset() {
     	health = 0;
@@ -111,7 +111,7 @@ class Item
     public int getSpeed() { return speed; }
     public int getDefense() { return defense; }
     public int getDamage() { return damage; }
-    public int getId() { return id; }
+    public int getIcon() { return icon; }
     public String getName() { return names[itemid]; }
     
     public void setDamage(int d) { health-=d; }
