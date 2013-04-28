@@ -74,7 +74,7 @@ class HUD extends Applet
 	g.drawRect(600,0,200,400);
 	g.setColor(Color.red);
 	g.drawRect(600,20+selectedItem*20,200,20);
-	
+	g.setColor(Color.black);
 	g.drawString("Gold: "+p.getGold(),640,20);
 	inventory =p.getInventory();
 	for (int i=0;i<inventory.length;i++)
