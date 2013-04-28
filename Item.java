@@ -25,6 +25,7 @@ class Item
     private int id;
     private int itemid;
     private int numitems;
+	private int type;
     private String names[] = {"bamboo","sword","sheild","heart medalion","helmet","cursed seal"};
     //String[] s;
     private String itemlist;
@@ -89,11 +90,16 @@ class Item
 		return itemid;
 	}
 	
+	public int getType() {
+		return type;
+	}
+	
     public void setStats(String[] s) {
     	strength = Integer.parseInt(s[0]);
     	defense = Integer.parseInt(s[1]);
     	health = Integer.parseInt(s[2]);
     	icon = Integer.parseInt(s[3]);
+    	type = Integer.parseInt(s[3]);
     }
     public void reset() {
     	health = 0;

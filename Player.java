@@ -146,50 +146,54 @@ class Player
     			
     	}
     public Item[] getInventory() 
-    	{ 
+    { 
     		return inventory;
-    	}
+    }
+	
     public boolean isInInventory(Item item)
     {
-    for (int i=0;i<inventory.length;i++)
-    {
-    if (inventory[i]==item)
-    			return true;	
-    }
-    			
-    return false;	
+		for (int i=0;i<inventory.length;i++)
+			if (inventory[i]==item)	return true;
+		return false;	
     } 
+	
     public boolean isEquipped(Item item)
     {
-    for (int i=0;i<equipped.length;i++)
-    {
-    if (equipped[i]==item)
-    			return true;	
+		for (int i=0;i<equipped.length;i++)
+			if (equipped[i]==item) return true;	
+		return false;	
     }
-    			
-    return false;	
-    }   
+	
+	public boolean alreadySameType(Item item)
+	{
+		System.out.println("checking for same type");
+		for (int i=0;i<equipped.length;i++)
+			if (equipped[i].getType()==item.getType()) return true;	
+		return false;	
+		
+	}
+	
     public void equip(Item i) 
     	{ 
     		
     		if (isInInventory(i))
     		{
-    		strength+=i.getStrength(); 
-    		health+=i.getHealth();
-    		defense+=i.getDefense();
-    		healthmax+=i.getHealth();
-    		{ 
-    		for (int j=0;j<equipped.length;j++)
-    			if (equipped[j]==null)
-    			{
-    			equipped[j]=i;
-    			System.out.println("equip slot filled "+j);
-				break;
-    			//j=equipped.length;
-    			}
+				strength+=i.getStrength(); 
+				health+=i.getHealth();
+				defense+=i.getDefense();
+				healthmax+=i.getHealth();
+				
+				for (int j=0;j<equipped.length;j++) 
+				{
+					if (equipped[j]==null)
+					{
+						equipped[j]=i;
+						System.out.println("equip slot filled "+j);
+						break;
+						//j=equipped.length;
+					}
+				}
     		}
-    		}
-    		
     	}
     public void unequip(Item i) 
     	{ 	

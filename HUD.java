@@ -61,14 +61,16 @@ class HUD extends Applet
 		{
 			if (selectedItem<10)
 			{
-				try {
+				if(!(inventory[selectedItem] == null)) {
+				   System.out.println(p.alreadySameType(inventory[selectedItem]));
+				  // || p.alreadySameType(inventory[selectedItem])) {
 					if (!p.isEquipped(inventory[selectedItem]))
 					p.equip(inventory[selectedItem]);
 					else
 					p.unequip(inventory[selectedItem]);
-				} catch (NullPointerException e) {
-					System.out.println("tried to fetch non-existent item");
-				}	
+				} else {
+					System.out.println("tried to fetch non-existent itemdfdf");
+				}
 			c.setPointer(6);	
 			}
 			else
