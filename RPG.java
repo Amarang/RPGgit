@@ -23,6 +23,9 @@ public class RPG extends Applet implements KeyListener
 	static int TILETYPES = 14;
 	static int NUMSPRITES = 10;
 	static int NUMITEMS = 6;
+	static int NUMICONS = 4;
+	static int NUMMONSTERS = 6;
+	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 250;
 	static int BATTLEFREQUENCY = 3; //percentage of encounter per step
 	static String map;
@@ -45,15 +48,15 @@ public class RPG extends Applet implements KeyListener
 	
 	static boolean music = true;
 	boolean sound = true;	
-	SoundClip[] soundClips = new SoundClip[2];
+	SoundClip[] soundClips = new SoundClip[NUMSOUNDCLIPS];
 	SoundClip hit;
 	SoundClip battlemusic;
 	
 	
 	
 	Image[] tileImages = new Image[TILETYPES];
-	Image[] monsterImages = new Image[6];
-	Image[] icons = new Image[3];
+	Image[] monsterImages = new Image[NUMMONSTERS];
+	Image[] icons = new Image[NUMICONS];
 
 	Image player;
 	Image player1;

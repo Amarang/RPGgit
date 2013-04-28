@@ -26,7 +26,7 @@ class Item
     private int itemid;
     private int numitems;
 	private int type;
-    private String names[] = {"bamboo","sword","sheild","heart medalion","helmet","cursed seal"};
+    private String names[] = {"bamboo","sword","shield","heart medallion","helmet","cursed seal"};
     //String[] s;
     private String itemlist;
 	private BufferedReader br;

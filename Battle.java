@@ -13,6 +13,9 @@ import javax.sound.sampled.*;
 
 class Battle extends Applet//extends RPG
 {
+
+	private static int NUMSPRITES = 10;
+	
 	private SoundClip hit;
 	private Graphics g;
 	private Monster m;
@@ -127,7 +130,7 @@ class Battle extends Applet//extends RPG
 		battle=false;
 		initialize = false;	
 		p.setHealth(p.getHealthMax());
-		for (int i=0; i<5; i++)
+		for (int i=0; i<NUMSPRITES; i++)
 		{
 			sp[i].reset();
 		}	

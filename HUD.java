@@ -90,16 +90,18 @@ class HUD extends Applet
 		g.drawString("Gold: "+p.getGold(),640,20);
 		inventory =p.getInventory();
 		for (int i=0;i<inventory.length;i++)
-			{
+		{
 			if(inventory[i]!=null)
 			{
-			g.drawString(inventory[i].getName(),640,40+20*i);
-			g.drawImage(icons[inventory[i].getIcon()], 620, 25+20*i, null); //icon	
+				g.drawString(inventory[i].getName(),650,40+20*i);
+				g.drawImage(icons[inventory[i].getIcon()], 620, 25+20*i, null); //icon	
 			}
 			
-			if (p.isEquipped(inventory[i])&&inventory[i]!=null)
-				g.drawString("E",605,40+20*i);	
+			if (p.isEquipped(inventory[i])&&inventory[i]!=null) {
+				//g.drawString("E",605,40+20*i);	
+				g.drawImage(icons[3], 601,24+20*i, null);
 			}
+		}
 		g.drawString("Exit",640,40+20*10);
 	}
 	
@@ -112,33 +114,36 @@ class HUD extends Applet
 		int mana = p.getMana();
 		int levelExperience = p.getLevelExperience();
 		
-		//g.drawImage(icons[1], 20,thickness*2, null);
-		//g.drawImage(icons[2], 20,thickness*3, null);
 		
+		int offsetx = 5;
+		int offsety = 5;		
 		
-		drawBar(g, 0, 0*thickness, 250, thickness, HPColor, health, healthmax);
-		drawBar(g, 0, 1*thickness, 250, thickness, ManaColor, mana, mana);
-		drawBar(g, 0, 2*thickness, 250, thickness, ExperienceColor, experience, levelExperience);
-		g.drawImage(icons[0], 0,3*thickness, null); //gold
-		g.drawImage(icons[1], 80,3*thickness, null); //shield
-		g.drawImage(icons[2], 160,3*thickness, null); //sword
+		//hp, mana, exp bars
+		drawBar(g, offsetx, 0*thickness + offsety, 250, thickness, HPColor, health, healthmax);
+		drawBar(g, offsetx, 1*thickness + offsety, 250, thickness, ManaColor, mana, mana);
+		drawBar(g, offsetx, 2*thickness + offsety, 250, thickness, ExperienceColor, experience, levelExperience);
+		
+		//icons
+		g.drawImage(icons[0], 0+offsetx,3*thickness+offsety+3, null); //gold
+		g.drawImage(icons[1], 80+offsetx,3*thickness+offsety+3, null); //shield
+		g.drawImage(icons[2], 160+offsetx,3*thickness+offsety+3, null); //sword
 		
 		Color textColor;
 		if(battleHUD) textColor = Color.WHITE;
 		else textColor = Color.BLACK;
 		
-		drawLabel(g, Integer.toString(p.getGold()), 30, (int)(thickness*3.7), textColor);
-		drawLabel(g, Integer.toString(p.getDefense()), 110, (int)(thickness*3.7), textColor);
-		drawLabel(g, Integer.toString(p.getStrength()), 190, (int)(thickness*3.7), textColor);
+		drawLabel(g, Integer.toString(p.getGold()), 30+offsetx, (int)(thickness*3.7)+offsety+3, textColor);
+		drawLabel(g, Integer.toString(p.getDefense()), 110+offsetx, (int)(thickness*3.7)+offsety+3, textColor);
+		drawLabel(g, Integer.toString(p.getStrength()), 190+offsetx, (int)(thickness*3.7)+offsety+3, textColor);
 		
-		drawLabel(g, p.getName() + " (level " + Integer.toString(p.getLevel()) + ")", 10, (int)(thickness*4.7), textColor);
+		drawLabel(g, p.getName() + " (level " + Integer.toString(p.getLevel()) + ")", 10+offsetx, (int)(thickness*4.7)+offsety+3, textColor);
 		
 		drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
-				  15, (int)(0.7*thickness), Color.WHITE);
+				  15+offsetx, (int)(0.7*thickness)+offsety, Color.WHITE);
 		drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(mana),
-				  15, (int)(1.7*thickness), Color.WHITE);
+				  15+offsetx, (int)(1.7*thickness)+offsety, Color.WHITE);
 		drawLabel(g, Integer.toString(experience)+" / "+Integer.toString(levelExperience),
-				  15, (int)(2.7*thickness), Color.BLACK);
+				  15+offsetx, (int)(2.7*thickness)+offsety, Color.BLACK);
 	}
 	
 	
@@ -148,8 +153,10 @@ class HUD extends Applet
 		
 		float percentage = (float)currentVal / (float)maxVal;
 		
-		g.setColor(color.darker().darker());
-		g.drawRect(xStart, yStart, length, thickness);
+		if(battleHUD) g.setColor(color.brighter().brighter());
+		else g.setColor(color.darker().darker());
+		
+		g.drawRect(xStart-1, yStart-1, length+1, thickness+1);
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(xStart, yStart, length, thickness);
@@ -161,8 +168,8 @@ class HUD extends Applet
 	
 	public void drawLabel(Graphics g, String label, int xStart, int yStart, Color color) {
 		
- 	Font labelFont = new Font("DialogInput",Font.BOLD,15);	
-	g.setFont(labelFont);
+		Font labelFont = new Font("DialogInput",Font.BOLD,15);	
+		g.setFont(labelFont);
 		g.setColor(color);
   		g.drawString(label,xStart,yStart);
 	}
@@ -177,18 +184,27 @@ class HUD extends Applet
 		int health = m.getHealth();
 		int healthmax = m.getHealthMax();
 		int mana = m.getMana();
-		int offset = 550;
+		int offsetx = 550-5;
+		int offsety = 5;
 		
-		drawBar(g, offset, 0*thickness, 250, thickness, HPColor, health, healthmax);
-		drawBar(g, offset, 1*thickness, 250, thickness, ManaColor, mana, mana);
-		//drawBar(g, 0, 2*thickness, 250, thickness, new Color(255, 255, 50), level, levelExperience);
+		drawBar(g, offsetx, 0*thickness+offsety, 250, thickness, HPColor, health, healthmax);
+		drawBar(g, offsetx, 1*thickness+offsety, 250, thickness, ManaColor, mana, mana);
 		
 		drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
-				  offset+15, (int)(0.7*thickness), Color.WHITE);
+				  offsetx+15, (int)(0.7*thickness)+offsety, Color.WHITE);
 		drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(mana),
-				  offset+15, (int)(1.7*thickness), Color.WHITE);
-		//drawLabel(g, Integer.toString(experience)+" / "+Integer.toString(levelExperience),
-		//		  15, (int)(2.8*thickness), new Color(0, 0, 0));
+				  offsetx+15, (int)(1.7*thickness)+offsety, Color.WHITE);
+				  
+		//icons
+		g.drawImage(icons[1], 0+offsetx,2*thickness+offsety+3, null); //shield
+		g.drawImage(icons[2], 80+offsetx,2*thickness+offsety+3, null); //sword
+		
+		Color textColor = Color.WHITE;
+		
+		drawLabel(g, Integer.toString(m.getDefense()), 30+offsetx, (int)(thickness*2.7)+offsety+3, textColor);
+		drawLabel(g, Integer.toString(m.getStrength()), 110+offsetx, (int)(thickness*2.7)+offsety+3, textColor);
+		
+				  
 	}
 
 }
