@@ -195,7 +195,7 @@ class Battle extends Applet//extends RPG
 	{
 		
 		g.setFont(title);
-		 m = new Monster(20,2,20,3,1,rand.nextInt(6));
+		 m = new Monster(20,2,8,3,1,rand.nextInt(6));
 		 c.reset();
 		 initialize = true;
 		mdefended=false;

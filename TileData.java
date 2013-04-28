@@ -13,7 +13,7 @@ class TileData
 	private int[] walkRestricted = new int[] {-1, 2, 3};
 	private int[] battleRestricted = new int[] {-1, 4};
 	private int town = 4;
-	
+	private int bed = 12;
     
     public TileData() {
 		
@@ -40,6 +40,12 @@ class TileData
 	public boolean isTown(int t)
 	{
 		if (t==town)
+			return true;
+		else return false;
+	}
+	public boolean isBed(int t)
+	{
+		if (t==bed)
 			return true;
 		else return false;
 	}

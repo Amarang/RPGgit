@@ -19,9 +19,10 @@ public class RPG extends Applet implements KeyListener
 	Random rand = new Random(); 
  	Font title = new Font("DialogInput",Font.BOLD,20);	
 	static int TILESIZE = 20;
-	static int MAPWIDTH = 400;
-	static int MAPHEIGHT = 300;
-	static int TILETYPES = 10;
+	static int MAPWIDTH[] ={400,90};
+	static int MAPHEIGHT[] = {300,70};
+	static int TILETYPES = 14;
+	int maptracker = 0;
 	//WalkingThread walking;
 	int offsetX = 0;
 	int offsetY = 0;
@@ -40,7 +41,7 @@ public class RPG extends Applet implements KeyListener
 	TileData td = new TileData();
 	int appSizeX = 800;
 	int appSizeY = 600;
-	private TileMap theMap = new TileMap(MAPWIDTH, MAPHEIGHT, "maps/file.txt");
+	private TileMap[] theMap= new TileMap[2];
 
 	Image player;
 	Image player1;
@@ -89,7 +90,8 @@ public class RPG extends Applet implements KeyListener
 	
 	public void init()
 	{
-		
+		for (int i=0;i<2;i++)
+		theMap[i] = new TileMap(MAPWIDTH[i], MAPHEIGHT[i], "maps/file"+i+".txt");
 		start();
 		wait = new WaitThread();
 		wait.start();
@@ -240,9 +242,9 @@ public class RPG extends Applet implements KeyListener
 			case 2:checky=-1;break;
 			case 3:checkx=-1;break;
 		}
-		for(int x=0; x<MAPWIDTH;x++) {
-			for(int y=0; y<MAPHEIGHT;y++) {
-				g.drawImage(tileImages[theMap.getVal(x,y)],
+		for(int x=0; x<MAPWIDTH[maptracker];x++) {
+			for(int y=0; y<MAPHEIGHT[maptracker];y++) {
+				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],
 						   (startx-p.getX())*TILESIZE - checkx*TILESIZE/2 + x*TILESIZE,
 						   (starty-p.getY())*TILESIZE - checky*TILESIZE/2 + y*TILESIZE, this);
 			}
@@ -339,13 +341,15 @@ public class RPG extends Applet implements KeyListener
 			
 			for (int i = 0; i<5; i++)
          	{
-			if(sp[i].isReady()) {
+			if(sp[i].isReady()&&maptracker==1) {
 				sp[i].drawSprite(g);
 				sp[i].setSpeed(1000);
 				sp[i].start();
 				sp[i].updateAnimation(g, System.currentTimeMillis());
-				sp[i].allowMove(theMap.getNeighbors(p.getX(), p.getY()));
+				sp[i].allowMove(theMap[maptracker].getNeighbors(p.getX(), p.getY()));
 				}
+			if (maptracker==0)
+			sp[i].stop();
          	}
 			PlayerMenu(g);
 		}
@@ -378,26 +382,42 @@ public class RPG extends Applet implements KeyListener
 	public void step(char direction) {
 		
 		
-		int currTile = theMap.getVal(p.getX(), p.getY());
+		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
 		switch(direction) {
 			case 'l': p.moveLeft(); break;
 			case 'r': p.moveRight(); break;
 			case 'u': p.moveUp(); break;
 			case 'd': p.moveDown(); break;
 		}
-		if (rand.nextInt(50)==1&&!td.isBattleRestricted(currTile))
+		if (rand.nextInt(50)==1&&!td.isBattleRestricted(currTile)&&maptracker==0)
 		{
 			battle=true;
 			//Battle b = new Battle (g, p, monsterImages, c);
 		}
 		if (td.isTown(currTile))
 		{
-		p.setTownX(p.getX());
-		p.setTownY(p.getY());
-		for (int i=0;i<5;i++)
-		sp[i].resetOrigin();	
+		if (maptracker==1)
+		{
+			maptracker=0;
+			p.setX(p.getTownX());
+			p.setY(p.getTownY());
 		}
-		if (td.isTown(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>=20)
+		else if (maptracker==0)
+		{
+		maptracker=1;
+		p.setTownX(p.getX());
+		p.setTownY(p.getY());	
+		}
+		System.out.println(maptracker);
+		
+		
+		for (int i=0;i<5;i++)
+		{
+			sp[i].resetOrigin();
+			//sp[i].stop();
+		}	
+		}
+		if (td.isBed(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>=20)
 		{
 			p.setHealth(p.getHealthMax());
 			p.pay(20);
@@ -409,7 +429,7 @@ public class RPG extends Applet implements KeyListener
 				soundClips[sID].play();	
 			}
 		}
-		p.allowMove(theMap.getNeighbors(p.getX(), p.getY()));
+		p.allowMove(theMap[maptracker].getNeighbors(p.getX(), p.getY()));
 	}
 
 	public void keyReleased(KeyEvent evt)	
