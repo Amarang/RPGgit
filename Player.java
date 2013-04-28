@@ -140,7 +140,8 @@ class Player
     			{
     			inventory[i]=item;	
     			System.out.println("inventory slot filled");
-    			i=inventory.length;
+				break;
+    			//i=inventory.length;
     			}
     			
     	}
@@ -183,7 +184,8 @@ class Player
     			{
     			equipped[j]=i;
     			System.out.println("equip slot filled "+j);
-    			j=equipped.length;
+				break;
+    			//j=equipped.length;
     			}
     		}
     		}
@@ -200,7 +202,8 @@ class Player
     			{
     			equipped[j]=null;
     			System.out.println("equip slot removed "+j);
-    			j=equipped.length;
+				break;
+    			//j=equipped.length;
     			}
     	}
     private boolean canMoveLeft() { return l; }

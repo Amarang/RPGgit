@@ -84,6 +84,11 @@ class Item
 		//System.out.println("MADE items!");
 		setStats(s);
     }
+	
+	public int getItemID() {
+		return itemid;
+	}
+	
     public void setStats(String[] s) {
     	strength = Integer.parseInt(s[0]);
     	defense = Integer.parseInt(s[1]);

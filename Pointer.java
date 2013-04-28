@@ -15,13 +15,7 @@ import javax.sound.sampled.*;
 
 class Pointer
 {
-	private int choice = 1;
-    private boolean l = true;
-    private boolean r = true;
-    private boolean u = true;
-    private boolean d = true;
-	Random rand = new Random(); 
-	
+	private int choice = 1;	
     
     public Pointer(int x) {
     	

@@ -17,8 +17,9 @@ class HUD extends Applet
 	private Player p;
 	private Monster m;
 	private Pointer c;
-	Item[] inventory= new Item[10];
-	Item[] equipped= new Item[10];
+	private int INVENTORYSIZE;
+	Item[] inventory= new Item[INVENTORYSIZE];
+	Item[] equipped= new Item[INVENTORYSIZE];
 	private Image[] icons;
 	private int selectedItem=0;
 	private Color HPColor = new Color(230, 0, 0);
@@ -41,54 +42,59 @@ class HUD extends Applet
 		this.m = m;
 		this.icons = icons;
     }
+	
 	public void drawInventory(Graphics g, Pointer c) {
-	this.c=c;
-	if (c.getPointer()==2)
-	{
-		if (selectedItem<10)
-		selectedItem++;
-		c.setPointer(6);	
-	}
-	if (c.getPointer()==0)
-	{
-		if (selectedItem>0)
-		selectedItem--;	
-		c.setPointer(6);
-	}
-	if (c.getPointer()==10)
-	{
-		if (selectedItem<10)
+		this.c=c;
+		if (c.getPointer()==2)
 		{
-			if (!p.isEquipped(inventory[selectedItem]))
-			p.equip(inventory[selectedItem]);
-			else
-			p.unequip(inventory[selectedItem]);
-		c.setPointer(6);	
+			if (selectedItem<10)
+			selectedItem++;
+			c.setPointer(6);	
 		}
-		else
-		c.setPointer(7);//back out of inventory
-	}
-	g.setColor(Color.white);
-	g.fillRect(600,0,200,400);
-	g.setColor(Color.black);
-	g.drawRect(600,0,200,400);
-	g.setColor(Color.red);
-	g.drawRect(600,20+selectedItem*20,200,20);
-	g.setColor(Color.black);
-	g.drawString("Gold: "+p.getGold(),640,20);
-	inventory =p.getInventory();
-	for (int i=0;i<inventory.length;i++)
-	    {
-	    if(inventory[i]!=null)
-	    {
-	    g.drawString(inventory[i].getName(),640,40+20*i);
-	    g.drawImage(icons[inventory[i].getIcon()], 620, 25+20*i, null); //icon	
-	    }
-	    
-	    if (p.isEquipped(inventory[i])&&inventory[i]!=null)
-	    	g.drawString("E",605,40+20*i);	
-	    }
-	g.drawString("Exit",640,40+20*10);
+		if (c.getPointer()==0)
+		{
+			if (selectedItem>0)
+			selectedItem--;	
+			c.setPointer(6);
+		}
+		if (c.getPointer()==10)
+		{
+			if (selectedItem<10)
+			{
+				try {
+					if (!p.isEquipped(inventory[selectedItem]))
+					p.equip(inventory[selectedItem]);
+					else
+					p.unequip(inventory[selectedItem]);
+				} catch (NullPointerException e) {
+					System.out.println("tried to fetch non-existent item");
+				}	
+			c.setPointer(6);	
+			}
+			else
+			c.setPointer(7);//back out of inventory
+		}
+		g.setColor(Color.white);
+		g.fillRect(600,0,200,400);
+		g.setColor(Color.black);
+		g.drawRect(600,0,200,400);
+		g.setColor(Color.red);
+		g.drawRect(601,24+selectedItem*20,199,20);
+		g.setColor(Color.black);
+		g.drawString("Gold: "+p.getGold(),640,20);
+		inventory =p.getInventory();
+		for (int i=0;i<inventory.length;i++)
+			{
+			if(inventory[i]!=null)
+			{
+			g.drawString(inventory[i].getName(),640,40+20*i);
+			g.drawImage(icons[inventory[i].getIcon()], 620, 25+20*i, null); //icon	
+			}
+			
+			if (p.isEquipped(inventory[i])&&inventory[i]!=null)
+				g.drawString("E",605,40+20*i);	
+			}
+		g.drawString("Exit",640,40+20*10);
 	}
 	
 	public void draw(Graphics g) {

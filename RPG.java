@@ -15,33 +15,45 @@ import javax.sound.sampled.*;
 public class RPG extends Applet implements KeyListener
 {
 	
-	Battle b;	
-	Random rand = new Random(); 
- 	Font title = new Font("DialogInput",Font.BOLD,20);	
+	
 	static int TILESIZE = 20;
+	static int NUMMAPS = 2;
 	static int MAPWIDTH[] ={400,90};
 	static int MAPHEIGHT[] = {300,70};
 	static int TILETYPES = 14;
+	static int NUMSPRITES = 10;
+	static int NUMITEMS = 6;
+	static int WALKINGDELAY = 250;
+	static int BATTLEFREQUENCY = 3; //percentage of encounter per step
+	static String map;
+	
+	TileData td = new TileData();
+	int appSizeX = 800;
+	int appSizeY = 600;
+	private TileMap[] theMap= new TileMap[2];
+	int startx=800/2/TILESIZE;//MAPWIDTH / 2;
+	int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
 	int maptracker = 0;
 	//WalkingThread walking;
 	int offsetX = 0;
 	int offsetY = 0;
 	int checkx = 0;
 	int checky = 0;
+	int playerposition=1;
+	int mapx=0;
+	int mapy=0;
+	
+	static boolean music = true;
 	boolean sound = true;	
-	Pointer c = new Pointer(0);
-	Image[] tileImages = new Image[TILETYPES];
 	SoundClip[] soundClips = new SoundClip[2];
 	SoundClip hit;
 	SoundClip battlemusic;
 	
+	
+	
+	Image[] tileImages = new Image[TILETYPES];
 	Image[] monsterImages = new Image[6];
 	Image[] icons = new Image[3];
-	
-	TileData td = new TileData();
-	int appSizeX = 800;
-	int appSizeY = 600;
-	private TileMap[] theMap= new TileMap[2];
 
 	Image player;
 	Image player1;
@@ -50,48 +62,40 @@ public class RPG extends Applet implements KeyListener
 	Image player2a;
 	
 	
+	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman");
+	Monster m;
+	Battle b;
+	HUD hud;
+	Sprite[] sp= new Sprite[NUMSPRITES];
+	Item[] item= new Item[NUMITEMS];
+	Pointer c = new Pointer(0);
+
+	Random rand = new Random(); 
+ 	Font title = new Font("DialogInput",Font.BOLD,20);	
 	
-	int playerposition=1;
-	int mapx=0;
-	int mapy=0;
-	static boolean music = true;
+	BufferedReader br;
+	AudioClip intro;
+    URL base;
+	WaitThread wait;
+    MediaTracker mt;
+	
+	
 	boolean released = false;
 	boolean key_space=false;
 	boolean key_enter=false;
 	boolean run=false;
 	boolean battle=false;
-	boolean initialize = false;
-	boolean mdefended = false;
 	boolean firstTimeBattle = true;
 	boolean firststep = false;
 	boolean oktomove = true;
 	boolean showinventory=false;
-	static String map;
-	int startx=800/2/TILESIZE;//MAPWIDTH / 2;
-	int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
-	int pdamagedealt;
-  	int mdamagedealt;
-	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "POOPOO");
-	
-	HUD hud;
-
-	Sprite[] sp= new Sprite[5];
-	Item[] item= new Item[6];
-
-	
-	Monster m;
-	BufferedReader br;
-	AudioClip intro;
-     URL base;
-	WaitThread wait;
-     MediaTracker mt;
 	 
 	public static void main(String[] args) { } 
 	
 	public void init()
 	{
-		for (int i=0;i<2;i++)
-		theMap[i] = new TileMap(MAPWIDTH[i], MAPHEIGHT[i], "maps/file"+i+".txt");
+		for (int i=0;i<NUMMAPS;i++)
+			theMap[i] = new TileMap(MAPWIDTH[i], MAPHEIGHT[i], "maps/file"+i+".txt");
 		start();
 		wait = new WaitThread();
 		wait.start();
@@ -102,7 +106,6 @@ public class RPG extends Applet implements KeyListener
 		} catch (Exception e) {System.out.println("failed to load clip");}
 		intro.play();
 		
-		
 		for(int i = 0; i < soundClips.length; i++) {
 			soundClips[i] = new SoundClip("clip" + Integer.toString(i));
 		}
@@ -111,56 +114,52 @@ public class RPG extends Applet implements KeyListener
 			p.addItem(item[i]);
 		}
 		
-		hit=new SoundClip("hit");
-		battlemusic=new SoundClip("battlemusic");
+		hit = new SoundClip("hit");
+		battlemusic = new SoundClip("battlemusic");
 		
 		
 		try { 
 			base = getDocumentBase();    
-		}catch (Exception e) {} 	
-			
-			
-         mt = new MediaTracker(this);
-		 for(int i = 0; i < tileImages.length; i++) {
+		} catch (Exception e) {} 	
+
+        mt = new MediaTracker(this);
+		for(int i = 0; i < tileImages.length; i++) {
 			Image img = getImage(base, "images/tiles/" + Integer.toString(i) + ".png");
 			mt.addImage(img, i+1);
 			tileImages[i] = img;
-		 }
-		 for(int i = 0; i < monsterImages.length; i++) {
+		}
+		for(int i = 0; i < monsterImages.length; i++) {
 			Image img = getImage(base, "images/entities/monsters/id"+Integer.toString(i) + ".png");
 			mt.addImage(img, i+1);
 			monsterImages[i] = img;
-		 }
+		}
 		 for(int i = 0; i < icons.length; i++) {
 			Image img = getImage(base, "images/icons/"+Integer.toString(i) + ".png");
 			mt.addImage(img, i+1);
 			icons[i] = img;
-		 }
-		 
+		}
 		 
 		player = getImage(base,"images/entities/player/player.png");
 		player1 = getImage(base,"images/entities/player/player1.png");
 		player2 = getImage(base,"images/entities/player/player2.png");
 		player1a = getImage(base,"images/entities/player/player1a.png");
 		player2a = getImage(base,"images/entities/player/player2a.png");
-         Image[] playerImgs = new Image[] {player, player1, player2, player1a, player2a};
-         for (int i = 0; i<5; i++)
-         {
-         	sp[i] = new Sprite(playerImgs, rand.nextInt(40)*2, rand.nextInt(30)*2,TILESIZE);
-         }
+        Image[] playerImgs = new Image[] {player, player1, player2, player1a, player2a};
+        for (int i = 0; i < NUMSPRITES; i++)
+        {
+			sp[i] = new Sprite(playerImgs, rand.nextInt(40)*2, rand.nextInt(30)*2,TILESIZE);
+        }
 		 
 		 
-         try { 
-               mt.waitForAll(); 
-          } catch (InterruptedException  e) {}
+        try { 
+              mt.waitForAll(); 
+         } catch (InterruptedException  e) {}
 		  
 		addKeyListener(this);
 		
 		hud = new HUD(p, icons);
 		
 		p.equip(item[5]);	
-			
-			
 			
 	}
 	
@@ -178,7 +177,7 @@ public class RPG extends Applet implements KeyListener
 			released = false;
 			c.setPointer(1);
 			if (!battle&&!showinventory)
-			step('l');
+				step('l');
 			oktomove=false;
 		}
 		if(key==KeyEvent.VK_S)
@@ -186,7 +185,7 @@ public class RPG extends Applet implements KeyListener
 			released = false;
 			c.setPointer(2);
 			if (!battle&&!showinventory)
-			step('d');
+				step('d');
 			oktomove=false;
 		}
 		if(key==KeyEvent.VK_D)
@@ -194,7 +193,7 @@ public class RPG extends Applet implements KeyListener
 			released = false;
 			c.setPointer(3);
 			if (!battle&&!showinventory)
-			step('r');
+				step('r');
 			oktomove=false;
 		}
 		if(key==KeyEvent.VK_W)
@@ -202,7 +201,7 @@ public class RPG extends Applet implements KeyListener
 			released = false;
 			c.setPointer(0);
 			if (!battle&&!showinventory)
-			step('u');
+				step('u');
 			oktomove=false;
 		}
 		/*if(key==KeyEvent.VK_SPACE)
@@ -218,17 +217,17 @@ public class RPG extends Applet implements KeyListener
 	}
 	public class WaitThread extends Thread { //create thread class
 	
-	WaitThread() {//bring in arguments for the thread to use	
+		WaitThread() {//bring in arguments for the thread to use	
 		}
 		public void run() { //executes when thread is called
 			
 			while(true)
 			{
-			delay(250);
-			oktomove=true;
-			repaint();	
+				delay(WALKINGDELAY);
+				oktomove=true;
+				repaint();	
 			}	
-	}
+		}
 	}
 	public void DrawMap(Graphics g)
 	{	
@@ -264,17 +263,17 @@ public class RPG extends Applet implements KeyListener
 			{
 				g.drawImage(player1a,startx*TILESIZE,starty*TILESIZE, this);
 				firststep=true;
-				if(c.getPointer()==0) for (int i = 0; i<5; i++) {sp[i].addY(1);}
-				if(c.getPointer()==1) for (int i = 0; i<5; i++) {sp[i].addX(1);}
-				if(c.getPointer()==2) for (int i = 0; i<5; i++) {sp[i].addY(-1);}
+				if(c.getPointer()==0) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(1);}
+				if(c.getPointer()==1) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(1);}
+				if(c.getPointer()==2) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(-1);}
 				
 			}
 			else{
 				g.drawImage(player1,startx*TILESIZE,starty*TILESIZE, this);
 				firststep=false;
-					if(c.getPointer()==0) for (int i = 0; i<5; i++) {sp[i].addY(1);}
-					if(c.getPointer()==1) for (int i = 0; i<5; i++) {sp[i].addX(1);}
-					if(c.getPointer()==2) for (int i = 0; i<5; i++) {sp[i].addY(-1);}
+					if(c.getPointer()==0) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(1);}
+					if(c.getPointer()==1) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(1);}
+					if(c.getPointer()==2) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(-1);}
 				c.setPointer(5);
 				repaint();
 			}
@@ -285,13 +284,13 @@ public class RPG extends Applet implements KeyListener
 			{
 				g.drawImage(player2a,startx*TILESIZE,starty*TILESIZE, this);
 				firststep=true;
-				for (int i = 0; i<5; i++) {sp[i].addX(-1);}
+				for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(-1);}
 			}
 			else{
 				g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);
 				firststep=false;
 				c.setPointer(6);
-				for (int i = 0; i<5; i++) {sp[i].addX(-1);}
+				for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(-1);}
 				repaint();
 			}
 		}	
@@ -307,7 +306,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);	
 		}
-		delay(20);
+		//delay(20);
 		repaint();			
 	}
 	public void PlayerMenu(Graphics g)
@@ -339,7 +338,7 @@ public class RPG extends Applet implements KeyListener
 			DrawMap(g);	
 			
 			
-			for (int i = 0; i<5; i++)
+			for (int i = 0; i< NUMSPRITES; i++)
          	{
 			if(sp[i].isReady()&&maptracker==1) {
 				sp[i].drawSprite(g);
@@ -389,33 +388,35 @@ public class RPG extends Applet implements KeyListener
 			case 'u': p.moveUp(); break;
 			case 'd': p.moveDown(); break;
 		}
-		if (rand.nextInt(50)==1&&!td.isBattleRestricted(currTile)&&maptracker==0)
+		
+		if (rand.nextInt(1000) <= BATTLEFREQUENCY * 10
+			&& !td.isBattleRestricted(currTile) && maptracker == 0)
 		{
 			battle=true;
-			//Battle b = new Battle (g, p, monsterImages, c);
 		}
+		
 		if (td.isTown(currTile))
 		{
-		if (maptracker==1)
-		{
-			maptracker=0;
-			p.setX(p.getTownX());
-			p.setY(p.getTownY());
-		}
-		else if (maptracker==0)
-		{
-		maptracker=1;
-		p.setTownX(p.getX());
-		p.setTownY(p.getY());	
-		}
-		System.out.println(maptracker);
-		
-		
-		for (int i=0;i<5;i++)
-		{
-			sp[i].resetOrigin();
-			//sp[i].stop();
-		}	
+			if (maptracker==1)
+			{
+				maptracker=0;
+				p.setX(p.getTownX());
+				p.setY(p.getTownY());
+			}
+			else if (maptracker==0)
+			{
+				maptracker=1;
+				p.setTownX(p.getX());
+				p.setTownY(p.getY());	
+			}
+			System.out.println(maptracker);
+			
+			
+			for (int i=0;i< NUMSPRITES;i++)
+			{
+				sp[i].resetOrigin();
+				//sp[i].stop();
+			}	
 		}
 		if (td.isBed(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>=20)
 		{
