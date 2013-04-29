@@ -46,11 +46,14 @@ public class RPG extends Applet implements KeyListener
 	int mapx=0;
 	int mapy=0;
 	
+	int nearSprite = -1;
+	
 	static boolean music = true;
 	boolean sound = true;	
 	SoundClip[] soundClips = new SoundClip[NUMSOUNDCLIPS];
 	SoundClip hit;
 	SoundClip battlemusic;
+	SoundClip outofbounds;
 	
 	
 	
@@ -98,6 +101,7 @@ public class RPG extends Applet implements KeyListener
 	boolean firststep = false;
 	boolean oktomove = true;
 	boolean showinventory=false;
+	boolean showInteraction=false;
 
 	 
 	public static void main(String[] args) { } 
@@ -126,6 +130,7 @@ public class RPG extends Applet implements KeyListener
 		
 		hit = new SoundClip("hit");
 		battlemusic = new SoundClip("battlemusic");
+		outofbounds = new SoundClip("goat");
 		
 		
 		try { 
@@ -303,6 +308,20 @@ public class RPG extends Applet implements KeyListener
 			
 		}
 		
+		if (c.getPointer()==11)
+		{
+			if(showInteraction) {
+				showInteraction = false;
+				nearSprite = -1;
+			}
+			if(nearSprite >= 0) showInteraction=true;
+			
+			System.out.println(c.getPointer());	
+				
+			c.setPointer(5);
+			
+		}
+		
 		repaint();			
 	}
 	public void PlayerMenu(Graphics g)
@@ -335,8 +354,9 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
-			
-		//hud.drawInteractionPane(g,sp[0]);
+			if(showInteraction) {
+				hud.drawInteractionPane(g,nearSprite);
+			}
 			
 			
 			pSp.setSpeed(40);
@@ -385,11 +405,12 @@ public class RPG extends Applet implements KeyListener
 
 	public void step(char direction) {
 		
+		outofbounds.stop();
 		switch(direction) {
-			case 'l': p.moveLeft(); break;
-			case 'r': p.moveRight(); break;
-			case 'u': p.moveUp(); break;
-			case 'd': p.moveDown(); break;
+			case 'l': if(!p.moveLeftB()) outofbounds.play(); break;
+			case 'r': if(!p.moveRightB()) outofbounds.play(); break;
+			case 'u': if(!p.moveUpB()) outofbounds.play(); break;
+			case 'd': if(!p.moveDownB()) outofbounds.play(); break;
 		}
 		
 		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
@@ -399,7 +420,7 @@ public class RPG extends Applet implements KeyListener
 		
 		//keep for future tile debugging
 		
-		System.out.println("P " + p.getX() + ", " + p.getY());
+		//System.out.println("P " + p.getX() + ", " + p.getY());
 		//System.out.println("currtile " + currTile);
 		//System.out.println("facing " + p.getFacing());
 		//System.out.println("facetile " + facingTile);
@@ -418,6 +439,7 @@ public class RPG extends Applet implements KeyListener
 			 &&  sp[i].getY() == p.getY() )
 			{
 				System.out.println("NEAR SPRITE id = " + sp[i].getID());
+				nearSprite = sp[i].getID();
 			}
 		}	
 		
@@ -477,6 +499,11 @@ public class RPG extends Applet implements KeyListener
 			key_space=true;
 			if (!battle)
 			c.setPointer(10);
+		}
+		if(key==KeyEvent.VK_E)
+		{
+			if (!battle)
+				c.setPointer(11);
 		}
 	} 	
 	

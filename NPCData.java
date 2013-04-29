@@ -36,5 +36,8 @@ class NPCData
 		//System.out.println(sp.getID());
 		return NPCMap.get(sp.getID());
 	}
+	public String getName(int sID) {
+		return NPCMap.get(sID);
+	}
 
 }

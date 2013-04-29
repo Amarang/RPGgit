@@ -86,6 +86,14 @@ class Player
     public void moveRight() { if(canMoveRight()&&!battling) x++; facing = 1; } // E
     public void moveUp() { if(canMoveUp()&&!battling) y--; facing = 0; } // N
     public void moveDown() { if(canMoveDown()&&!battling) y++; facing = 2; } // S
+	
+	//boolean so you can, say, play a sound (goat ;) ) if it's false
+	//in addition to moving, so you save some calculation time
+    public boolean moveLeftB() { if(canMoveLeft()&&!battling) x--; facing = 3; return canMoveLeft(); } // W
+    public boolean moveRightB() { if(canMoveRight()&&!battling) x++; facing = 1; return canMoveRight(); } // E
+    public boolean moveUpB() { if(canMoveUp()&&!battling) y--; facing = 0; return canMoveUp(); } // N
+    public boolean moveDownB() { if(canMoveDown()&&!battling) y++; facing = 2; return canMoveDown(); } // S
+	
     public int getTownX() { return lasttownx; }
     public int getTownY() { return lasttowny; }
     public void setTownX(int h) { lasttownx=h; }

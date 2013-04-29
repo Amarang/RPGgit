@@ -356,7 +356,7 @@ class HUD extends Applet
 		g.setColor(temp);
 	}
 	
-	public void drawInteractionPane(Graphics g, Sprite sp) {
+	public void drawInteractionPane(Graphics g, int sID) {
 		Color temp = g.getColor();
 		int paddingx = 5;
 		int paddingy = 5;
@@ -381,7 +381,7 @@ class HUD extends Applet
 		
 		//System.out.println("DFDF");
 		
-		String str = "<html><h1>My name is " + nd.getName(sp) + ".</h1><br>"
+		String str = "<html><h1>My name is " + nd.getName(sID) + ".</h1><br>"
 				   + "I would like to talk to you today about how much text sucks.<br>"
 				   + "It would be nice if you could program by clicking and dragging<br>"
 				   + "instead of manually changing x and y coordinates and recompiling<br>"
