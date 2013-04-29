@@ -21,7 +21,7 @@ public class RPG extends Applet implements KeyListener
 	static int MAPWIDTH[] ={400,90};
 	static int MAPHEIGHT[] = {300,70};
 	static int TILETYPES = 14;
-	static int NUMSPRITES = 1;
+	static int NUMSPRITES = 0;
 	static int NUMITEMS = 6;
 	static int NUMICONS = 4;
 	static int NUMMONSTERS = 6;
@@ -256,21 +256,12 @@ public class RPG extends Applet implements KeyListener
 	}
 	public void DrawMap(Graphics g)
 	{	
-		checkx = 0;
-		checky = 0;
-		if(!showinventory)
-		switch(c.getPointer())
-		{
-			case 0:checky=1;break;
-			case 1:checkx=1;break;
-			case 2:checky=-1;break;
-			case 3:checkx=-1;break;
-		}
+		
 		for(int x=0; x<MAPWIDTH[maptracker];x++) {
 			for(int y=0; y<MAPHEIGHT[maptracker];y++) {
 				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],
-						   (startx-p.getX())*TILESIZE - checkx*TILESIZE/2 + x*TILESIZE,
-						   (starty-p.getY())*TILESIZE - checky*TILESIZE/2 + y*TILESIZE, this);
+						   (startx-p.getX())*TILESIZE + x*TILESIZE,
+						   (starty-p.getY())*TILESIZE + y*TILESIZE, this);
 			}
 		}
 		if (c.getPointer()==7)
@@ -281,56 +272,6 @@ public class RPG extends Applet implements KeyListener
 				
 			c.setPointer(5);
 			
-		}
-		if (c.getPointer()<3&&!showinventory)
-		{
-			System.out.println(firststep);
-			if(firststep==false)
-			{
-				g.drawImage(player1a,startx*TILESIZE,starty*TILESIZE, this);
-				firststep=true;
-				if(c.getPointer()==0) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(1);}
-				if(c.getPointer()==1) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(1);}
-				if(c.getPointer()==2) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(-1);}
-				
-			}
-			else{
-				g.drawImage(player1,startx*TILESIZE,starty*TILESIZE, this);
-				firststep=false;
-					if(c.getPointer()==0) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(1);}
-					if(c.getPointer()==1) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(1);}
-					if(c.getPointer()==2) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(-1);}
-				c.setPointer(5);
-				repaint();
-			}
-		}
-		else if (c.getPointer()==3&&!showinventory)
-		{
-			if(firststep==false)
-			{
-				g.drawImage(player2a,startx*TILESIZE,starty*TILESIZE, this);
-				firststep=true;
-				for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(-1);}
-			}
-			else{
-				g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);
-				firststep=false;
-				c.setPointer(6);
-				for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(-1);}
-				repaint();
-			}
-		}	
-		else if (c.getPointer()==5)
-		{
-			g.drawImage(player1,startx*TILESIZE,starty*TILESIZE, this);
-		}
-		else if (c.getPointer()==6)
-		{
-			g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);	
-		}
-		else
-		{
-			g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);	
 		}
 		//delay(20);
 		
@@ -365,8 +306,9 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
-			pSp.drawSprite(g);
 			pSp.setSpeed(50);
+			
+			pSp.start(false);
 			pSp.updateAnimationP(g, System.currentTimeMillis(), p.getFacing(), 3);
 			
 			for (int i = 0; i< NUMSPRITES; i++)
@@ -378,7 +320,7 @@ public class RPG extends Applet implements KeyListener
 				sp[i].updateAnimation(g, System.currentTimeMillis());
 				sp[i].allowMove(theMap[maptracker].getNeighbors(sp[i].getX(), sp[i].getY()));
 				}
-			if (maptracker==0)
+			if (maptracker==1)
 			sp[i].stop();
          	}
 			PlayerMenu(g);

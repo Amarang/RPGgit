@@ -33,6 +33,8 @@ class Sprite extends Applet
     private boolean u = true;
     private boolean d = true;
 	
+    private boolean loop = true;
+	
 	int xmove;
 	int ymove;
 	public Sprite() {
@@ -80,17 +82,18 @@ class Sprite extends Applet
 	
 	public void drawSprite(Graphics g) {
 		//System.out.println("S " + x + ", " + y);
-		g.drawImage(image,x*(TILESIZE)/2,y*(TILESIZE)/2, this);
+		g.drawImage(image,x*(TILESIZE),y*(TILESIZE), this);
 	}
 	
 	public void drawFrame(Graphics g, int frame) {
-		g.drawImage(frames[frame],x*(TILESIZE)/2,y*(TILESIZE)/2, this);
+		g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
 		try {
 		g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
 		} catch (Exception e) { System.out.println("tried to get frame " + frame); }
 	}
 	
 	public void start() { running = true; }
+	public void start(boolean loop) { running = true; this.loop = loop;}
 	public void stop() { running = false; }
 	
 	public void setSpeed(int msPerFrame) {
@@ -118,17 +121,19 @@ class Sprite extends Applet
 	
 	public void updateAnimationP(Graphics g, long time, int facing, int framesPerDirection) {
 		//update animation for player
-		//if(!loop) {
+		if(!loop) {
 			//drawFrame(g, currentFrame);
 			drawFrame(g, facing*framesPerDirection);
 			//so first 4 images must be cardinal directions (U R D L) (N E S W)
-		//}
+		}
 		
 		if(running) {
 
 			//System.out.println("drawing frame " + currentFrame);
-			drawFrame(g, facing*framesPerDirection+currentFrame%framesPerDirection+1);
-			System.out.println(facing*framesPerDirection+currentFrame%framesPerDirection+1);
+			drawFrame(g, facing*framesPerDirection+currentFrame%framesPerDirection);
+			
+			System.out.println(facing*framesPerDirection+currentFrame%framesPerDirection);
+			
 			if(previousTime == 0 || time - previousTime >= msPerFrame) {
 				
 				currentFrame++;
@@ -137,8 +142,7 @@ class Sprite extends Applet
 		}
 		if(currentFrame%framesPerDirection == framesPerDirection-1) {
 			currentFrame = facing*framesPerDirection;
-			//if(!loop)
-			stop();
+			if(!loop) stop();
 		}
 		
 	}
