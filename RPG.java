@@ -21,7 +21,7 @@ public class RPG extends Applet implements KeyListener
 	static int MAPWIDTH[] ={400,90};
 	static int MAPHEIGHT[] = {300,70};
 	static int TILETYPES = 14;
-	static int NUMSPRITES = 0;
+	static int NUMSPRITES = 1;
 	static int NUMITEMS = 6;
 	static int NUMICONS = 4;
 	static int NUMMONSTERS = 6;
@@ -169,11 +169,14 @@ public class RPG extends Applet implements KeyListener
         Image[] playerDirs = new Image[] {up, up1, up2, right, right1, right2, down, down1, down2, left, left1, left2};
 		
 		
-		pSp = new Sprite(playerDirs, p.getX(), p.getY(), TILESIZE);
+		pSp = new Sprite(playerDirs, p, TILESIZE);
 		
         for (int i = 0; i < NUMSPRITES; i++)
         {
 			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+10, rand.nextInt(10)+10,TILESIZE);
+			
+			sp[i].setSpeed(1000);
+			sp[i].start();
         }
 		 
         try { 
@@ -273,8 +276,6 @@ public class RPG extends Applet implements KeyListener
 			c.setPointer(5);
 			
 		}
-		//delay(20);
-		
 		repaint();			
 	}
 	public void PlayerMenu(Graphics g)
@@ -283,7 +284,6 @@ public class RPG extends Applet implements KeyListener
 		if (showinventory)
 		{
 			hud.drawInventory(g,c);
-			//hud.drawPane(g);
 		}
 	}
 	public void update(Graphics g) {
@@ -308,15 +308,13 @@ public class RPG extends Applet implements KeyListener
 			
 			pSp.setSpeed(40);
 			
-			pSp.updateAnimationP(g, System.currentTimeMillis(), p.getFacing(), 3);
+			pSp.updateAnimationP(g, System.currentTimeMillis());
 			
 			for (int i = 0; i< NUMSPRITES; i++)
          	{
 			if(sp[i].isReady()&&maptracker==0) {
-				sp[i].drawSprite(g);
-				sp[i].setSpeed(1000);
-				sp[i].start();
-				sp[i].updateAnimation(g, System.currentTimeMillis());
+				//sp[i].drawSprite(g);
+				sp[i].updateAnimationRand(g, System.currentTimeMillis(), p);
 				sp[i].allowMove(theMap[maptracker].getNeighbors(sp[i].getX(), sp[i].getY()));
 				}
 			if (maptracker==1)
@@ -373,7 +371,7 @@ public class RPG extends Applet implements KeyListener
 		
 			pSp.start();
 		
-		/*for (int i=0;i< NUMSPRITES;i++)
+		for (int i=0;i< NUMSPRITES;i++)
 		{
 			
 			System.out.println("S " + sp[i].getX() + ", " + sp[i].getY());
@@ -382,7 +380,7 @@ public class RPG extends Applet implements KeyListener
 			{
 				System.out.println("FACING SPRITE");
 			}
-		}	*/
+		}	
 		
 		if (rand.nextInt(1000) < BATTLEFREQUENCY * 10
 			&& !td.isBattleRestricted(currTile) && maptracker == 0)

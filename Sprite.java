@@ -26,7 +26,8 @@ class Sprite extends Applet
 	Random rand = new Random();
 	private long previousTime = 0;
 	private int msPerFrame = 100;
-	private static int FRAMESPERDIRECTION;
+	
+	private int framesPerDirection;
 	
 	private boolean l = true;
     private boolean r = true;
@@ -36,6 +37,8 @@ class Sprite extends Applet
     private boolean loop = true;
     private boolean resetIt = true;
     private int counter = 0;
+	
+	private Player p;
 	
 	int xmove;
 	int ymove;
@@ -67,6 +70,21 @@ class Sprite extends Applet
 		numFrames = images.length;
 		TILESIZE = TS;
 	}
+	
+	public Sprite(Image[] images, Player p, int TS) {
+		System.out.println("instantiated multi-image sprite");
+		isReady = true;
+		multiframe = true;
+		this.x = p.getX();
+		this.y = p.getY();
+		this.p = p;
+		originx=x;
+		originy=y;
+		this.frames = images;
+		numFrames = images.length;
+		framesPerDirection = numFrames / 4;
+		TILESIZE = TS;
+	}
 	public void addX (int d0) {x+=d0;}
 	public void addY (int d0) {y+=d0;}
 	public void setPos(int x, int y) { this.x = x; this.y = y; }
@@ -88,9 +106,21 @@ class Sprite extends Applet
 	}
 	
 	public void drawFrame(Graphics g, int frame) {
-		g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
+		//g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
 		try {
 		g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
+		} catch (Exception e) { System.out.println("tried to get frame " + frame); }
+	}
+	
+	public void drawFrame2(Graphics g, int frame, int px, int py) {
+		//g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
+		
+		int startx = 20;
+		int starty = 30;
+		try {
+		g.drawImage(frames[frame],
+				   (startx-px)*TILESIZE + x*TILESIZE,
+				   (starty-py)*TILESIZE + y*TILESIZE, this);
 		} catch (Exception e) { System.out.println("tried to get frame " + frame); }
 	}
 	
@@ -116,8 +146,10 @@ class Sprite extends Applet
 		}
 	}
 	
-	public void updateAnimationP(Graphics g, long time, int facing, int framesPerDirection) {
+	public void updateAnimationP(Graphics g, long time) {
 		//update animation for player
+		int facing = p.getFacing();
+		
 		drawFrame(g, facing*framesPerDirection);
 		//so first 4 images must be cardinal directions (U R D L) (N E S W)
 		if(running) {
@@ -132,10 +164,10 @@ class Sprite extends Applet
 		}
 	}
 	
-	public void updateAnimationRand(Graphics g, long time) {
+	public void updateAnimationRand(Graphics g, long time, Player p) {
 		if(running) {
 		
-			drawFrame(g, currentFrame);
+			drawFrame2(g, currentFrame, p.getX(), p.getY());
 			
 			
 			if(previousTime == 0 || time - previousTime >= msPerFrame) {
