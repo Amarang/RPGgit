@@ -306,7 +306,7 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
-			pSp.setSpeed(250);
+			pSp.setSpeed(40);
 			
 			pSp.updateAnimationP(g, System.currentTimeMillis(), p.getFacing(), 3);
 			

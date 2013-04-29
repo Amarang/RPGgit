@@ -34,6 +34,8 @@ class Sprite extends Applet
     private boolean d = true;
 	
     private boolean loop = true;
+    private boolean resetIt = true;
+    private int counter = 0;
 	
 	int xmove;
 	int ymove;
@@ -93,7 +95,7 @@ class Sprite extends Applet
 	}
 	
 	public void start() { running = true; }
-	public void start(boolean loop) { running = true; this.loop = loop;}
+	public void start(boolean loop) { running = true; this.loop = loop; this.counter = 0;}
 	public void stop() { this.running = false; }
 	
 	public void setSpeed(int msPerFrame) {
@@ -101,11 +103,6 @@ class Sprite extends Applet
 	}
 	
 	public void updateAnimation(Graphics g, long time) {
-		//time in milliseconds (System.currentTimeMillis() ?)
-		/*if(currentFrame == 0) {
-			previousTime = time;
-			currentFrame++;
-		}*/
 		if(running) {
 			drawFrame(g, currentFrame);
 			if(previousTime == 0 || time - previousTime >= msPerFrame) {
@@ -121,38 +118,18 @@ class Sprite extends Applet
 	
 	public void updateAnimationP(Graphics g, long time, int facing, int framesPerDirection) {
 		//update animation for player
-		if(!loop) {
-			//drawFrame(g, currentFrame);
-			drawFrame(g, facing*framesPerDirection);
-			//so first 4 images must be cardinal directions (U R D L) (N E S W)
-		}
-		
+		drawFrame(g, facing*framesPerDirection);
+		//so first 4 images must be cardinal directions (U R D L) (N E S W)
 		if(running) {
-
-			System.out.println("drawing frame " + currentFrame + "\tloop: " + loop);
-			drawFrame(g, facing*framesPerDirection+currentFrame%framesPerDirection);
-			
-			System.out.println(facing*framesPerDirection+currentFrame%framesPerDirection);
-			
+			drawFrame(g, facing*framesPerDirection+counter);
 			if(previousTime == 0 || time - previousTime >= msPerFrame) {
-				
-				currentFrame++;
+				counter++;
 				previousTime = time;
 			}
-		}
-		
-		if(currentFrame%framesPerDirection == framesPerDirection-1) {
-			System.out.println("reset at frame" + currentFrame%framesPerDirection);
-			
-			//drawFrame(g, facing*framesPerDirection+currentFrame%framesPerDirection);
-			currentFrame = facing*framesPerDirection;
-			if(!loop) {
+			if(counter == framesPerDirection) {
 				stop();
-				System.out.println("stopped; running: "+running);
 			}
-			
 		}
-		
 	}
 	
 	public void updateAnimationRand(Graphics g, long time) {
