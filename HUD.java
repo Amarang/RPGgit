@@ -33,6 +33,9 @@ class HUD extends Applet
 	
 	private boolean battleHUD = false;
 	
+	
+	private NPCData nd = new NPCData();
+	
     
     public HUD(Player p, Image[] icons) {
         this.p = p;
@@ -376,7 +379,9 @@ class HUD extends Applet
 		
 		//drawLabel(g, "Hello, my name is " + Integer.toString(sp.getID()), offsetx+26, offsety+ 0*thickness + 10, Color.BLACK);
 		
-		String str = "<html><h1>My name is " + Integer.toString(sp.getID()) + ".</h1><br>"
+		System.out.println("DFDF");
+		
+		String str = "<html><h1>My name is " + nd.getName(sp) + ".</h1><br>"
 				   + "I would like to talk to you today about how much text sucks.<br>"
 				   + "It would be nice if you could program by clicking and dragging<br>"
 				   + "instead of manually changing x and y coordinates and recompiling<br>"
