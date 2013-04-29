@@ -16,6 +16,7 @@ class Sprite extends Applet
 	private boolean multiframe = false;
 	private boolean isReady = false;
 	private boolean running = false;
+	private int ID = -1;
 	private int x, y;
 	private int originx, originy;
 	private Image image;
@@ -46,10 +47,11 @@ class Sprite extends Applet
 		isReady = false;
 	}
 	TileData td = new TileData();
-	public Sprite(Image image, int x, int y, int TS) {
+	public Sprite(Image image, int x, int y, int TS, int ID) {
 		System.out.println("instantiated single image sprite");
 		isReady = true;
 		multiframe = false;
+		this.ID = ID;
 		this.x = x;
 		this.y = y;
 		this.image = image;
@@ -58,10 +60,11 @@ class Sprite extends Applet
 		TILESIZE = TS;
 	}
 	
-	public Sprite(Image[] images, int x, int y, int TS) {
+	public Sprite(Image[] images, int x, int y, int TS, int ID) {
 		System.out.println("instantiated multi-image sprite");
 		isReady = true;
 		multiframe = true;
+		this.ID = ID;
 		this.x = x;
 		this.y = y;
 		originx=x;
@@ -87,9 +90,27 @@ class Sprite extends Applet
 	}
 	public void addX (int d0) {x+=d0;}
 	public void addY (int d0) {y+=d0;}
+	public int getID() { return ID; }
+	public void setID(int ID) { this.ID = ID; }
 	public void setPos(int x, int y) { this.x = x; this.y = y; }
 	public int getX() { return x; }
-	public int getY() { return y; }
+	/////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////
+	///////////Y SEEMS TO BE SHIFTED DOWN BY 15//////////////////
+	///////////SO I MANUALLY ADDED 15 HERE///////////////////////
+	/////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////
+	//////////////////////vvvvvvv////////////////////////////////
+	/////////////////////////////////////////////////////////////
+	public int getY() { return y+15; }
+	//////////////////////^^^^^^^////////////////////////////////
+	/////////////////////////////////////////////////////////////
+	///////////Y SEEMS TO BE SHIFTED DOWN BY 15//////////////////
+	///////////SO I MANUALLY ADDED 15 HERE///////////////////////
+	/////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////
 	public void resetOrigin() { originx=x; originy=y; }
 	public void reset() { x=originx; y=originy;}
 	

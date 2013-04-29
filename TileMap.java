@@ -78,12 +78,12 @@ class TileMap
 	}
 	
 	public int[] getFacingCoords(int x, int y, int facing) {
-		int[] coords = {-1, -1};
+		int[] coords = {x, y};
 		switch(facing) {
-			case 0: coords[0] = x+1; break;
-			case 1: coords[1] = y+1; break;
-			case 2: coords[0] = x-1; break;
-			case 3: coords[1] = y-1; break;
+			case 0: coords[1] = (y == 0) ? -1 : y-1; break;
+			case 1: coords[0] = (x == MAPWIDTH-1) ? -1 : x+1; break;
+			case 2: coords[1] = (y == MAPHEIGHT-1) ? -1 : y+1; break;
+			case 3: coords[0] = (x == 0) ? -1 : x-1; break;
 		}
 		return coords;
 	}

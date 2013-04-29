@@ -21,7 +21,7 @@ public class RPG extends Applet implements KeyListener
 	static int MAPWIDTH[] ={400,90};
 	static int MAPHEIGHT[] = {300,70};
 	static int TILETYPES = 14;
-	static int NUMSPRITES = 1;
+	static int NUMSPRITES = 3;
 	static int NUMITEMS = 6;
 	static int NUMICONS = 4;
 	static int NUMMONSTERS = 6;
@@ -173,8 +173,9 @@ public class RPG extends Applet implements KeyListener
 		
         for (int i = 0; i < NUMSPRITES; i++)
         {
-			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+10, rand.nextInt(10)+10,TILESIZE);
-			
+			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+10, rand.nextInt(10)+10, TILESIZE, i);
+			// i at the end is the sprite ID, so we can later identify which sprite is which
+			// useful if we have different NPC types
 			sp[i].setSpeed(1000);
 			sp[i].start();
         }
@@ -374,11 +375,15 @@ public class RPG extends Applet implements KeyListener
 		for (int i=0;i< NUMSPRITES;i++)
 		{
 			
-			System.out.println("S " + sp[i].getX() + ", " + sp[i].getY());
-			if(Math.abs(sp[i].getX()-facingCoords[0]) <= 1
-			&& Math.abs(sp[i].getY()-facingCoords[1]) <= 1)
+			//System.out.println("S " + sp[i].getX() + ", " + sp[i].getY());
+			//System.out.println("Pfacing" + facingCoords[0] + ", " + facingCoords[1]);
+			
+			if( (sp[i].getX() == facingCoords[0]
+			 &&  sp[i].getY() == facingCoords[1])
+			 || (sp[i].getX() == p.getX())
+			 &&  sp[i].getY() == p.getY() )
 			{
-				System.out.println("FACING SPRITE");
+				System.out.println("NEAR SPRITE id = " + sp[i].getID());
 			}
 		}	
 		
