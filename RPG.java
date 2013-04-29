@@ -21,7 +21,7 @@ public class RPG extends Applet implements KeyListener
 	static int MAPWIDTH[] ={400,90};
 	static int MAPHEIGHT[] = {300,70};
 	static int TILETYPES = 14;
-	static int NUMSPRITES = 3;
+	static int NUMSPRITES = 5;
 	static int NUMITEMS = 6;
 	static int NUMICONS = 4;
 	static int NUMMONSTERS = 6;
@@ -173,10 +173,10 @@ public class RPG extends Applet implements KeyListener
 		
         for (int i = 0; i < NUMSPRITES; i++)
         {
-			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+10, rand.nextInt(10)+10, TILESIZE, i);
+			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+3, rand.nextInt(10)+3, TILESIZE, i);
 			// i at the end is the sprite ID, so we can later identify which sprite is which
 			// useful if we have different NPC types
-			sp[i].setSpeed(1000);
+			sp[i].setSpeed(900+rand.nextInt(700));
 			sp[i].start();
         }
 		 
@@ -313,13 +313,13 @@ public class RPG extends Applet implements KeyListener
 			
 			for (int i = 0; i< NUMSPRITES; i++)
          	{
-			if(sp[i].isReady()&&maptracker==0) {
-				//sp[i].drawSprite(g);
-				sp[i].updateAnimationRand(g, System.currentTimeMillis(), p);
-				sp[i].allowMove(theMap[maptracker].getNeighbors(sp[i].getX(), sp[i].getY()));
+				///sprites in town, spritesintown
+				if(sp[i].isReady()&&maptracker==1) {
+					sp[i].updateAnimationRand(g, System.currentTimeMillis(), p);
+					sp[i].allowMove(theMap[maptracker].getNeighbors(sp[i].getX(), sp[i].getY()));
 				}
-			if (maptracker==1)
-			sp[i].stop();
+				//if (maptracker==0)
+				//sp[i].stop();
          	}
 			PlayerMenu(g);
 		}

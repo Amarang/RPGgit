@@ -14,7 +14,7 @@ import javax.sound.sampled.*;
 class Battle extends Applet//extends RPG
 {
 
-	private static int NUMSPRITES = 3;
+	private static int NUMSPRITES = 5;
 	
 	private SoundClip hit;
 	private Graphics g;
