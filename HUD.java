@@ -379,7 +379,7 @@ class HUD extends Applet
 		
 		//drawLabel(g, "Hello, my name is " + Integer.toString(sp.getID()), offsetx+26, offsety+ 0*thickness + 10, Color.BLACK);
 		
-		System.out.println("DFDF");
+		//System.out.println("DFDF");
 		
 		String str = "<html><h1>My name is " + nd.getName(sp) + ".</h1><br>"
 				   + "I would like to talk to you today about how much text sucks.<br>"

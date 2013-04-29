@@ -33,7 +33,7 @@ class NPCData
 	
 	public String getName(Sprite sp) {
 		//soundMap.get(tileID) != null
-		System.out.println(sp.getID());
+		//System.out.println(sp.getID());
 		return NPCMap.get(sp.getID());
 	}
 

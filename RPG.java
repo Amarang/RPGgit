@@ -67,6 +67,7 @@ public class RPG extends Applet implements KeyListener
 	Image up, left, down, right;
 	Image up1, left1, down1, right1;
 	Image up2, left2, down2, right2;
+	Image u,u1,u2,u3,u4, l,l1,l2,l3,l4, d,d1,d2,d3,d4, r,r1,r2,r3,r4;
 	
 	
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman");
@@ -167,7 +168,30 @@ public class RPG extends Applet implements KeyListener
 		left2 = getImage(base,"images/entities/playertest/left2.png");
 		down2 = getImage(base,"images/entities/playertest/down2.png");
 		right2 = getImage(base,"images/entities/playertest/right2.png");
-        Image[] playerDirs = new Image[] {up, up1, up2, right, right1, right2, down, down1, down2, left, left1, left2};
+		
+		u = getImage(base,"images/entities/playertestb/u.png");
+		l = getImage(base,"images/entities/playertestb/l.png");
+		d = getImage(base,"images/entities/playertestb/d.png");
+		r = getImage(base,"images/entities/playertestb/r.png");
+		u1 = getImage(base,"images/entities/playertestb/u1.png");
+		l1 = getImage(base,"images/entities/playertestb/l1.png");
+		d1 = getImage(base,"images/entities/playertestb/d1.png");
+		r1 = getImage(base,"images/entities/playertestb/r1.png");
+		u2 = getImage(base,"images/entities/playertestb/u2.png");
+		l2 = getImage(base,"images/entities/playertestb/l2.png");
+		d2 = getImage(base,"images/entities/playertestb/d2.png");
+		r2 = getImage(base,"images/entities/playertestb/r2.png");
+		u3 = getImage(base,"images/entities/playertestb/u3.png");
+		l3 = getImage(base,"images/entities/playertestb/l3.png");
+		d3 = getImage(base,"images/entities/playertestb/d3.png");
+		r3 = getImage(base,"images/entities/playertestb/r3.png");
+		u4 = getImage(base,"images/entities/playertestb/u4.png");
+		l4 = getImage(base,"images/entities/playertestb/l4.png");
+		d4 = getImage(base,"images/entities/playertestb/d4.png");
+		r4 = getImage(base,"images/entities/playertestb/r4.png");
+        Image[] playerDirs = new Image[] {u,u1,u2,u3,u4, r,r1,r2,r3,r4, d,d1,d2,d3,d4, l,l1,l2,l3,l4};
+		
+		//u = getImage(base,"images/entities/playertest/up.png");
 		
 		
 		pSp = new Sprite(playerDirs, p, TILESIZE);
@@ -312,7 +336,7 @@ public class RPG extends Applet implements KeyListener
 			DrawMap(g);	
 			
 			
-		hud.drawInteractionPane(g,sp[0]);
+		//hud.drawInteractionPane(g,sp[0]);
 			
 			
 			pSp.setSpeed(40);
