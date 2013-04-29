@@ -32,8 +32,6 @@ class Sprite extends Applet
     private boolean u = true;
     private boolean d = true;
 	
-    private boolean loop;
-	
 	int xmove;
 	int ymove;
 	public Sprite() {
@@ -81,15 +79,14 @@ class Sprite extends Applet
 	
 	public void drawSprite(Graphics g) {
 		//System.out.println("S " + x + ", " + y);
-		g.drawImage(image,x*(TILESIZE),y*(TILESIZE), this);
+		g.drawImage(image,x*(TILESIZE)/2,y*(TILESIZE)/2, this);
 	}
 	
 	public void drawFrame(Graphics g, int frame) {
-		g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
+		g.drawImage(frames[frame],x*(TILESIZE)/2,y*(TILESIZE)/2, this);
 	}
 	
 	public void start() { running = true; }
-	public void start(boolean loop) { running = true; this.loop = loop; }
 	public void stop() { running = false; }
 	
 	public void setSpeed(int msPerFrame) {
@@ -97,25 +94,6 @@ class Sprite extends Applet
 	}
 	
 	public void updateAnimation(Graphics g, long time) {
-
-		if(running) {
-
-			//System.out.println("drawing frame " + currentFrame);
-			drawFrame(g, currentFrame);
-			if(previousTime == 0 || time - previousTime >= msPerFrame) {
-				
-				if((currentFrame == numFrames-1) && loop) {
-				currentFrame++;
-				}
-				previousTime = time;
-			}
-		}
-		
-		if(loop) {
-			if(currentFrame == numFrames) currentFrame = 0;
-		}
-	}
-	public void updateAnimationRand(Graphics g, long time) {
 		//time in milliseconds (System.currentTimeMillis() ?)
 		/*if(currentFrame == 0) {
 			previousTime = time;
@@ -148,7 +126,6 @@ class Sprite extends Applet
 		}
 		if(currentFrame == numFrames) currentFrame = 0;
 	}
-	
 	public void moveLeft() { if(canMoveLeft()) x--; }
     public void moveRight() { if(canMoveRight()) x++; }
     public void moveUp() { if(canMoveUp()) y--; }
