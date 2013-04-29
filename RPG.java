@@ -160,20 +160,7 @@ public class RPG extends Applet implements KeyListener
 		player1a = getImage(base,"images/entities/player/player1a.png");
 		player2a = getImage(base,"images/entities/player/player2a.png");
         Image[] playerImgs = new Image[] {player, player1, player2, player1a, player2a};
-		
-		up = getImage(base,"images/entities/playertest/up.png");
-		left = getImage(base,"images/entities/playertest/left.png");
-		down = getImage(base,"images/entities/playertest/down.png");
-		right = getImage(base,"images/entities/playertest/right.png");
-		up1 = getImage(base,"images/entities/playertest/up1.png");
-		left1 = getImage(base,"images/entities/playertest/left1.png");
-		down1 = getImage(base,"images/entities/playertest/down1.png");
-		right1 = getImage(base,"images/entities/playertest/right1.png");
-		up2 = getImage(base,"images/entities/playertest/up2.png");
-		left2 = getImage(base,"images/entities/playertest/left2.png");
-		down2 = getImage(base,"images/entities/playertest/down2.png");
-		right2 = getImage(base,"images/entities/playertest/right2.png");
-		
+				
 		u = getImage(base,"images/entities/playertestb/u.png");
 		l = getImage(base,"images/entities/playertestb/l.png");
 		d = getImage(base,"images/entities/playertestb/d.png");
@@ -195,9 +182,7 @@ public class RPG extends Applet implements KeyListener
 		d4 = getImage(base,"images/entities/playertestb/d4.png");
 		r4 = getImage(base,"images/entities/playertestb/r4.png");
         Image[] playerDirs = new Image[] {u,u1,u2,u3,u4, r,r1,r2,r3,r4, d,d1,d2,d3,d4, l,l1,l2,l3,l4};
-		
-		//u = getImage(base,"images/entities/playertest/up.png");
-		
+				
 		
 		pSp = new Sprite(playerDirs, p, TILESIZE);
 		
@@ -223,63 +208,55 @@ public class RPG extends Applet implements KeyListener
 	}
 	
 	
-	
-	
-	
   	public void keyPressed(KeyEvent evt) 
 	{
 		int key=0; key = evt.getKeyCode(); 
 		if (oktomove)
 		{
-		if(key==KeyEvent.VK_A)
-		{
-			released = false;
-			c.setPointer(1);
-			if (!battle&&!showinventory)
-				step('l');
-			oktomove=false;
-		}
-		if(key==KeyEvent.VK_S)
-		{
-			released = false;
-			c.setPointer(2);
-			if (!battle&&!showinventory)
-				step('d');
-			oktomove=false;
-		}
-		if(key==KeyEvent.VK_D)
-		{
-			released = false;
-			c.setPointer(3);
-			if (!battle&&!showinventory)
-				step('r');
-			oktomove=false;
-		}
-		if(key==KeyEvent.VK_W)
-		{
-			released = false;
-			c.setPointer(0);
-			if (!battle&&!showinventory)
-				step('u');
-			oktomove=false;
-		}
-		/*if(key==KeyEvent.VK_SPACE)
-		{
-			c.setPointer(10);
-		}*/
-		if(key==KeyEvent.VK_ENTER)
-		{
-			c.setPointer(7);
-			key_enter=true;
-		}
+			if(key==KeyEvent.VK_A)
+			{
+				released = false;
+				c.setPointer(1);
+				if (!battle&&!showinventory) step('l');
+				oktomove=false;
+			}
+			if(key==KeyEvent.VK_S)
+			{
+				released = false;
+				c.setPointer(2);
+				if (!battle&&!showinventory) step('d');
+				oktomove=false;
+			}
+			if(key==KeyEvent.VK_D)
+			{
+				released = false;
+				c.setPointer(3);
+				if (!battle&&!showinventory) step('r');
+				oktomove=false;
+			}
+			if(key==KeyEvent.VK_W)
+			{
+				released = false;
+				c.setPointer(0);
+				if (!battle&&!showinventory) step('u');
+				oktomove=false;
+			}
+			/*if(key==KeyEvent.VK_SPACE)
+			{
+				c.setPointer(10);
+			}*/
+			if(key==KeyEvent.VK_ENTER)
+			{
+				c.setPointer(7);
+				key_enter=true;
+			}
 		}
 	}
-	public class WaitThread extends Thread { //create thread class
 	
+	public class WaitThread extends Thread { //create thread class
 		WaitThread() {//bring in arguments for the thread to use	
 		}
 		public void run() { //executes when thread is called
-			
 			while(true)
 			{
 				delay(WALKINGDELAY);
@@ -288,6 +265,7 @@ public class RPG extends Applet implements KeyListener
 			}	
 		}
 	}
+	
 	public void DrawMap(Graphics g)
 	{	
 		
@@ -302,10 +280,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			if(showinventory) showinventory=false;
 			else showinventory=true;	
-				
-				
 			c.setPointer(5);
-			
 		}
 		
 		if (c.getPointer()==11)
