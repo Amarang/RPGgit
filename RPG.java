@@ -371,7 +371,7 @@ public class RPG extends Applet implements KeyListener
 		//System.out.println("facing " + p.getFacing());
 		//System.out.println("facetile " + facingTile);
 		
-			pSp.start(false); // loop = false;
+			pSp.start();
 		
 		/*for (int i=0;i< NUMSPRITES;i++)
 		{

@@ -94,8 +94,8 @@ class Sprite extends Applet
 		} catch (Exception e) { System.out.println("tried to get frame " + frame); }
 	}
 	
-	public void start() { running = true; }
-	public void start(boolean loop) { running = true; this.loop = loop; this.counter = 0;}
+	//public void start() { running = true; }
+	public void start() { running = true; this.counter = 0;}
 	public void stop() { this.running = false; }
 	
 	public void setSpeed(int msPerFrame) {
