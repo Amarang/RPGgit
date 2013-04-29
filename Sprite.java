@@ -123,11 +123,11 @@ class Sprite extends Applet
 		//update animation for player
 		if(!loop) {
 			//drawFrame(g, currentFrame);
-		//	drawFrame(g, facing*framesPerDirection);
+			drawFrame(g, facing*framesPerDirection);
 			//so first 4 images must be cardinal directions (U R D L) (N E S W)
 		}
 		
-		if(this.running) {
+		if(running) {
 
 			System.out.println("drawing frame " + currentFrame + "\tloop: " + loop);
 			drawFrame(g, facing*framesPerDirection+currentFrame%framesPerDirection);
@@ -140,9 +140,17 @@ class Sprite extends Applet
 				previousTime = time;
 			}
 		}
+		
 		if(currentFrame%framesPerDirection == framesPerDirection-1) {
+			System.out.println("reset at frame" + currentFrame%framesPerDirection);
+			
+			//drawFrame(g, facing*framesPerDirection+currentFrame%framesPerDirection);
 			currentFrame = facing*framesPerDirection;
-			if(!loop) stop();
+			if(!loop) {
+				stop();
+				System.out.println("stopped; running: "+running);
+			}
+			
 		}
 		
 	}

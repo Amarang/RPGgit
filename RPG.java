@@ -308,7 +308,6 @@ public class RPG extends Applet implements KeyListener
 			
 			pSp.setSpeed(250);
 			
-			pSp.start(false); // loop = false;
 			pSp.updateAnimationP(g, System.currentTimeMillis(), p.getFacing(), 3);
 			
 			for (int i = 0; i< NUMSPRITES; i++)
@@ -372,6 +371,7 @@ public class RPG extends Applet implements KeyListener
 		//System.out.println("facing " + p.getFacing());
 		//System.out.println("facetile " + facingTile);
 		
+			pSp.start(false); // loop = false;
 		
 		/*for (int i=0;i< NUMSPRITES;i++)
 		{
