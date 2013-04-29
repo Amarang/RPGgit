@@ -98,7 +98,7 @@ class HUD extends Applet
 				g.drawString(inventory[i].getName(),650,40+20*i);
 				drawIcon(g, inventory[i].getIcon(), 620, 25+20*i);
 				
-				if(!(inventory[selectedItem] == null))
+				if(selectedItem<inventory.length&&!(inventory[selectedItem] == null))
 					drawItemPane(g, inventory[selectedItem]);
 			}
 			
