@@ -65,11 +65,14 @@ public class RPG extends Applet implements KeyListener
 	Image player2a;
 	
 	
+	
+	
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman");
 	Monster m;
 	Battle b;
 	HUD hud;
 	Sprite[] sp= new Sprite[NUMSPRITES];
+	Sprite pSp;
 	Item[] item= new Item[NUMITEMS];
 	Pointer c = new Pointer(0);
 
@@ -152,7 +155,7 @@ public class RPG extends Applet implements KeyListener
         {
 			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+10, rand.nextInt(10)+10,TILESIZE);
         }
-		 
+		pSp = new Sprite(playerImgs, p.getX(), p.getY(), TILESIZE);
 		 
         try { 
               mt.waitForAll(); 
@@ -234,21 +237,21 @@ public class RPG extends Applet implements KeyListener
 	}
 	public void DrawMap(Graphics g)
 	{	
-		checkx = 0;
-		checky = 0;
+		//checkx = 0;
+		//checky = 0;
 		if(!showinventory)
-		switch(c.getPointer())
+		/*switch(c.getPointer())
 		{
-			case 0:checky=1;break;
-			case 1:checkx=1;break;
-			case 2:checky=-1;break;
-			case 3:checkx=-1;break;
-		}
+			case 0:System.out.println("up");break;
+			case 1:System.out.println("left");break;
+			case 2:System.out.println("down");break;
+			case 3:System.out.println("right");break;
+		}*/
 		for(int x=0; x<MAPWIDTH[maptracker];x++) {
 			for(int y=0; y<MAPHEIGHT[maptracker];y++) {
 				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],
-						   (startx-p.getX())*TILESIZE - checkx*TILESIZE/2 + x*TILESIZE,
-						   (starty-p.getY())*TILESIZE - checky*TILESIZE/2 + y*TILESIZE, this);
+						   (startx-p.getX())*TILESIZE + x*TILESIZE,
+						   (starty-p.getY())*TILESIZE + y*TILESIZE, this);
 			}
 		}
 		if (c.getPointer()==7)
@@ -256,60 +259,11 @@ public class RPG extends Applet implements KeyListener
 			if(showinventory) showinventory=false;
 			else showinventory=true;	
 				
-				
-			c.setPointer(5);
 			
 		}
-		if (c.getPointer()<3&&!showinventory)
-		{
-			System.out.println(firststep);
-			if(firststep==false)
-			{
-				g.drawImage(player1a,startx*TILESIZE,starty*TILESIZE, this);
-				firststep=true;
-				if(c.getPointer()==0) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(1);}
-				if(c.getPointer()==1) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(1);}
-				if(c.getPointer()==2) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(-1);}
+		
+		//g.drawImage(player,startx*TILESIZE,starty*TILESIZE, this);
 				
-			}
-			else{
-				g.drawImage(player1,startx*TILESIZE,starty*TILESIZE, this);
-				firststep=false;
-					if(c.getPointer()==0) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(1);}
-					if(c.getPointer()==1) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(1);}
-					if(c.getPointer()==2) for (int i = 0; i< NUMSPRITES; i++) {sp[i].addY(-1);}
-				c.setPointer(5);
-				repaint();
-			}
-		}
-		else if (c.getPointer()==3&&!showinventory)
-		{
-			if(firststep==false)
-			{
-				g.drawImage(player2a,startx*TILESIZE,starty*TILESIZE, this);
-				firststep=true;
-				for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(-1);}
-			}
-			else{
-				g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);
-				firststep=false;
-				c.setPointer(6);
-				for (int i = 0; i< NUMSPRITES; i++) {sp[i].addX(-1);}
-				repaint();
-			}
-		}	
-		else if (c.getPointer()==5)
-		{
-			g.drawImage(player1,startx*TILESIZE,starty*TILESIZE, this);
-		}
-		else if (c.getPointer()==6)
-		{
-			g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);	
-		}
-		else
-		{
-			g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);	
-		}
 		//delay(20);
 		
 		repaint();			
@@ -341,8 +295,11 @@ public class RPG extends Applet implements KeyListener
 		if(!battle)
 		{
 			p.setBattleCondition(false);
+			
 			DrawMap(g);	
 			
+			pSp.drawSprite(g);
+			pSp.updateAnimation(g, System.currentTimeMillis());
 			
 			for (int i = 0; i< NUMSPRITES; i++)
          	{
@@ -392,6 +349,8 @@ public class RPG extends Applet implements KeyListener
 			case 'u': p.moveUp(); break;
 			case 'd': p.moveDown(); break;
 		}
+		
+		pSp.start(false);
 		
 		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
 		int facingTile = theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing());
