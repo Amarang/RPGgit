@@ -77,7 +77,7 @@ public class RPG extends Applet implements KeyListener
 	Sprite pSp;
 	Item[] item= new Item[NUMITEMS];
 	Pointer c = new Pointer(0);
-
+	
 	Random rand = new Random(); 
  	Font title = new Font("DialogInput",Font.BOLD,20);	
 	
@@ -97,6 +97,7 @@ public class RPG extends Applet implements KeyListener
 	boolean firststep = false;
 	boolean oktomove = true;
 	boolean showinventory=false;
+
 	 
 	public static void main(String[] args) { } 
 	
@@ -277,6 +278,7 @@ public class RPG extends Applet implements KeyListener
 			c.setPointer(5);
 			
 		}
+		
 		repaint();			
 	}
 	public void PlayerMenu(Graphics g)
@@ -287,6 +289,7 @@ public class RPG extends Applet implements KeyListener
 			hud.drawInventory(g,c);
 		}
 	}
+	
 	public void update(Graphics g) {
 		Graphics offgc;
 		Image offscreen = null;
@@ -302,10 +305,15 @@ public class RPG extends Applet implements KeyListener
 	
 	public void paint(Graphics g)
 	{	
+	
 		if(!battle)
 		{
 			p.setBattleCondition(false);
 			DrawMap(g);	
+			
+			
+		hud.drawInteractionPane(g,sp[0]);
+			
 			
 			pSp.setSpeed(40);
 			
@@ -321,7 +329,9 @@ public class RPG extends Applet implements KeyListener
 				//if (maptracker==0)
 				//sp[i].stop();
          	}
+			
 			PlayerMenu(g);
+			
 		}
 		
 		else if (battle)
@@ -433,18 +443,19 @@ public class RPG extends Applet implements KeyListener
 	}
 
 	public void keyReleased(KeyEvent evt)	
-		{
+	{
 		int key=0; key = evt.getKeyCode(); 
 		if (battle)
 		oktomove=true;
 		repaint();
 		if(key==KeyEvent.VK_SPACE)
-			{
+		{
 			key_space=true;
 			if (!battle)
 			c.setPointer(10);
-			}	
-		} 	
+		}
+	} 	
+	
     public void keyTyped(KeyEvent evt)		{
 			int key=0; key = evt.getKeyCode(); 
 			if(key==KeyEvent.VK_ENTER)

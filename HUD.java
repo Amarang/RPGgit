@@ -10,6 +10,9 @@ import java.util.Random;
 import java.awt.event.*;
 import java.lang.Math;
 import javax.sound.sampled.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import javax.swing.*;
 
 class HUD extends Applet
 {
@@ -211,6 +214,45 @@ class HUD extends Applet
 		g.setColor(temp);
 	}
 	
+	public void drawTextInBox(Graphics g, String str, int xOffset, int yOffset, int width, int height) {
+	
+		/*String title = "<html><body style='width: 200px; padding: 5px;'>"
+                + "<h1>Do U C Me?</h1>"
+                + "Here is a long string that will wrap.  "
+                + "The effect we want is a multi-line label.";*/
+		Font f = g.getFont();
+
+		JLabel textLabel = new JLabel(str);
+		textLabel.setFont(f);
+		textLabel.setSize(textLabel.getPreferredSize());
+
+		//Dimension d = textLabel.getPreferredSize();
+
+		BufferedImage bi = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+
+		Graphics g0 = bi.createGraphics();
+		g0.setColor(Color.BLACK);
+		//g0.setFont(f);
+		textLabel.paint(g0);
+					
+		g.drawImage(bi, xOffset, yOffset, this);
+	
+		//Font f = new Font("Arial", Font.PLAIN, 20);
+            //g.setFont(f);
+			/*Font f = g.getFont();
+			int textHeight = 20;
+            FontMetrics fm = g.getFontMetrics();
+            double shrink = ((double)textHeight / (double)fm.getHeight());
+            double newSize = (double)textHeight * shrink;
+            double newAsc  = (double)fm.getAscent() * shrink;
+            int dy = (int)newAsc - fm.getLeading();
+            f = f.deriveFont((float)newSize);
+            g.setFont(f);
+
+            g.drawString(str, xOffset, yOffset + dy);*/
+	
+	}
+	
 	public void battleDraw(Graphics g) {
 		Color temp = g.getColor();
 	
@@ -306,17 +348,47 @@ class HUD extends Applet
 		drawLabelIntComp(g, "Speed: ", i.getSpeed(), spdComp, compOffset, offsetx, offsety+ 4*thickness + 10, Color.BLACK);
 		//drawLabelInt(g, "Dmg: ", i.getDamage(), offsetx, offsety+ 4*thickness + 10, Color.BLACK);
 		drawIcon(g,3, length-paddingx-20,offsety);
-		
-		//public int getHealthMax() { return healthmax; }
-		/*public int getHealth() { return health; }
-    //public int getMana() { return mana; }
-    public int getStrength() { return strength; }
-    //public int getSpeed() { return speed; }
-    public int getDefense() { return defense; }
-    public int getDamage() { return damage; }
-    public int getIcon() { return icon; }
-    public String getName() { return names[itemid]; }*/
     
+		
+		g.setColor(temp);
+	}
+	
+	public void drawInteractionPane(Graphics g, Sprite sp) {
+		Color temp = g.getColor();
+		int paddingx = 5;
+		int paddingy = 5;
+		int offsetx = 15; // dist from left of screen
+		int offsety = 600-160+paddingy*3; // dist from top of screen
+		int length = 800-paddingx*2;
+		int height = 160-paddingy*2;
+		int col2Offset = length/2; // x distance between two main (inventory and equip) columns
+		int compOffset = 150; // x distance between column and comparison strings
+		int thickness = 20;
+		
+		g.setColor(Color.BLACK);
+		g.drawRect(800-length-paddingx-1, 600-height-paddingy-1, length+1, height+1);
+		
+		g.setColor(Color.WHITE);
+		g.fillRect(800-length-paddingx, 600-height-paddingy, length, height);
+		
+		g.setColor(Color.BLACK);
+		
+		
+		//drawLabel(g, "Hello, my name is " + Integer.toString(sp.getID()), offsetx+26, offsety+ 0*thickness + 10, Color.BLACK);
+		
+		String str = "<html><h1>My name is " + Integer.toString(sp.getID()) + ".</h1><br>"
+				   + "I would like to talk to you today about how much text sucks.<br>"
+				   + "It would be nice if you could program by clicking and dragging<br>"
+				   + "instead of manually changing x and y coordinates and recompiling<br>"
+				   + "over and over again. Also, fonts suck.";
+		
+		drawTextInBox(g, str, offsetx, offsety, length/2, height); 
+		//g.drawLine(length/2, 600-height-paddingy, length/2, 600-paddingy);
+		
+		
+
+        
+					
 		
 		g.setColor(temp);
 	}
