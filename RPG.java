@@ -64,12 +64,17 @@ public class RPG extends Applet implements KeyListener
 	Image player1a;
 	Image player2a;
 	
+	Image up, left, down, right;
+	Image up1, left1, down1, right1;
+	Image up2, left2, down2, right2;
+	
 	
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman");
 	Monster m;
 	Battle b;
 	HUD hud;
 	Sprite[] sp= new Sprite[NUMSPRITES];
+	Sprite pSp;
 	Item[] item= new Item[NUMITEMS];
 	Pointer c = new Pointer(0);
 
@@ -148,11 +153,28 @@ public class RPG extends Applet implements KeyListener
 		player1a = getImage(base,"images/entities/player/player1a.png");
 		player2a = getImage(base,"images/entities/player/player2a.png");
         Image[] playerImgs = new Image[] {player, player1, player2, player1a, player2a};
+		
+		up = getImage(base,"images/entities/playertest/up.png");
+		left = getImage(base,"images/entities/playertest/left.png");
+		down = getImage(base,"images/entities/playertest/down.png");
+		right = getImage(base,"images/entities/playertest/right.png");
+		up1 = getImage(base,"images/entities/playertest/up1.png");
+		left1 = getImage(base,"images/entities/playertest/left1.png");
+		down1 = getImage(base,"images/entities/playertest/down1.png");
+		right1 = getImage(base,"images/entities/playertest/right1.png");
+		up2 = getImage(base,"images/entities/playertest/up2.png");
+		left2 = getImage(base,"images/entities/playertest/left2.png");
+		down2 = getImage(base,"images/entities/playertest/down2.png");
+		right2 = getImage(base,"images/entities/playertest/right2.png");
+        Image[] playerDirs = new Image[] {up, up1, up2, right, right1, right2, down, down1, down2, left, left1, left2};
+		
+		
+		pSp = new Sprite(playerDirs, p.getX(), p.getY(), TILESIZE);
+		
         for (int i = 0; i < NUMSPRITES; i++)
         {
 			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+10, rand.nextInt(10)+10,TILESIZE);
         }
-		 
 		 
         try { 
               mt.waitForAll(); 
@@ -343,6 +365,9 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
+			pSp.drawSprite(g);
+			pSp.setSpeed(50);
+			pSp.updateAnimationP(g, System.currentTimeMillis(), p.getFacing(), 3);
 			
 			for (int i = 0; i< NUMSPRITES; i++)
          	{
@@ -351,7 +376,7 @@ public class RPG extends Applet implements KeyListener
 				sp[i].setSpeed(1000);
 				sp[i].start();
 				sp[i].updateAnimation(g, System.currentTimeMillis());
-				sp[i].allowMove(theMap[maptracker].getNeighbors(p.getX(), p.getY()));
+				sp[i].allowMove(theMap[maptracker].getNeighbors(sp[i].getX(), sp[i].getY()));
 				}
 			if (maptracker==0)
 			sp[i].stop();

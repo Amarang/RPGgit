@@ -26,6 +26,7 @@ class Sprite extends Applet
 	Random rand = new Random();
 	private long previousTime = 0;
 	private int msPerFrame = 100;
+	private static int FRAMESPERDIRECTION;
 	
 	private boolean l = true;
     private boolean r = true;
@@ -84,6 +85,9 @@ class Sprite extends Applet
 	
 	public void drawFrame(Graphics g, int frame) {
 		g.drawImage(frames[frame],x*(TILESIZE)/2,y*(TILESIZE)/2, this);
+		try {
+		g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
+		} catch (Exception e) { System.out.println("tried to get frame " + frame); }
 	}
 	
 	public void start() { running = true; }
@@ -99,11 +103,49 @@ class Sprite extends Applet
 			previousTime = time;
 			currentFrame++;
 		}*/
-		
+		if(running) {
+			drawFrame(g, currentFrame);
+			if(previousTime == 0 || time - previousTime >= msPerFrame) {
+				
+				currentFrame++;
+				previousTime = time;
+			}
+		}
+		if(currentFrame == numFrames) {
+			currentFrame = 0;
+		}
+	}
+	
+	public void updateAnimationP(Graphics g, long time, int facing, int framesPerDirection) {
+		//update animation for player
+		//if(!loop) {
+			//drawFrame(g, currentFrame);
+			drawFrame(g, facing*framesPerDirection);
+			//so first 4 images must be cardinal directions (U R D L) (N E S W)
+		//}
 		
 		if(running) {
+
+			//System.out.println("drawing frame " + currentFrame);
+			drawFrame(g, facing*framesPerDirection+currentFrame%framesPerDirection+1);
+			System.out.println(facing*framesPerDirection+currentFrame%framesPerDirection+1);
+			if(previousTime == 0 || time - previousTime >= msPerFrame) {
+				
+				currentFrame++;
+				previousTime = time;
+			}
+		}
+		if(currentFrame%framesPerDirection == framesPerDirection-1) {
+			currentFrame = facing*framesPerDirection;
+			//if(!loop)
+			stop();
+		}
 		
-				//System.out.println("drawing frame " + currentFrame);
+	}
+	
+	public void updateAnimationRand(Graphics g, long time) {
+		if(running) {
+		
 			drawFrame(g, currentFrame);
 			
 			
