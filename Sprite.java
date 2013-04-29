@@ -94,7 +94,7 @@ class Sprite extends Applet
 	
 	public void start() { running = true; }
 	public void start(boolean loop) { running = true; this.loop = loop;}
-	public void stop() { running = false; }
+	public void stop() { this.running = false; }
 	
 	public void setSpeed(int msPerFrame) {
 		this.msPerFrame = msPerFrame;
@@ -123,13 +123,13 @@ class Sprite extends Applet
 		//update animation for player
 		if(!loop) {
 			//drawFrame(g, currentFrame);
-			drawFrame(g, facing*framesPerDirection);
+		//	drawFrame(g, facing*framesPerDirection);
 			//so first 4 images must be cardinal directions (U R D L) (N E S W)
 		}
 		
-		if(running) {
+		if(this.running) {
 
-			//System.out.println("drawing frame " + currentFrame);
+			System.out.println("drawing frame " + currentFrame + "\tloop: " + loop);
 			drawFrame(g, facing*framesPerDirection+currentFrame%framesPerDirection);
 			
 			System.out.println(facing*framesPerDirection+currentFrame%framesPerDirection);

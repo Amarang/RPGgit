@@ -306,9 +306,9 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
-			pSp.setSpeed(50);
+			pSp.setSpeed(250);
 			
-			pSp.start(false);
+			pSp.start(false); // loop = false;
 			pSp.updateAnimationP(g, System.currentTimeMillis(), p.getFacing(), 3);
 			
 			for (int i = 0; i< NUMSPRITES; i++)
@@ -373,7 +373,7 @@ public class RPG extends Applet implements KeyListener
 		//System.out.println("facetile " + facingTile);
 		
 		
-		for (int i=0;i< NUMSPRITES;i++)
+		/*for (int i=0;i< NUMSPRITES;i++)
 		{
 			
 			System.out.println("S " + sp[i].getX() + ", " + sp[i].getY());
@@ -382,7 +382,7 @@ public class RPG extends Applet implements KeyListener
 			{
 				System.out.println("FACING SPRITE");
 			}
-		}	
+		}	*/
 		
 		if (rand.nextInt(1000) < BATTLEFREQUENCY * 10
 			&& !td.isBattleRestricted(currTile) && maptracker == 0)
