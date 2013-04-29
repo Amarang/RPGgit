@@ -318,6 +318,7 @@ public class RPG extends Applet implements KeyListener
 		if (showinventory)
 		{
 			hud.drawInventory(g,c);
+			//hud.drawPane(g);
 		}
 	}
 	public void update(Graphics g) {

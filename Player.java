@@ -166,14 +166,28 @@ class Player
 		return false;	
     }
 	
+	// returns true if already have item equipped of same type
 	public boolean alreadySameType(Item item)
 	{
-		System.out.println("checking for same type");
+		//System.out.println("checking for same type");
 		for (int i=0;i<equipped.length;i++) {
 			if(equipped[i] != null)
 				if (equipped[i].getType()==item.getType()) return true;	
 		}
 		return false;	
+		
+	}
+	
+	// returns item of same type as parameter item
+	public Item equippedOfType(Item item)
+	{
+		//System.out.println("checking for same type");
+		for (int i=0;i<equipped.length;i++) {
+			if(equipped[i] != null)
+				if (equipped[i].getType()==item.getType()) return equipped[i];	
+		}
+		return null;	
+		//return input item if we didn't find item of same type equipped
 		
 	}
 	

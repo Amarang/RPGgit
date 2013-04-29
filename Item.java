@@ -26,7 +26,7 @@ class Item
     private int itemid;
     private int numitems;
 	private int type;
-    private String names[] = {"bamboo","sword","shield","heart medallion","helmet","cursed seal"};
+    private String names[] = {"Bamboo","Sword","Shield","Heart Medallion","Helmet","Cursed Seal"};
     //String[] s;
     private String itemlist;
 	private BufferedReader br;
@@ -113,9 +113,7 @@ class Item
     }
 
     
-    public int getHealth() {
-    	 return health;
-	}
+    public int getHealth() { return health; }
     public int getHealthMax() { return healthmax; }
     public int getMana() { return mana; }
     public int getStrength() { return strength; }
