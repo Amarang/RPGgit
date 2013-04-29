@@ -21,13 +21,13 @@ public class RPG extends Applet implements KeyListener
 	static int MAPWIDTH[] ={400,90};
 	static int MAPHEIGHT[] = {300,70};
 	static int TILETYPES = 14;
-	static int NUMSPRITES = 10;
+	static int NUMSPRITES = 1;
 	static int NUMITEMS = 6;
 	static int NUMICONS = 4;
 	static int NUMMONSTERS = 6;
 	static int NUMSOUNDCLIPS = 2;
-	static int WALKINGDELAY = 250;
-	static int BATTLEFREQUENCY = 3; //percentage of encounter per step
+	static int WALKINGDELAY = 125;
+	static int BATTLEFREQUENCY = 0; //percentage of encounter per step
 	static String map;
 	
 	TileData td = new TileData();
@@ -150,7 +150,7 @@ public class RPG extends Applet implements KeyListener
         Image[] playerImgs = new Image[] {player, player1, player2, player1a, player2a};
         for (int i = 0; i < NUMSPRITES; i++)
         {
-			sp[i] = new Sprite(playerImgs, rand.nextInt(40)*2, rand.nextInt(30)*2,TILESIZE);
+			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+10, rand.nextInt(10)+10,TILESIZE);
         }
 		 
 		 
@@ -262,6 +262,7 @@ public class RPG extends Applet implements KeyListener
 		}
 		if (c.getPointer()<3&&!showinventory)
 		{
+			System.out.println(firststep);
 			if(firststep==false)
 			{
 				g.drawImage(player1a,startx*TILESIZE,starty*TILESIZE, this);
@@ -310,6 +311,7 @@ public class RPG extends Applet implements KeyListener
 			g.drawImage(player2,startx*TILESIZE,starty*TILESIZE, this);	
 		}
 		//delay(20);
+		
 		repaint();			
 	}
 	public void PlayerMenu(Graphics g)
@@ -344,7 +346,7 @@ public class RPG extends Applet implements KeyListener
 			
 			for (int i = 0; i< NUMSPRITES; i++)
          	{
-			if(sp[i].isReady()&&maptracker==1) {
+			if(sp[i].isReady()&&maptracker==0) {
 				sp[i].drawSprite(g);
 				sp[i].setSpeed(1000);
 				sp[i].start();
@@ -384,8 +386,6 @@ public class RPG extends Applet implements KeyListener
 
 	public void step(char direction) {
 		
-		
-		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
 		switch(direction) {
 			case 'l': p.moveLeft(); break;
 			case 'r': p.moveRight(); break;
@@ -393,11 +393,36 @@ public class RPG extends Applet implements KeyListener
 			case 'd': p.moveDown(); break;
 		}
 		
-		if (rand.nextInt(1000) <= BATTLEFREQUENCY * 10
+		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
+		int facingTile = theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing());
+		//{x, y}
+		int[] facingCoords = theMap[maptracker].getFacingCoords(p.getX(), p.getY(), p.getFacing());
+		
+		//keep for future tile debugging
+		
+		System.out.println("P " + p.getX() + ", " + p.getY());
+		//System.out.println("currtile " + currTile);
+		//System.out.println("facing " + p.getFacing());
+		//System.out.println("facetile " + facingTile);
+		
+		
+		for (int i=0;i< NUMSPRITES;i++)
+		{
+			
+			System.out.println("S " + sp[i].getX() + ", " + sp[i].getY());
+			if(Math.abs(sp[i].getX()-facingCoords[0]) <= 1
+			&& Math.abs(sp[i].getY()-facingCoords[1]) <= 1)
+			{
+				System.out.println("FACING SPRITE");
+			}
+		}	
+		
+		if (rand.nextInt(1000) < BATTLEFREQUENCY * 10
 			&& !td.isBattleRestricted(currTile) && maptracker == 0)
 		{
 			battle=true;
 		}
+		
 		
 		if (td.isTown(currTile))
 		{

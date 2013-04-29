@@ -33,6 +33,7 @@ class Player
     private int level;
     private int lasttownx;
     private int lasttowny;
+	private int facing = 0; //0-3 north east south west
     private String name;
     Random rand = new Random();
     
@@ -81,14 +82,17 @@ class Player
     public void setX(int h) { x=h; }
     public void setY(int h) { y=h; }
     public void setBattleCondition(boolean n) { battling = n; }
-    public void moveLeft() { if(canMoveLeft()&&!battling) x--; }
-    public void moveRight() { if(canMoveRight()&&!battling) x++; }
-    public void moveUp() { if(canMoveUp()&&!battling) y--; }
-    public void moveDown() { if(canMoveDown()&&!battling) y++; }
+    public void moveLeft() { if(canMoveLeft()&&!battling) x--; facing = 3; } // W
+    public void moveRight() { if(canMoveRight()&&!battling) x++; facing = 1; } // E
+    public void moveUp() { if(canMoveUp()&&!battling) y--; facing = 0; } // N
+    public void moveDown() { if(canMoveDown()&&!battling) y++; facing = 2; } // S
     public int getTownX() { return lasttownx; }
     public int getTownY() { return lasttowny; }
     public void setTownX(int h) { lasttownx=h; }
     public void setTownY(int h) { lasttowny=h; }
+	
+    public int getFacing() { return facing; }
+    public void setFacing(int f) { facing = f; }
     
     public int getHealth() { return health; }
     public int getMana() { return mana; }
@@ -187,7 +191,7 @@ class Player
 				if (equipped[i].getType()==item.getType()) return equipped[i];	
 		}
 		return null;	
-		//return input item if we didn't find item of same type equipped
+		//return null if we didn't find item of same type equipped
 		
 	}
 	

@@ -66,11 +66,33 @@ class TileMap
 	
 	public int getVal(int x, int y) { return matrix[y][x]; }
 	
+	public int getFacing(int x, int y, int facing) {
+		int f = -1;
+		switch(facing) {
+			case 0: try { f = (y == 0) ? -1 : matrix[y-1][x]; } catch (Exception e) { f = -1; } break;
+			case 1: try { f = (x == MAPWIDTH-1) ? -1 : matrix[y][x+1]; } catch (Exception e) { f = -1; } break;
+			case 2: try { f = (y == MAPHEIGHT-1) ? -1 : matrix[y+1][x]; } catch (Exception e) { f = -1; } break;
+			case 3: try { f = (x == 0) ? -1 : matrix[y][x-1]; } catch (Exception e) { f = -1; } break;
+		}
+		return f;
+	}
+	
+	public int[] getFacingCoords(int x, int y, int facing) {
+		int[] coords = {-1, -1};
+		switch(facing) {
+			case 0: coords[0] = x+1; break;
+			case 1: coords[1] = y+1; break;
+			case 2: coords[0] = x-1; break;
+			case 3: coords[1] = y-1; break;
+		}
+		return coords;
+	}
+	
 	public int getWidth() { return MAPWIDTH; }
 	public int getHeight() { return MAPHEIGHT; }
 	
 	public void printMap() {
-		 for(int i = 0; i < matrix.length; i++)
+		for(int i = 0; i < matrix.length; i++)
         {
             String buff = new String();
             for(int j = 0; j < matrix[0].length; j++)

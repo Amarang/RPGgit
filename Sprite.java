@@ -62,8 +62,8 @@ class Sprite extends Applet
 		numFrames = images.length;
 		TILESIZE = TS;
 	}
-	public void addX (int d) {x+=d;}
-	public void addY (int d) {y+=d;}
+	public void addX (int d0) {x+=d0;}
+	public void addY (int d0) {y+=d0;}
 	public void setPos(int x, int y) { this.x = x; this.y = y; }
 	public int getX() { return x; }
 	public int getY() { return y; }
@@ -78,11 +78,12 @@ class Sprite extends Applet
 	}
 	
 	public void drawSprite(Graphics g) {
-		g.drawImage(image,x*(TILESIZE/2),y*(TILESIZE/2), this);
+		//System.out.println("S " + x + ", " + y);
+		g.drawImage(image,x*(TILESIZE)/2,y*(TILESIZE)/2, this);
 	}
 	
 	public void drawFrame(Graphics g, int frame) {
-		g.drawImage(frames[frame],x*(TILESIZE/2),y*(TILESIZE/2), this);
+		g.drawImage(frames[frame],x*(TILESIZE)/2,y*(TILESIZE)/2, this);
 	}
 	
 	public void start() { running = true; }
@@ -103,16 +104,23 @@ class Sprite extends Applet
 		if(running) {
 		
 				//System.out.println("drawing frame " + currentFrame);
-				drawFrame(g, currentFrame);
+			drawFrame(g, currentFrame);
+			
+			
 			if(previousTime == 0 || time - previousTime >= msPerFrame) {
 			
 				currentFrame=rand.nextInt(5);
 				xmove=rand.nextInt(3);
 				ymove=rand.nextInt(3);
-				if (xmove==0){moveLeft();}
-				if (xmove==2){moveRight();}
-				if (ymove==0){moveDown();}
-				if (ymove==2){moveUp();}
+				int XorY = rand.nextInt(3);
+				if(XorY == 0) {
+					if (xmove==0){moveLeft();}
+					if (xmove==2){moveRight();}
+				}
+				if(XorY == 2) {
+					if (ymove==0){moveDown();}
+					if (ymove==2){moveUp();}
+				}
 				previousTime = time;
 			}
 		}
