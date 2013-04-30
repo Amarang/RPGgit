@@ -24,7 +24,7 @@ public class RPG extends Applet implements KeyListener
 	static int NUMMONSTERS = 6;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
-	static int BATTLEFREQUENCY = 20; //percentage of encounter per step
+	static int BATTLEFREQUENCY = 5; //percentage of encounter per step
 	static String map;
 	
 	TileData td = new TileData();
