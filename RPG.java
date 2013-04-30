@@ -180,7 +180,7 @@ public class RPG extends Applet implements KeyListener
 		
         for (int i = 0; i < NUMSPRITES; i++)
         {
-			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+3, rand.nextInt(10)+3-15, TILESIZE, i);
+			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+3, rand.nextInt(10)+3, TILESIZE, i);
 			// i at the end is the sprite ID, so we can later identify which sprite is which
 			// useful if we have different NPC types
 			sp[i].setSpeed(900+rand.nextInt(700));

@@ -238,7 +238,7 @@ class Battle extends Applet
 			case 0: 
 				hit.play();
 				p.attack(); 
-				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",400,500);
+				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
 				mdamagedealt=(p.getDamage()-m.getDefense());
   				if (mdamagedealt>0)
   				m.setDamage(mdamagedealt);	 
@@ -246,27 +246,27 @@ class Battle extends Applet
 			case 1: 
 				hit.play();
 				p.spell();
-				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",400,500);	
+				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);	
 				mdamagedealt=(p.getDamage()-m.getDefense());
   				if (mdamagedealt>0)
   				m.setDamage(mdamagedealt); 
 					break;
 			case 2: 
 				p.defend(); 
-				g.drawString("Defending! You braced yourself!",400,500); 
+				g.drawString("Defending! You braced yourself!",50,500); 
 					pdefended=true;
 					break;
 			case 3: 
 				if (rand.nextInt(2)==0)
 				battle=false;
 				else
-				g.drawString("NO ESCAPE",400,500);
+				g.drawString("NO ESCAPE",50,500);
 					break;
 			}
 			key_space=false;
 			playernotgone=false;
 			if (m.getHealth()>0)
-			g.drawString("The "+m.getName()+" is ready!",50,540); 
+			g.drawString("The "+m.getName()+" is ready!",370,540); 
 		}
 		
 		if (key_space&&c.getPointer()<4&&!playernotgone&&m.getHealth()>0)
@@ -285,7 +285,7 @@ class Battle extends Applet
 			{
 				hit.play();
 				m.attack();
-				g.drawString("Attack! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",50,500);
+				g.drawString("Attack! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",370,500);
 				pdamagedealt=(m.getDamage()-p.getDefense());
   				if (pdamagedealt>0)
   					p.setDamage(pdamagedealt);	
@@ -295,7 +295,7 @@ class Battle extends Applet
 			{
 				hit.play();
 				m.spell();
-				g.drawString("Spell! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",50,500);	
+				g.drawString("Spell! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",370,500);	
 				pdamagedealt=(m.getDamage()-p.getDefense());
   				if (pdamagedealt>0)
   					p.setDamage(pdamagedealt);	
@@ -304,12 +304,12 @@ class Battle extends Applet
 			if (monstaction==2)
 			{
 				m.defend();
-				g.drawString("Defending! Enemy has braced itself!",50,500);	
+				g.drawString("Defending! Enemy has braced itself!",370,500);	
 					mdefended=true;
 			}
 			if (monstaction==3)
 			{
-				g.drawString("Tried to run!",50,500);
+				g.drawString("Tried to run!",370,500);
 				if(m.canRun())
 					battle=false;
 			}
