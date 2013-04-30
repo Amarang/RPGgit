@@ -13,7 +13,7 @@ import javax.sound.sampled.*;
 
 class Battle extends Applet
 {
-	private static int NUMSPRITES = 5;
+	//private static int NUMSPRITES = 5;
 	
 	private SoundClip hit;
 	private Graphics g;
@@ -117,10 +117,10 @@ class Battle extends Applet
 					battle=false;
 					initialize = false;	
 					p.setHealth(p.getHealthMax());
-					for (int i=0; i<NUMSPRITES; i++)
+					/*for (int i=0; i<NUMSPRITES; i++)
 					{
 						sp[i].reset();
-					}	
+					}	*/
 					p.setX(p.getTownX());
 					p.setY(p.getTownY());
 				}

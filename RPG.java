@@ -321,7 +321,9 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
-			if(showInteraction && withinrangesprite) {
+			if(!withinrangesprite) showInteraction = false;
+			
+			if(showInteraction && withinrangesprite && nearSprite >= 0) {
 				hud.drawInteractionPane(g,nearSprite);
 			}
 			
@@ -402,6 +404,7 @@ public class RPG extends Applet implements KeyListener
 			{
 				System.out.println("NEAR SPRITE id = " + sp[i].getID());
 				nearSprite = sp[i].getID();
+				break;
 			}
 		}	
 		
