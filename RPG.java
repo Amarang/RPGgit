@@ -18,7 +18,7 @@ public class RPG extends Applet implements KeyListener
 	
 	static int TILESIZE = 20;
 	static int NUMMAPS = 2;
-	static int MAPWIDTH[] ={400,90};
+	static int MAPWIDTH[] = {400,90};
 	static int MAPHEIGHT[] = {300,70};
 	static int TILETYPES = 14;
 	static int NUMSPRITES = 5;
@@ -97,17 +97,21 @@ public class RPG extends Applet implements KeyListener
 	boolean key_enter=false;
 	boolean run=false;
 	boolean battle=false;
-	boolean firstTimeBattle = true;
+	boolean firsttimebattle = true;
 	boolean firststep = false;
 	boolean oktomove = true;
 	boolean showinventory=false;
 	boolean showInteraction=false;
+	boolean withinrangesprite=false;
 
 	 
 	public static void main(String[] args) { } 
 	
 	public void init()
 	{
+		//NPCData ndata = new NPCData();
+		System.out.println("near beginning of init in RPG.java");
+		
 		for (int i=0;i<NUMMAPS;i++)
 			theMap[i] = new TileMap(MAPWIDTH[i], MAPHEIGHT[i], "maps/file"+i+".txt");
 		start();
@@ -329,7 +333,7 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
-			if(showInteraction) {
+			if(showInteraction && withinrangesprite) {
 				hud.drawInteractionPane(g,nearSprite);
 			}
 			
@@ -357,17 +361,17 @@ public class RPG extends Applet implements KeyListener
 		{
 			
 			p.setBattleCondition(true);
-			if(firstTimeBattle) {
+			if(firsttimebattle) {
 				wait.suspend();
 				intro.stop();
 				battlemusic.play(true);
 				b = new Battle(g, p, monsterImages,c,hit,sp, icons);
-				firstTimeBattle = false;
+				firsttimebattle = false;
 			} else {
 				
 				if(!b.BattleSequence(g, key_space, key_enter)) {
 					battle = false;
-					firstTimeBattle = true;
+					firsttimebattle = true;
 					battlemusic.stop();
 					intro.play();
 					wait.resume();
@@ -402,12 +406,16 @@ public class RPG extends Applet implements KeyListener
 		
 			pSp.start();
 		
+		withinrangesprite = false;
 		for (int i=0;i< NUMSPRITES;i++)
 		{
 			
 			//System.out.println("S " + sp[i].getX() + ", " + sp[i].getY());
 			//System.out.println("Pfacing" + facingCoords[0] + ", " + facingCoords[1]);
 			
+			//if(theMap[maptracker].within(p, sp[i], 4)) 
+			//	withinrangesprite = true;
+				
 			if( (sp[i].getX() == facingCoords[0]
 			 &&  sp[i].getY() == facingCoords[1])
 			 || (sp[i].getX() == p.getX())

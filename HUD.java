@@ -376,17 +376,19 @@ class HUD extends Applet
 		
 		g.setColor(Color.BLACK);
 		
-		
+		String str;
 		//drawLabel(g, "Hello, my name is " + Integer.toString(sp.getID()), offsetx+26, offsety+ 0*thickness + 10, Color.BLACK);
 		
 		//System.out.println("DFDF");
-		
+		/*
 		String str = "<html><h1>My name is " + nd.getName(sID) + ".</h1><br>"
 				   + "I would like to talk to you today about how much text sucks.<br>"
 				   + "It would be nice if you could program by clicking and dragging<br>"
 				   + "instead of manually changing x and y coordinates and recompiling<br>"
 				   + "over and over again. Also, fonts suck.";
-		
+		*/
+		str =  "<html><h1>My name is " + nd.getName(sID) + ".</h1><br>";
+		str += nd.getDesc(sID);
 		drawTextInBox(g, str, offsetx, offsety, length/2, height); 
 		//g.drawLine(length/2, 600-height-paddingy, length/2, 600-paddingy);
 		
