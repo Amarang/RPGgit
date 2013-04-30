@@ -15,8 +15,6 @@ import java.util.regex.Pattern;
 
 class NPCData
 {
-
-	
 	// map integer (sprite ID) to string (NPC name)
 	private Map<Integer, String> NPCDescMap = new HashMap<Integer, String>();
 	// map integer (sprite ID) to string (NPC description (caption), or whatever)
@@ -51,7 +49,6 @@ class NPCData
 		System.out.println(dataStr.length());
 		for (int i=0; i < dataStr.length(); i++) {
 			char c = dataStr.charAt(i);
-			
 			if(c == '\n') {
 				String[] lineArray;
 				Pattern pattern = Pattern.compile(Pattern.quote("\t"));
@@ -63,11 +60,8 @@ class NPCData
 				NPCDescMap.put(Integer.parseInt(lineArray[0]), lineArray[2]); //ID, desc
 				temp = "";
 			}
-			
 			temp += c;
-			
 		}
-		
 	}
 	
 	public String getName(Sprite sp) {
@@ -82,5 +76,4 @@ class NPCData
 	public String getDesc(int sID) {
 		return NPCDescMap.get(sID);
 	}
-
 }

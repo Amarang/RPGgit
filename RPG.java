@@ -11,11 +11,8 @@ import java.awt.event.*;
 import java.lang.Math;
 import javax.sound.sampled.*;
 
-
 public class RPG extends Applet implements KeyListener
 {
-	
-	
 	static int TILESIZE = 20;
 	static int NUMMAPS = 2;
 	static int MAPWIDTH[] = {400,90};
@@ -27,7 +24,7 @@ public class RPG extends Applet implements KeyListener
 	static int NUMMONSTERS = 6;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
-	static int BATTLEFREQUENCY = 0; //percentage of encounter per step
+	static int BATTLEFREQUENCY = 2; //percentage of encounter per step
 	static String map;
 	
 	TileData td = new TileData();
@@ -55,8 +52,6 @@ public class RPG extends Applet implements KeyListener
 	SoundClip battlemusic;
 	SoundClip outofbounds;
 	
-	
-	
 	Image[] tileImages = new Image[TILETYPES];
 	Image[] monsterImages = new Image[NUMMONSTERS];
 	Image[] icons = new Image[NUMICONS];
@@ -66,10 +61,6 @@ public class RPG extends Applet implements KeyListener
 	Image player2;
 	Image player1a;
 	Image player2a;
-	
-	Image up, left, down, right;
-	Image up1, left1, down1, right1;
-	Image up2, left2, down2, right2;
 	Image u,u1,u2,u3,u4, l,l1,l2,l3,l4, d,d1,d2,d3,d4, r,r1,r2,r3,r4;
 	
 	
@@ -91,7 +82,6 @@ public class RPG extends Applet implements KeyListener
 	WaitThread wait;
     MediaTracker mt;
 	
-	
 	boolean released = false;
 	boolean key_space=false;
 	boolean key_enter=false;
@@ -109,7 +99,6 @@ public class RPG extends Applet implements KeyListener
 	
 	public void init()
 	{
-		//NPCData ndata = new NPCData();
 		System.out.println("near beginning of init in RPG.java");
 		
 		for (int i=0;i<NUMMAPS;i++)
@@ -135,7 +124,6 @@ public class RPG extends Applet implements KeyListener
 		hit = new SoundClip("hit");
 		battlemusic = new SoundClip("battlemusic");
 		outofbounds = new SoundClip("goat");
-		
 		
 		try { 
 			base = getDocumentBase();    
@@ -337,24 +325,17 @@ public class RPG extends Applet implements KeyListener
 				hud.drawInteractionPane(g,nearSprite);
 			}
 			
-			
 			pSp.setSpeed(40);
-			
 			pSp.updateAnimationP(g, System.currentTimeMillis());
 			
 			for (int i = 0; i< NUMSPRITES; i++)
          	{
-				///sprites in town, spritesintown
 				if(sp[i].isReady()&&maptracker==1) {
 					sp[i].updateAnimationRand(g, System.currentTimeMillis(), p);
 					sp[i].allowMove(theMap[maptracker].getNeighbors(sp[i].getX(), sp[i].getY()));
 				}
-				//if (maptracker==0)
-				//sp[i].stop();
          	}
-			
 			PlayerMenu(g);
-			
 		}
 		
 		else if (battle)
@@ -379,7 +360,6 @@ public class RPG extends Applet implements KeyListener
 				key_space=false;
 			}	
 		}
-		
 	}
 
 	public void step(char direction) {
@@ -411,12 +391,8 @@ public class RPG extends Applet implements KeyListener
 		for (int i=0;i< NUMSPRITES;i++)
 		{
 			
-			//System.out.println("S " + sp[i].getX() + ", " + sp[i].getY());
-			//System.out.println("Pfacing" + facingCoords[0] + ", " + facingCoords[1]);
-			
 			if(theMap[maptracker].within(p, sp[i], 3)) {
 				withinrangesprite = true;
-				
 			}
 				
 			if( (sp[i].getX() == facingCoords[0]
@@ -434,7 +410,6 @@ public class RPG extends Applet implements KeyListener
 		{
 			battle=true;
 		}
-		
 		
 		if (td.isTown(currTile))
 		{
@@ -456,7 +431,6 @@ public class RPG extends Applet implements KeyListener
 			for (int i=0;i< NUMSPRITES;i++)
 			{
 				sp[i].resetOrigin();
-				//sp[i].stop();
 			}	
 		}
 		if (td.isBed(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>=20)
@@ -508,5 +482,4 @@ public class RPG extends Applet implements KeyListener
 		while (endDelay - startDelay < n)
 			endDelay = System.currentTimeMillis();	
 	}
-}	
-
+}

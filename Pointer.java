@@ -5,4 +5,4 @@ class Pointer
     public void reset() { choice = 0; }
     public int getPointer() { return choice; }
     public void setPointer(int d) { choice = d; }
-}
+} //shortest class ever

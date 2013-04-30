@@ -11,22 +11,20 @@ import java.awt.event.*;
 import java.lang.Math;
 import javax.sound.sampled.*;
 
-class Battle extends Applet//extends RPG
+class Battle extends Applet
 {
-
 	private static int NUMSPRITES = 5;
 	
 	private SoundClip hit;
 	private Graphics g;
 	private Monster m;
 	private Pointer c;
-	private Image[] monsterImages;// = new Image[6];
+	private Image[] monsterImages;
 	private Image[] icons;
 	private Sprite[] sp;
 	private Player p;
 	private Random rand = new Random(); 
  	private Font title = new Font("DialogInput",Font.PLAIN,20);	
-	//private MediaTracker mt = new MediaTracker(this);
 	
 	private boolean run=false;
 	private boolean battle=true;
@@ -57,11 +55,6 @@ class Battle extends Applet//extends RPG
   	private boolean levelup = false;
   	private boolean playernotgone = true;
 	
-	/*public Battle() {
-
-
-		  
-	}*/
     public Battle(Graphics gr, Player pl, Image[] mi, Pointer cl,SoundClip hit,Sprite[] sp,Image[] icons) {
 		this.g = gr;
 		this.p = pl;
@@ -70,80 +63,73 @@ class Battle extends Applet//extends RPG
 		this.hit = hit;
 		this.sp = sp;
 		this.icons = icons;
-		//m = new Monster(20,2,8,3,1,rand.nextInt(6));
 	}
 	public boolean getBattle() { return battle; }
 	public boolean getSpace() { return key_space; }
-	/*public void test() {
-		g.drawString("IN BATTLE CLASS!!",100,100);
-	}
-	*/
 	public boolean BattleSequence(Graphics g, boolean key_space,boolean key_enter)
 	{
-	this.key_space = key_space;
-	this.key_enter = key_enter;
-	if (battle)
-	{
-	if (!initialize)
-	{
-	Initialize(g);
-	//repaint();
-	}
-	if (m.getHealth()>=0&&p.getHealth()>=0)
-	ShowPane(g);
-	if (m.getHealth()<=0)
-	{
-		if (buffer==false)
+		this.key_space = key_space;
+		this.key_enter = key_enter;
+		if (battle)
 		{
-		key_space=false;
-		buffer=true;
-		xp=m.getId()+1*rand.nextInt(3)+1;
-		gold=m.getId()+1*rand.nextInt(3)*rand.nextInt(4)+1/(rand.nextInt(4)+1);
-  		p.setGold(gold);
-  		if (p.setExperience(xp))
-  			levelup=true;	
-		}
-		Victory(g);
-		if (key_space)
-		{
-		battle=false;
-		initialize = false;
-		}
-			
-	}
-	if (p.getHealth()<=0)
-	{
-		if (buffer==false)
-		{
-		key_space=false;
-		buffer=true;
-		
-		xp=-(p.getExperience()/2);
-		gold=-(p.getGold()/2);
-  		p.setGold(gold);
-  		if (p.setExperience(xp))
-  		g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);	
-		}
-		Defeat(g);
-		if (key_space)
-		{
-		battle=false;
-		initialize = false;	
-		p.setHealth(p.getHealthMax());
-		for (int i=0; i<NUMSPRITES; i++)
-		{
-			sp[i].reset();
+			if (!initialize)
+			{
+				Initialize(g);
+			}
+			if (m.getHealth()>=0&&p.getHealth()>=0)
+				ShowPane(g);
+			if (m.getHealth()<=0)
+			{
+				if (buffer==false)
+				{
+					key_space=false;
+					buffer=true;
+					xp=m.getId()+1*rand.nextInt(3)+1;
+					gold=m.getId()+1*rand.nextInt(3)*rand.nextInt(4)+1/(rand.nextInt(4)+1);
+					p.setGold(gold);
+					if (p.setExperience(xp))
+						levelup=true;	
+				}
+				Victory(g);
+				if (key_space)
+				{
+					battle=false;
+					initialize = false;
+				}
+					
+			}
+			if (p.getHealth()<=0)
+			{
+				if (buffer==false)
+				{
+					key_space=false;
+					buffer=true;
+				
+					xp=-(p.getExperience()/2);
+					gold=-(p.getGold()/2);
+					p.setGold(gold);
+					if (p.setExperience(xp))
+						g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);	
+				}
+				Defeat(g);
+				if (key_space)
+				{
+					battle=false;
+					initialize = false;	
+					p.setHealth(p.getHealthMax());
+					for (int i=0; i<NUMSPRITES; i++)
+					{
+						sp[i].reset();
+					}	
+					p.setX(p.getTownX());
+					p.setY(p.getTownY());
+				}
+					
+			}
 		}	
-		p.setX(p.getTownX());
-		p.setY(p.getTownY());
-		}
 			
-	}
-	}	
-	//repaint();
-		
-	return battle;
-		
+		return battle;
+			
 	}
 	public void Display(Graphics g)
 	{
@@ -327,9 +313,6 @@ class Battle extends Applet//extends RPG
 				if(m.canRun())
 					battle=false;
 			}
-					
-				//battle=false;
-				
 		}
 		key_space=false;	 
 	}

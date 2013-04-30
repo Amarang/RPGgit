@@ -11,8 +11,6 @@ import java.awt.event.*;
 import java.lang.Math;
 import javax.sound.sampled.*;
 
-
-
 class Item
 {
     private int health;
@@ -27,7 +25,6 @@ class Item
     private int numitems;
 	private int type;
     private String names[] = {"Bamboo","Sword","Shield","Heart Medallion","Helmet","Cursed Seal"};
-    //String[] s;
     private String itemlist;
 	private BufferedReader br;
 	private int icon;
@@ -39,9 +36,7 @@ class Item
 	Random rand = new Random(); 
     
     public Item(int itemid,String fileName) {
-    	
     	this.itemid=itemid;
-
 		try{
 			br = new BufferedReader(new FileReader(fileName));
 			StringBuilder sb = new StringBuilder();

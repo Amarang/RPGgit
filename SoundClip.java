@@ -18,10 +18,7 @@ class SoundClip
 		}
 		firstTime = true;
 	}
-	public String getName()
-	{
-		return cID;	
-	}
+	public String getName() { return cID;	}
 	public void play() {
 		if(firstTime) {
 			clip.play();

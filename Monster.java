@@ -11,8 +11,6 @@ import java.awt.event.*;
 import java.lang.Math;
 import javax.sound.sampled.*;
 
-
-
 class Monster
 {
     private int health;
@@ -25,7 +23,6 @@ class Monster
     private int id;
     private String names[] = {"Creaboxireis","Ant","Wolf","Snake","Slime","Dragon"};
     
-    
     private boolean l = true;
     private boolean r = true;
     private boolean u = true;
@@ -36,7 +33,6 @@ class Monster
 	int[] restricted = td.getRestricted();
     
     public Monster(int h, int m, int str, int spd,int def,int identity) {
-    	
         health = h;
         healthmax = h;
         mana = m;
@@ -56,8 +52,7 @@ class Monster
     public void resetDamage() {
     	damage = 0;
     }
-
-    
+	
     public int getHealth() {
 		if(health < 0) return 0;
 		else return health;
@@ -76,7 +71,6 @@ class Monster
     public void attack() { damage= rand.nextInt(speed) + strength; }
     public void spell() { damage= rand.nextInt(speed) + mana; }
     public void defend() { defense*=2; }
-   // public void run() { if(canRun()) run=true; }
     
     public boolean canRun() 
 	{
@@ -90,7 +84,4 @@ class Monster
 			if(t == restricted[i]) return true;
 		return false;
 	}
-    
-
 }
-

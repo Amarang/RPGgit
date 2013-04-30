@@ -16,7 +16,6 @@ import javax.swing.*;
 
 class HUD extends Applet
 {
-	
 	private Player p;
 	private Monster m;
 	private Pointer c;
@@ -28,20 +27,14 @@ class HUD extends Applet
 	private Color HPColor = new Color(230, 0, 0);
 	private Color ManaColor = new Color(0, 0, 170);
 	private Color ExperienceColor = new Color(255, 255, 50);
-	
 	private int thickness = 20;
-	
 	private boolean battleHUD = false;
-	
-	
 	private NPCData nd = new NPCData();
-	
     
     public HUD(Player p, Image[] icons) {
         this.p = p;
 		this.icons = icons;
     }
-	
 		
 	public HUD(Player p, Monster m, Image[] icons) {
         this.p = p;
@@ -68,9 +61,6 @@ class HUD extends Applet
 			if (selectedItem<10)
 			{
 				if(!(inventory[selectedItem] == null)) {
-				
-					
-					
 					if(!p.alreadySameType(inventory[selectedItem]) && !p.isEquipped(inventory[selectedItem]))
 					{
 						p.equip(inventory[selectedItem]);
@@ -100,7 +90,6 @@ class HUD extends Applet
 		{
 			if(inventory[i]!=null)
 			{
-				
 				g.drawString(inventory[i].getName(),650,40+20*i);
 				drawIcon(g, inventory[i].getIcon(), 620, 25+20*i);
 				
@@ -124,7 +113,6 @@ class HUD extends Applet
 		int experience = p.getExperience();
 		int mana = p.getMana();
 		int levelExperience = p.getLevelExperience();
-		
 		
 		int offsetx = 5;
 		int offsety = 5;		
@@ -157,11 +145,7 @@ class HUD extends Applet
 				  15+offsetx, (int)(2.7*thickness)+offsety, Color.BLACK);
 	}
 	
-	
-	
     public void drawBar(Graphics g, int xStart, int yStart, int length, int thickness, Color color, int currentVal, int maxVal) {
-		//System.out.println("drawing bar");
-		
 		float percentage = (float)currentVal / (float)maxVal;
 		
 		if(battleHUD) g.setColor(color.brighter().brighter());
@@ -171,7 +155,6 @@ class HUD extends Applet
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(xStart, yStart, length, thickness);
-		
 		
 		g.setColor(color);
 		g.fillRect(xStart, yStart, (int)(percentage*length), thickness);
@@ -218,41 +201,18 @@ class HUD extends Applet
 	}
 	
 	public void drawTextInBox(Graphics g, String str, int xOffset, int yOffset, int width, int height) {
-	
-		/*String title = "<html><body style='width: 200px; padding: 5px;'>"
-                + "<h1>Do U C Me?</h1>"
-                + "Here is a long string that will wrap.  "
-                + "The effect we want is a multi-line label.";*/
 		Font f = g.getFont();
 
 		JLabel textLabel = new JLabel(str);
 		textLabel.setFont(f);
 		textLabel.setSize(textLabel.getPreferredSize());
-
-		//Dimension d = textLabel.getPreferredSize();
-
 		BufferedImage bi = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
 
 		Graphics g0 = bi.createGraphics();
 		g0.setColor(Color.BLACK);
-		//g0.setFont(f);
 		textLabel.paint(g0);
 					
 		g.drawImage(bi, xOffset, yOffset, this);
-	
-		//Font f = new Font("Arial", Font.PLAIN, 20);
-            //g.setFont(f);
-			/*Font f = g.getFont();
-			int textHeight = 20;
-            FontMetrics fm = g.getFontMetrics();
-            double shrink = ((double)textHeight / (double)fm.getHeight());
-            double newSize = (double)textHeight * shrink;
-            double newAsc  = (double)fm.getAscent() * shrink;
-            int dy = (int)newAsc - fm.getLeading();
-            f = f.deriveFont((float)newSize);
-            g.setFont(f);
-
-            g.drawString(str, xOffset, yOffset + dy);*/
 	
 	}
 	
@@ -261,9 +221,7 @@ class HUD extends Applet
 	
 		battleHUD = true;
 		draw(g);
-	
-		
-		
+
 		int health = m.getHealth();
 		int healthmax = m.getHealthMax();
 		int mana = m.getMana();
@@ -323,9 +281,8 @@ class HUD extends Applet
 		
 		if(e != null) {
 		
-			if(e.getName() == i.getName()) {
-				//healthComp = better; strComp = bet
-			}
+			//if(e.getName() == i.getName())
+			
 			healthComp = comparison(i.getHealth(), e.getHealth(), better, worse, same);
 			strComp = comparison(i.getStrength(), e.getStrength(), better, worse, same);
 			defComp = comparison(i.getDefense(), e.getDefense(), better, worse, same);
@@ -338,7 +295,6 @@ class HUD extends Applet
 			drawLabelInt(g, "Strength: ", e.getStrength(), offsetx+col2Offset, offsety+ 2*thickness + 10, Color.BLACK);
 			drawLabelInt(g, "Defense: ", e.getDefense(), offsetx+col2Offset, offsety+ 3*thickness + 10, Color.BLACK);
 			drawLabelInt(g, "Speed: ", e.getSpeed(), offsetx+col2Offset, offsety+ 4*thickness + 10, Color.BLACK);
-			//drawLabelInt(g, "Dmg: ", e.getDamage(), offsetx+col2Offset, offsety+ 4*thickness + 10, Color.BLACK);
 		}
 		
 		//getIcon returns int IconID
@@ -349,10 +305,7 @@ class HUD extends Applet
 		drawLabelIntComp(g, "Strength: ", i.getStrength(), strComp, compOffset, offsetx, offsety+ 2*thickness + 10, Color.BLACK);
 		drawLabelIntComp(g, "Defense: ", i.getDefense(), defComp, compOffset, offsetx, offsety+ 3*thickness + 10, Color.BLACK);
 		drawLabelIntComp(g, "Speed: ", i.getSpeed(), spdComp, compOffset, offsetx, offsety+ 4*thickness + 10, Color.BLACK);
-		//drawLabelInt(g, "Dmg: ", i.getDamage(), offsetx, offsety+ 4*thickness + 10, Color.BLACK);
 		drawIcon(g,3, length-paddingx-20,offsety);
-    
-		
 		g.setColor(temp);
 	}
 	
@@ -377,25 +330,10 @@ class HUD extends Applet
 		g.setColor(Color.BLACK);
 		
 		String str;
-		//drawLabel(g, "Hello, my name is " + Integer.toString(sp.getID()), offsetx+26, offsety+ 0*thickness + 10, Color.BLACK);
 		
-		//System.out.println("DFDF");
-		/*
-		String str = "<html><h1>My name is " + nd.getName(sID) + ".</h1><br>"
-				   + "I would like to talk to you today about how much text sucks.<br>"
-				   + "It would be nice if you could program by clicking and dragging<br>"
-				   + "instead of manually changing x and y coordinates and recompiling<br>"
-				   + "over and over again. Also, fonts suck.";
-		*/
 		str =  "<html><h1>My name is " + nd.getName(sID) + ".</h1><br>";
 		str += nd.getDesc(sID);
-		drawTextInBox(g, str, offsetx, offsety, length/2, height); 
-		//g.drawLine(length/2, 600-height-paddingy, length/2, 600-paddingy);
-		
-		
-
-        
-					
+		drawTextInBox(g, str, offsetx, offsety, (int)(0.8*length), height); 
 		
 		g.setColor(temp);
 	}
