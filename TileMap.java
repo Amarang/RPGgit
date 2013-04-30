@@ -116,16 +116,16 @@ class TileMap
 		return directions;
 	}
 	
-	private boolean within(Player a, Sprite b, int distance) {
+	public boolean within(Player a, Sprite b, int distance) {
 		return ( (a.getX()-b.getX())*(a.getX()-b.getX()) +
 				(a.getY()-b.getY())*(a.getY()-b.getY()) <= distance*distance);
 	}
-	private boolean within(Sprite a, Player b, int distance) {
+	public boolean within(Sprite a, Player b, int distance) {
 		return ( (a.getX()-b.getX())*(a.getX()-b.getX()) +
 				(a.getY()-b.getY())*(a.getY()-b.getY()) <= distance*distance);
 	}
 	
-	private boolean within(Sprite a, Sprite b, int distance) {
+	public boolean within(Sprite a, Sprite b, int distance) {
 		return ( (a.getX()-b.getX())*(a.getX()-b.getX()) +
 				(a.getY()-b.getY())*(a.getY()-b.getY()) <= distance*distance);
 	}

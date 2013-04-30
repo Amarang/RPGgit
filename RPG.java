@@ -407,14 +407,17 @@ public class RPG extends Applet implements KeyListener
 			pSp.start();
 		
 		withinrangesprite = false;
+		nearSprite = -1;
 		for (int i=0;i< NUMSPRITES;i++)
 		{
 			
 			//System.out.println("S " + sp[i].getX() + ", " + sp[i].getY());
 			//System.out.println("Pfacing" + facingCoords[0] + ", " + facingCoords[1]);
 			
-			//if(theMap[maptracker].within(p, sp[i], 4)) 
-			//	withinrangesprite = true;
+			if(theMap[maptracker].within(p, sp[i], 3)) {
+				withinrangesprite = true;
+				
+			}
 				
 			if( (sp[i].getX() == facingCoords[0]
 			 &&  sp[i].getY() == facingCoords[1])
