@@ -24,7 +24,7 @@ public class RPG extends Applet implements KeyListener
 	static int NUMMONSTERS = 6;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
-	static int BATTLEFREQUENCY = 2; //percentage of encounter per step
+	static int BATTLEFREQUENCY = 20; //percentage of encounter per step
 	static String map;
 	
 	TileData td = new TileData();
@@ -49,6 +49,7 @@ public class RPG extends Applet implements KeyListener
 	boolean sound = true;	
 	SoundClip[] soundClips = new SoundClip[NUMSOUNDCLIPS];
 	SoundClip hit;
+	SoundClip death;
 	SoundClip battlemusic;
 	SoundClip outofbounds;
 	
@@ -122,6 +123,7 @@ public class RPG extends Applet implements KeyListener
 		}
 		
 		hit = new SoundClip("hit");
+		death = new SoundClip("death");
 		battlemusic = new SoundClip("battlemusic");
 		outofbounds = new SoundClip("goat");
 		
@@ -195,7 +197,7 @@ public class RPG extends Applet implements KeyListener
 		
 		hud = new HUD(p, icons);
 		
-		p.equip(item[5]);	
+		//p.equip(item[5]);	
 			
 	}
 	
@@ -347,8 +349,8 @@ public class RPG extends Applet implements KeyListener
 			if(firsttimebattle) {
 				wait.suspend();
 				intro.stop();
-				battlemusic.play(true);
-				b = new Battle(g, p, monsterImages,c,hit,sp, icons);
+				//battlemusic.play(true);
+				b = new Battle(g, p, monsterImages,c,hit,sp, icons,death,battlemusic);
 				firsttimebattle = false;
 			} else {
 				

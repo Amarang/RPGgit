@@ -16,6 +16,8 @@ class Battle extends Applet
 	//private static int NUMSPRITES = 5;
 	
 	private SoundClip hit;
+	private SoundClip death;
+	private SoundClip battlemusic;
 	private Graphics g;
 	private Monster m;
 	private Pointer c;
@@ -55,12 +57,14 @@ class Battle extends Applet
   	private boolean levelup = false;
   	private boolean playernotgone = true;
 	
-    public Battle(Graphics gr, Player pl, Image[] mi, Pointer cl,SoundClip hit,Sprite[] sp,Image[] icons) {
+    public Battle(Graphics gr, Player pl, Image[] mi, Pointer cl,SoundClip hit,Sprite[] sp,Image[] icons,SoundClip death,SoundClip battlemusic) {
 		this.g = gr;
 		this.p = pl;
 		this.c = cl;
 		this.monsterImages = mi;
 		this.hit = hit;
+		this.death = death;
+		this.battlemusic = battlemusic;
 		this.sp = sp;
 		this.icons = icons;
 	}
@@ -111,6 +115,9 @@ class Battle extends Applet
 					if (p.setExperience(xp))
 						g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);	
 				}
+				battlemusic.stop();
+				death.stop();
+				death.play();
 				Defeat(g);
 				if (key_space)
 				{
@@ -121,6 +128,7 @@ class Battle extends Applet
 					{
 						sp[i].reset();
 					}	*/
+					
 					p.setX(p.getTownX());
 					p.setY(p.getTownY());
 				}
@@ -182,9 +190,9 @@ class Battle extends Applet
 	}
 	public void Initialize(Graphics g)
 	{
-		
+		battlemusic.play();
 		g.setFont(title);
-		 m = new Monster(20,2,8,3,1,rand.nextInt(6));
+		 m = new Monster(20,20,20,3,1,rand.nextInt(6));
 		 c.reset();
 		 initialize = true;
 		mdefended=false;
