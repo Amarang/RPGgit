@@ -64,7 +64,7 @@ class HUD extends Applet
 					if(!p.alreadySameType(inventory[selectedItem]) && !p.isEquipped(inventory[selectedItem]))
 					{
 						p.equip(inventory[selectedItem]);
-					} else {
+					} else if (p.isEquipped(inventory[selectedItem])){
 						p.unequip(inventory[selectedItem]);
 					}
 					
