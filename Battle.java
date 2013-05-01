@@ -88,8 +88,8 @@ class Battle extends Applet
 				{
 					key_space=false;
 					buffer=true;
-					xp=m.getId()+1*rand.nextInt(3)+1;
-					gold=m.getId()+1*rand.nextInt(3)*rand.nextInt(4)+1/(rand.nextInt(4)+1);
+					xp=m.getId()+(rand.nextInt(3)+1)*(p.getLevel()+m.getStrength());
+					gold=m.getId()+1*rand.nextInt(3)*rand.nextInt(4)+1/(rand.nextInt(4)+1)*(p.getLevel()+m.getStrength());
 					p.setGold(gold);
 					if (p.setExperience(xp))
 						levelup=true;	
@@ -192,7 +192,37 @@ class Battle extends Applet
 		death.stop();
 		battlemusic.play();
 		g.setFont(title);
-		 m = new Monster(20,6,8,3,1,rand.nextInt(6));
+		int monster_id = rand.nextInt(8);
+		double stat_scale = p.getLevel() / 10.0 + 1;
+		switch(monster_id) {
+		case 0: //Creaboxireis
+			m = new Monster((int)(stat_scale * 17),(int)(stat_scale * 6),(int)(stat_scale * 5),(int)(stat_scale * 3),(int)(stat_scale * 1),0);
+			break;
+		case 1: //Ant
+			m = new Monster((int)(stat_scale * 9),(int)(stat_scale * 4),(int)(stat_scale * 3),(int)(stat_scale * 2),(int)(stat_scale * 6),1);
+			break;
+		case 2: //Wolf
+			m = new Monster((int)(stat_scale * 14),(int)(stat_scale * 6),(int)(stat_scale * 4),(int)(stat_scale * 6),(int)(stat_scale * 4),2);
+			break;
+		case 3: //Snake
+			m = new Monster((int)(stat_scale * 12),(int)(stat_scale * 8),(int)(stat_scale * 3),(int)(stat_scale * 8),(int)(stat_scale * 5),3);
+			break;
+		case 4: //Slime
+			m = new Monster((int)(stat_scale * 11),(int)(stat_scale * 8),(int)(stat_scale * 3),(int)(stat_scale * 3),(int)(stat_scale * 7),4);
+			break;
+		case 5: //Dragon
+			m = new Monster((int)(stat_scale * 24),(int)(stat_scale * 10),(int)(stat_scale * 6),(int)(stat_scale * 6),(int)(stat_scale * 9),5);
+			break;
+		case 6: //Skinnyman
+			m = new Monster((int)(stat_scale * 18),(int)(stat_scale * 12),(int)(stat_scale * 5),(int)(stat_scale * 10),(int)(stat_scale * 5),6);
+			break;
+		case 7: //Wisping Ghoul
+			m = new Monster((int)(stat_scale * 20),(int)(stat_scale * 6),(int)(stat_scale * 5),(int)(stat_scale * 3),(int)(stat_scale * 1),7);
+			break;
+		default:
+			m = new Monster((int)(stat_scale * 10),(int)(stat_scale * 5),(int)(stat_scale * 5),(int)(stat_scale * 3),(int)(stat_scale * 2), 1);
+			break;
+		}
 		 c.reset();
 		 initialize = true;
 		mdefended=false;

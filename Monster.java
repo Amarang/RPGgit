@@ -21,7 +21,7 @@ class Monster
     private int damage;
     private int defense;
     private int id;
-    private String names[] = {"Creaboxireis","Ant","Wolf","Snake","Slime","Dragon"};
+    private String names[] = {"Creaboxireis","Ant","Wolf","Snake","Slime","Dragon","Skinnyman","Wisping Ghoul"};
     
     private boolean l = true;
     private boolean r = true;

@@ -140,7 +140,7 @@ class Player
 		speed+=rand.nextInt(4)+1;
 		defense+=rand.nextInt(4)+1;
 		
-		levelExperience = 10*level;
+		levelExperience = 10*level*level;
 	}
     public void addItem(Item item) 
 	{ 

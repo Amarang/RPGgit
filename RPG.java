@@ -21,7 +21,7 @@ public class RPG extends Applet implements KeyListener
 	static int NUMSPRITES = 6;
 	static int NUMITEMS = 10;
 	static int NUMICONS = 4;
-	static int NUMMONSTERS = 6;
+	static int NUMMONSTERS = 8;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
 	static int BATTLEFREQUENCY = 5; //percentage of encounter per step
@@ -33,7 +33,7 @@ public class RPG extends Applet implements KeyListener
 	private TileMap[] theMap= new TileMap[2];
 	int startx=800/2/TILESIZE;//MAPWIDTH / 2;
 	int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
-	int maptracker = 1;
+	int maptracker = 0;
 	//WalkingThread walking;
 	int offsetX = 0;
 	int offsetY = 0;
