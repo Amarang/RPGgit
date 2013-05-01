@@ -192,6 +192,7 @@ class Battle extends Applet
 		death.stop();
 		battlemusic.play();
 		g.setFont(title);
+		key_space=false;
 		int monster_id = rand.nextInt(8);
 		double stat_scale = p.getLevel() / 10.0 + 1;
 		switch(monster_id) {
