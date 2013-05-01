@@ -116,7 +116,6 @@ class Battle extends Applet
 						g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);	
 				}
 				battlemusic.stop();
-				death.stop();
 				death.play();
 				Defeat(g);
 				if (key_space)
@@ -190,6 +189,7 @@ class Battle extends Applet
 	}
 	public void Initialize(Graphics g)
 	{
+		death.stop();
 		battlemusic.play();
 		g.setFont(title);
 		 m = new Monster(20,6,8,3,1,rand.nextInt(6));
