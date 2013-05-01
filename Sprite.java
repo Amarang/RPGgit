@@ -85,7 +85,7 @@ class Sprite extends Applet
 		originy=y;
 		this.frames = images;
 		numFrames = images.length;
-		framesPerDirection = numFrames / 4;
+		framesPerDirection = numFrames >> 2;
 		TILESIZE = TS;
 	}
 	public void addX (int d0) {x+=d0;}
