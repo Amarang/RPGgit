@@ -153,6 +153,17 @@ class Player
 			}
 			
 	}
+	public void removeItem(Item item) 
+	{ 
+		for (int i=0;i<inventory.length;i++)
+			if (inventory[i]==item)
+			{
+				inventory[i]=null;	
+				System.out.println("inventory slot removed");
+				break;
+			}
+			
+	}
     public Item[] getInventory() 
     { 
     		return inventory;
