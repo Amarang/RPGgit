@@ -154,36 +154,9 @@ class HUD extends Applet
 			c.setPointer(11);//back out of inventory
 		}
 		g.setColor(Color.white);
-		g.fillRect(400,0,200,400);
-		g.setColor(Color.black);
-		g.drawRect(400,0,200,400);
-		g.drawString("Shop: ",440,20);
-		for (int i=0;i<shop.length;i++)
-		{
-			if(shop[i]!=null)
-			{
-				g.drawString(shop[i].getName(),450,40+20*i);
-				drawIcon(g, shop[i].getIcon(), 420, 25+20*i);
-				
-				if(selectedItem<shop.length&&!(shop[selectedItem] == null))
-					drawItemPane(g, shop[selectedItem]);
-			}
-			
-			if (p.isEquipped(shop[i])&&shop[i]!=null) {
-				//g.drawString("E",605,40+20*i);	
-				drawIcon(g,3, 401,24+20*i);
-			}
-		}
-		g.drawString("Exit",440,40+20*10);
-		
-		
-		g.setColor(Color.white);
 		g.fillRect(600,0,200,400);
 		g.setColor(Color.black);
 		g.drawRect(600,0,200,400);
-		g.setColor(Color.red);
-		g.drawRect(401+200*selectedItemx,24+selectedItem*20,198,20);
-		g.setColor(Color.black);
 		g.drawString("Gold: "+p.getGold(),640,20);
 		inventory =p.getInventory();
 		for (int i=0;i<inventory.length;i++)
@@ -203,6 +176,33 @@ class HUD extends Applet
 			}
 		}
 		g.drawString("Exit",640,40+20*10);
+		
+		g.setColor(Color.white);
+		g.fillRect(400,0,200,400);
+		g.setColor(Color.black);
+		g.drawRect(400,0,200,400);
+		g.setColor(Color.red);
+		g.drawRect(401+200*selectedItemx,24+selectedItem*20,198,20);
+		g.setColor(Color.black);
+		g.drawString("Shop: ",440,20);
+		for (int i=0;i<shop.length;i++)
+		{
+			if(shop[i]!=null)
+			{
+				g.drawString(shop[i].getName(),450,40+20*i);
+				drawIcon(g, shop[i].getIcon(), 420, 25+20*i);
+				
+				if(selectedItem<shop.length&&!(shop[selectedItem] == null))
+					drawItemPane(g, shop[selectedItem]);
+			}
+			
+			if (p.isEquipped(shop[i])&&shop[i]!=null) {
+				//g.drawString("E",605,40+20*i);	
+				drawIcon(g,3, 401,24+20*i);
+			}
+		}
+		g.drawString("Exit",440,40+20*10);
+	
 	}
 	
 	public void draw(Graphics g) {
