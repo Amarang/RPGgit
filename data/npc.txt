@@ -3,3 +3,4 @@
 2	3rdjoke	Lucas, the third brother, said, "Since mom always complains about not<br> being able to read her bible well due to her poor vision, I <br>bought a parrot that can recite bible verses perfectly!"
 3	4thjoke	3 weeks later, the boys receive a letter from their mother. It read:<br><i>"To my 3 dear boys:</i>
 4	fifthjoke	<i>Thank you for all your nice gifts. However, I couldn't use the car that<br> Michael gave me because I'm too old to go out anymore and the chauffeur is mean.<br> The new penthouse is nice, but it is too big for me to clean each day and I'm<br> only ever in the bedroom. But Lucas, you did a fine job in choosing a gift.<br> The chicken was delicious."</i>
+5	Shopkeeper	hello there, have a look at my wares.

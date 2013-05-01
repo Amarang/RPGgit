@@ -18,8 +18,8 @@ public class RPG extends Applet implements KeyListener
 	static int MAPWIDTH[] = {400,90};
 	static int MAPHEIGHT[] = {300,70};
 	static int TILETYPES = 14;
-	static int NUMSPRITES = 5;
-	static int NUMITEMS = 6;
+	static int NUMSPRITES = 6;
+	static int NUMITEMS = 10;
 	static int NUMICONS = 4;
 	static int NUMMONSTERS = 6;
 	static int NUMSOUNDCLIPS = 2;
@@ -33,7 +33,7 @@ public class RPG extends Applet implements KeyListener
 	private TileMap[] theMap= new TileMap[2];
 	int startx=800/2/TILESIZE;//MAPWIDTH / 2;
 	int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
-	int maptracker = 0;
+	int maptracker = 1;
 	//WalkingThread walking;
 	int offsetX = 0;
 	int offsetY = 0;
@@ -72,6 +72,7 @@ public class RPG extends Applet implements KeyListener
 	Sprite[] sp= new Sprite[NUMSPRITES];
 	Sprite pSp;
 	Item[] item= new Item[NUMITEMS];
+	Item[] shop= new Item[NUMITEMS];
 	Pointer c = new Pointer(0);
 	
 	Random rand = new Random(); 
@@ -119,8 +120,11 @@ public class RPG extends Applet implements KeyListener
 		}
 		for(int i = 0; i < item.length; i++) {
 			item[i] = new Item(i,"items/items.txt");
-			p.addItem(item[i]);
+			shop[i] = item[i];	
 		}
+		p.addItem(item[0]);
+		p.addItem(item[5]);
+		
 		
 		hit = new SoundClip("hit");
 		death = new SoundClip("death");
@@ -182,7 +186,7 @@ public class RPG extends Applet implements KeyListener
 		
         for (int i = 0; i < NUMSPRITES; i++)
         {
-			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+3, rand.nextInt(10)+3, TILESIZE, i);
+			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+20, rand.nextInt(10)+20, TILESIZE, i);
 			// i at the end is the sprite ID, so we can later identify which sprite is which
 			// useful if we have different NPC types
 			sp[i].setSpeed(900+rand.nextInt(700));
@@ -195,7 +199,7 @@ public class RPG extends Applet implements KeyListener
 		  
 		addKeyListener(this);
 		
-		hud = new HUD(p, icons);
+		hud = new HUD(p, icons, shop);
 		
 		//p.equip(item[5]);	
 			
@@ -211,28 +215,28 @@ public class RPG extends Applet implements KeyListener
 			{
 				released = false;
 				c.setPointer(1);
-				if (!battle&&!showinventory) step('l');
+				if (!battle&&!showinventory&&!showInteraction) step('l');
 				oktomove=false;
 			}
 			if(key==KeyEvent.VK_S)
 			{
 				released = false;
 				c.setPointer(2);
-				if (!battle&&!showinventory) step('d');
+				if (!battle&&!showinventory&&!showInteraction) step('d');
 				oktomove=false;
 			}
 			if(key==KeyEvent.VK_D)
 			{
 				released = false;
 				c.setPointer(3);
-				if (!battle&&!showinventory) step('r');
+				if (!battle&&!showinventory&&!showInteraction) step('r');
 				oktomove=false;
 			}
 			if(key==KeyEvent.VK_W)
 			{
 				released = false;
 				c.setPointer(0);
-				if (!battle&&!showinventory) step('u');
+				if (!battle&&!showinventory&&!showInteraction) step('u');
 				oktomove=false;
 			}
 			/*if(key==KeyEvent.VK_SPACE)
@@ -283,6 +287,7 @@ public class RPG extends Applet implements KeyListener
 				showInteraction = false;
 				nearSprite = -1;
 			}
+			else showInteraction=true;
 			if(nearSprite >= 0) showInteraction=true;
 			
 			System.out.println(c.getPointer());	
@@ -300,8 +305,11 @@ public class RPG extends Applet implements KeyListener
 		{
 			hud.drawInventory(g,c);
 		}
+		if (showInteraction&&nearSprite==5)
+		{
+			hud.drawShop(g,c);
+		}	
 	}
-	
 	public void update(Graphics g) {
 		Graphics offgc;
 		Image offscreen = null;

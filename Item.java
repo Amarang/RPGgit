@@ -22,9 +22,10 @@ class Item
     private int defense;
     private int id;
     private int itemid;
+    private int price;
     private int numitems;
 	private int type;
-    private String names[] = {"Bamboo","Sword","Shield","Heart Medallion","Helmet","Cursed Seal"};
+    private String names[] = {"Bamboo","Sword","Shield","Heart Medallion","Helmet","Cursed Seal","Broad Sword", "Azure's Terror", "Spiked Sheild", "Plate of Magi"};
     private String itemlist;
 	private BufferedReader br;
 	private int icon;
@@ -88,6 +89,9 @@ class Item
 	public int getType() {
 		return type;
 	}
+	public int getPrice() {
+		return price;
+	}
 	
     public void setStats(String[] s) {
     	strength = Integer.parseInt(s[0]);
@@ -95,6 +99,7 @@ class Item
     	health = Integer.parseInt(s[2]);
     	icon = Integer.parseInt(s[3]);
     	type = Integer.parseInt(s[3]);
+    	price = Integer.parseInt(s[4]);
     }
     public void reset() {
     	health = 0;

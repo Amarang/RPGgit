@@ -22,8 +22,10 @@ class HUD extends Applet
 	private int INVENTORYSIZE;
 	Item[] inventory= new Item[INVENTORYSIZE];
 	Item[] equipped= new Item[INVENTORYSIZE];
+	Item[] shop;
 	private Image[] icons;
 	private int selectedItem=0;
+	private int selectedItemx=0;
 	private Color HPColor = new Color(230, 0, 0);
 	private Color ManaColor = new Color(0, 0, 170);
 	private Color ExperienceColor = new Color(255, 255, 50);
@@ -31,9 +33,10 @@ class HUD extends Applet
 	private boolean battleHUD = false;
 	private NPCData nd = new NPCData();
     
-    public HUD(Player p, Image[] icons) {
+    public HUD(Player p, Image[] icons,Item[] shop) {
         this.p = p;
 		this.icons = icons;
+		this.shop = shop;
     }
 		
 	public HUD(Player p, Monster m, Image[] icons) {
@@ -83,6 +86,103 @@ class HUD extends Applet
 		g.drawRect(600,0,200,400);
 		g.setColor(Color.red);
 		g.drawRect(601,24+selectedItem*20,198,20);
+		g.setColor(Color.black);
+		g.drawString("Gold: "+p.getGold(),640,20);
+		inventory =p.getInventory();
+		for (int i=0;i<inventory.length;i++)
+		{
+			if(inventory[i]!=null)
+			{
+				g.drawString(inventory[i].getName(),650,40+20*i);
+				drawIcon(g, inventory[i].getIcon(), 620, 25+20*i);
+				
+				if(selectedItem<inventory.length&&!(inventory[selectedItem] == null))
+					drawItemPane(g, inventory[selectedItem]);
+			}
+			
+			if (p.isEquipped(inventory[i])&&inventory[i]!=null) {
+				//g.drawString("E",605,40+20*i);	
+				drawIcon(g,3, 601,24+20*i);
+			}
+		}
+		g.drawString("Exit",640,40+20*10);
+	}
+	
+	public void drawShop(Graphics g, Pointer c) {
+		this.c=c;
+		if (c.getPointer()==3)
+		{
+			selectedItemx=1;
+			c.setPointer(6);	
+		}
+		if (c.getPointer()==2)
+		{
+			if (selectedItem<10)
+			selectedItem++;
+			c.setPointer(6);	
+		}
+		if (c.getPointer()==1)
+		{
+			selectedItemx=0;
+			c.setPointer(6);	
+		}
+		if (c.getPointer()==0)
+		{
+			if (selectedItem>0)
+			selectedItem--;	
+			c.setPointer(6);
+		}
+		if (c.getPointer()==10)
+		{
+			if (selectedItem<10)
+			{
+				if(selectedItemx==0&&p.getGold()>shop[selectedItem].getPrice()) {
+					p.addItem(shop[selectedItem]);
+					p.pay(shop[selectedItem].getPrice());
+				} 
+				else if(selectedItemx==1) {
+					p.unequip(inventory[selectedItem]);
+					p.pay(-inventory[selectedItem].getPrice());
+					p.removeItem(inventory[selectedItem]);
+				}
+				else {
+					System.out.println("tried to fetch non-existent item");
+				}
+				c.setPointer(6);	
+			}
+			else
+			c.setPointer(11);//back out of inventory
+		}
+		g.setColor(Color.white);
+		g.fillRect(400,0,200,400);
+		g.setColor(Color.black);
+		g.drawRect(400,0,200,400);
+		g.drawString("Shop: ",440,20);
+		for (int i=0;i<shop.length;i++)
+		{
+			if(shop[i]!=null)
+			{
+				g.drawString(shop[i].getName(),450,40+20*i);
+				drawIcon(g, shop[i].getIcon(), 420, 25+20*i);
+				
+				if(selectedItem<shop.length&&!(shop[selectedItem] == null))
+					drawItemPane(g, shop[selectedItem]);
+			}
+			
+			if (p.isEquipped(shop[i])&&shop[i]!=null) {
+				//g.drawString("E",605,40+20*i);	
+				drawIcon(g,3, 401,24+20*i);
+			}
+		}
+		g.drawString("Exit",440,40+20*10);
+		
+		
+		g.setColor(Color.white);
+		g.fillRect(600,0,200,400);
+		g.setColor(Color.black);
+		g.drawRect(600,0,200,400);
+		g.setColor(Color.red);
+		g.drawRect(401+200*selectedItemx,24+selectedItem*20,198,20);
 		g.setColor(Color.black);
 		g.drawString("Gold: "+p.getGold(),640,20);
 		inventory =p.getInventory();
@@ -266,6 +366,7 @@ class HUD extends Applet
 		String strComp = "";
 		String defComp = "";
 		String spdComp = "";
+		String prcComp = "";
 		
 		g.setColor(Color.BLACK);
 		g.drawRect(800-length-paddingx-1, 600-height-paddingy-1, length+1, height+1);
@@ -287,6 +388,7 @@ class HUD extends Applet
 			strComp = comparison(i.getStrength(), e.getStrength(), better, worse, same);
 			defComp = comparison(i.getDefense(), e.getDefense(), better, worse, same);
 			spdComp = comparison(i.getSpeed(), e.getSpeed(), better, worse, same);
+			prcComp = comparison(i.getPrice(), e.getPrice(), better, worse, same);
 		
 		
 			drawIcon(g, e.getIcon(), offsetx+col2Offset, offsety+0*thickness-3);
@@ -295,6 +397,7 @@ class HUD extends Applet
 			drawLabelInt(g, "Strength: ", e.getStrength(), offsetx+col2Offset, offsety+ 2*thickness + 10, Color.BLACK);
 			drawLabelInt(g, "Defense: ", e.getDefense(), offsetx+col2Offset, offsety+ 3*thickness + 10, Color.BLACK);
 			drawLabelInt(g, "Speed: ", e.getSpeed(), offsetx+col2Offset, offsety+ 4*thickness + 10, Color.BLACK);
+			drawLabelInt(g, "Price: ", e.getPrice(), offsetx+col2Offset, offsety+ 5*thickness + 10, Color.BLACK);
 		}
 		
 		//getIcon returns int IconID
@@ -305,6 +408,7 @@ class HUD extends Applet
 		drawLabelIntComp(g, "Strength: ", i.getStrength(), strComp, compOffset, offsetx, offsety+ 2*thickness + 10, Color.BLACK);
 		drawLabelIntComp(g, "Defense: ", i.getDefense(), defComp, compOffset, offsetx, offsety+ 3*thickness + 10, Color.BLACK);
 		drawLabelIntComp(g, "Speed: ", i.getSpeed(), spdComp, compOffset, offsetx, offsety+ 4*thickness + 10, Color.BLACK);
+		drawLabelIntComp(g, "Price: ", i.getPrice(), prcComp, compOffset, offsetx, offsety+ 5*thickness + 10, Color.BLACK);
 		drawIcon(g,3, length-paddingx-20,offsety);
 		g.setColor(temp);
 	}
