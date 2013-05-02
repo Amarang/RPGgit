@@ -24,7 +24,7 @@ public class RPG extends Applet implements KeyListener
 	static int NUMMONSTERS = 8;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
-	static int BATTLEFREQUENCY = 5; //percentage of encounter per step
+	static int BATTLEFREQUENCY = 4; //percentage of encounter per step
 	static String map;
 	
 	TileData td = new TileData();
@@ -436,8 +436,11 @@ public class RPG extends Applet implements KeyListener
 			else if (maptracker==0)
 			{
 				maptracker=1;
+				
 				p.setTownX(p.getX());
-				p.setTownY(p.getY());	
+				p.setTownY(p.getY());
+				p.setX(p.getTownEntranceX());
+				p.setY(p.getTownEntranceY());	
 			}
 			System.out.println(maptracker);
 			

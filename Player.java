@@ -30,6 +30,8 @@ class Player
     private int level;
     private int lasttownx;
     private int lasttowny;
+    private int townentrancex=3;
+    private int townentrancey=36;
 	private int facing = 0; //0-3 north east south west
     private String name;
     Random rand = new Random();
@@ -93,6 +95,8 @@ class Player
     public int getTownY() { return lasttowny; }
     public void setTownX(int h) { lasttownx=h; }
     public void setTownY(int h) { lasttowny=h; }
+    public int getTownEntranceX() { return townentrancex; }
+    public int getTownEntranceY() { return townentrancey; }
 	
     public int getFacing() { return facing; }
     public void setFacing(int f) { facing = f; }
