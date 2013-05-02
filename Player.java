@@ -233,6 +233,19 @@ class Player
 			}
 		}
 	}
+	public void use(Item i) 
+	{ 
+		if (isInInventory(i))
+		{
+			if (healthmax-health>i.getHealth())
+			health+=i.getHealth();
+			else
+			health=healthmax;
+				
+			strength+=i.getStrength(); 	
+			defense+=i.getDefense();
+		}
+	}
 	
     public void unequip(Item i) 
 	{ 	

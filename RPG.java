@@ -19,8 +19,8 @@ public class RPG extends Applet implements KeyListener
 	static int MAPHEIGHT[] = {300,70};
 	static int TILETYPES = 14;
 	static int NUMSPRITES = 6;
-	static int NUMITEMS = 10;
-	static int NUMICONS = 4;
+	static int NUMITEMS = 11;
+	static int NUMICONS = 6;
 	static int NUMMONSTERS = 8;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
@@ -281,7 +281,7 @@ public class RPG extends Applet implements KeyListener
 			c.setPointer(5);
 		}
 		
-		if (c.getPointer()==11)
+		if (c.getPointer()==11&&nearSprite>=0)
 		{
 			if(showInteraction) {
 				showInteraction = false;
@@ -331,9 +331,10 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
-			if(!withinrangesprite) showInteraction = false;
+			//if(!withinrangesprite) showInteraction = false;
 			
-			if(showInteraction && withinrangesprite && nearSprite >= 0) {
+			//if(showInteraction && withinrangesprite && nearSprite >= 0) {
+			if(showInteraction && nearSprite >= 0) {
 				hud.drawInteractionPane(g,nearSprite);
 			}
 			
@@ -399,13 +400,13 @@ public class RPG extends Applet implements KeyListener
 		
 			pSp.start();
 		
-		withinrangesprite = false;
+		//withinrangesprite = false;
 		nearSprite = -1;
 		for (int i=0;i< NUMSPRITES;i++)
 		{
 			
 			if(theMap[maptracker].within(p, sp[i], 3)) {
-				withinrangesprite = true;
+				//withinrangesprite = true;
 			}
 				
 			if( (sp[i].getX() == facingCoords[0]
@@ -450,7 +451,7 @@ public class RPG extends Applet implements KeyListener
 				sp[i].resetOrigin();
 			}	
 		}
-		if (td.isBed(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>=20)
+		if (td.isBed(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>=7)
 		{
 			p.setHealth(p.getHealthMax());
 			p.pay(7);

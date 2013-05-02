@@ -64,13 +64,18 @@ class HUD extends Applet
 			if (selectedItem<10)
 			{
 				if(!(inventory[selectedItem] == null)) {
-					if(!p.alreadySameType(inventory[selectedItem]) && !p.isEquipped(inventory[selectedItem]))
+					System.out.println(inventory[selectedItem].getUseage());
+					if(!p.alreadySameType(inventory[selectedItem]) && !p.isEquipped(inventory[selectedItem])&&inventory[selectedItem].getUseage()==0)
 					{
 						p.equip(inventory[selectedItem]);
 					} else if (p.isEquipped(inventory[selectedItem])){
 						p.unequip(inventory[selectedItem]);
 					}
-					
+					else if(!p.alreadySameType(inventory[selectedItem]) && !p.isEquipped(inventory[selectedItem])&&inventory[selectedItem].getUseage()==1)
+					{
+						p.use(inventory[selectedItem]);
+						p.removeItem(inventory[selectedItem]);
+					} 
 					
 				} else {
 					System.out.println("tried to fetch non-existent item");
@@ -117,7 +122,7 @@ class HUD extends Applet
 		}
 		if (c.getPointer()==2)
 		{
-			if (selectedItem<10)
+			if (selectedItem<shop.length)
 			selectedItem++;
 			c.setPointer(6);	
 		}
@@ -134,13 +139,15 @@ class HUD extends Applet
 		}
 		if (c.getPointer()==10)
 		{
-			if (selectedItem<10)
+			if (selectedItem==10 && selectedItemx==1)
+				c.setPointer(11);//back out of inventory
+			else if (selectedItem<shop.length)
 			{
-				if(selectedItemx==0&&p.getGold()>shop[selectedItem].getPrice()) {
+				if(selectedItemx==0&&p.getGold()>=shop[selectedItem].getPrice()) {
 					p.addItem(shop[selectedItem]);
 					p.pay(shop[selectedItem].getPrice());
 				} 
-				else if(selectedItemx==1) {
+				else if(selectedItemx==1&&selectedItem<10) {
 					if(p.isEquipped(inventory[selectedItem]))
 					p.unequip(inventory[selectedItem]);
 					p.pay(-inventory[selectedItem].getPrice());
@@ -151,8 +158,9 @@ class HUD extends Applet
 				}
 				c.setPointer(6);	
 			}
+			
 			else
-			c.setPointer(11);//back out of inventory
+				c.setPointer(11);//back out of inventory
 		}
 		g.setColor(Color.white);
 		g.fillRect(600,0,200,400);
@@ -202,7 +210,7 @@ class HUD extends Applet
 				drawIcon(g,3, 401,24+20*i);
 			}
 		}
-		g.drawString("Exit",440,40+20*10);
+		g.drawString("Exit",440,40+20*shop.length);
 	
 	}
 	
