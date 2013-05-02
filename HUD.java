@@ -141,6 +141,7 @@ class HUD extends Applet
 					p.pay(shop[selectedItem].getPrice());
 				} 
 				else if(selectedItemx==1) {
+					if(p.isEquipped(inventory[selectedItem]))
 					p.unequip(inventory[selectedItem]);
 					p.pay(-inventory[selectedItem].getPrice());
 					p.removeItem(inventory[selectedItem]);
@@ -166,7 +167,7 @@ class HUD extends Applet
 				g.drawString(inventory[i].getName(),650,40+20*i);
 				drawIcon(g, inventory[i].getIcon(), 620, 25+20*i);
 				
-				if(selectedItem<inventory.length&&!(inventory[selectedItem] == null))
+				if(selectedItem<inventory.length&&selectedItemx==1&&!(inventory[selectedItem] == null))
 					drawItemPane(g, inventory[selectedItem]);
 			}
 			
@@ -192,7 +193,7 @@ class HUD extends Applet
 				g.drawString(shop[i].getName(),450,40+20*i);
 				drawIcon(g, shop[i].getIcon(), 420, 25+20*i);
 				
-				if(selectedItem<shop.length&&!(shop[selectedItem] == null))
+				if(selectedItem<shop.length&&selectedItemx==0&&!(shop[selectedItem] == null))
 					drawItemPane(g, shop[selectedItem]);
 			}
 			

@@ -194,7 +194,7 @@ class Battle extends Applet
 		g.setFont(title);
 		key_space=false;
 		int monster_id = rand.nextInt(8);
-		double stat_scale = p.getLevel() / 10.0 + 1;
+		double stat_scale = (p.getLevel() / 3.0 + 1);
 		switch(monster_id) {
 		case 0: //Creaboxireis
 			m = new Monster((int)(stat_scale * 17),(int)(stat_scale * 6),(int)(stat_scale * 5),(int)(stat_scale * 3),(int)(stat_scale * 1),0);
@@ -268,11 +268,7 @@ class Battle extends Applet
   		hit.stop();
 		if (key_space&&c.getPointer()<4&&playernotgone)
 		{
-			if (pdefended)
-			{
-			p.setDefense(p.getDefense()/2);
-			pdefended=false;	
-			}
+			
 			switch(c.getPointer()) {
 			case 0: 
 				hit.play();
@@ -351,6 +347,11 @@ class Battle extends Applet
 				g.drawString("Tried to run!",370,500);
 				if(m.canRun())
 					battle=false;
+			}
+			if (pdefended)
+			{
+			p.setDefense(p.getDefense()/2);
+			pdefended=false;	
 			}
 		}
 		key_space=false;	 

@@ -301,7 +301,7 @@ public class RPG extends Applet implements KeyListener
 	public void PlayerMenu(Graphics g)
 	{
 		hud.draw(g);
-		if (showinventory)
+		if (showinventory&&!showInteraction)
 		{
 			hud.drawInventory(g,c);
 		}
@@ -366,6 +366,7 @@ public class RPG extends Applet implements KeyListener
 					battle = false;
 					firsttimebattle = true;
 					battlemusic.stop();
+					death.stop();
 					intro.play();
 					wait.resume();
 				}
@@ -449,7 +450,7 @@ public class RPG extends Applet implements KeyListener
 		if (td.isBed(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>=20)
 		{
 			p.setHealth(p.getHealthMax());
-			p.pay(20);
+			p.pay(7);
 		}
 		if(sound) {	
 			int sID = td.getSoundID(currTile);
