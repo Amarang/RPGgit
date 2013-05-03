@@ -11,7 +11,7 @@ maxBrushSize = 20
 fps = 50
 tiles = []
 mapls = []
-width, height = 1024, 768
+width, height = 800, 600
 xtiles, ytiles = width//tileSize, height//tileSize
 print "initiating", xtiles, "by", ytiles, "array"
 	
