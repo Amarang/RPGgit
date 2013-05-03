@@ -33,7 +33,7 @@ public class RPG extends Applet implements KeyListener
 	private TileMap[] theMap= new TileMap[NUMMAPS];
 	int startx=800/2/TILESIZE;//MAPWIDTH / 2;
 	int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
-	int maptracker = 2;
+	int maptracker = 0;
 	//WalkingThread walking;
 	int offsetX = 0;
 	int offsetY = 0;
@@ -69,6 +69,7 @@ public class RPG extends Applet implements KeyListener
 	Monster m;
 	Battle b;
 	HUD hud;
+	Load load;
 	Sprite[] sp= new Sprite[NUMSPRITES];
 	Sprite pSp;
 	Item[] item= new Item[NUMITEMS];
@@ -101,6 +102,7 @@ public class RPG extends Applet implements KeyListener
 	
 	public void init()
 	{
+		load=new Load();
 		System.out.println("near beginning of init in RPG.java");
 		
 		for (int i=0;i<NUMMAPS;i++)
@@ -199,7 +201,7 @@ public class RPG extends Applet implements KeyListener
 		  
 		addKeyListener(this);
 		
-		hud = new HUD(p, icons, shop);
+		hud = new HUD(p, icons, shop,load);
 		
 		//p.equip(item[5]);	
 			

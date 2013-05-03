@@ -19,6 +19,7 @@ class HUD extends Applet
 	private Player p;
 	private Monster m;
 	private Pointer c;
+	private Load load;
 	private int INVENTORYSIZE;
 	Item[] inventory= new Item[INVENTORYSIZE];
 	Item[] equipped= new Item[INVENTORYSIZE];
@@ -33,10 +34,11 @@ class HUD extends Applet
 	private boolean battleHUD = false;
 	private NPCData nd = new NPCData();
     
-    public HUD(Player p, Image[] icons,Item[] shop) {
+    public HUD(Player p, Image[] icons,Item[] shop,Load load) {
         this.p = p;
 		this.icons = icons;
 		this.shop = shop;
+		this.load = load;
     }
 		
 	public HUD(Player p, Monster m, Image[] icons) {
@@ -49,7 +51,7 @@ class HUD extends Applet
 		this.c=c;
 		if (c.getPointer()==2)
 		{
-			if (selectedItem<10)
+			if (selectedItem<12)
 			selectedItem++;
 			c.setPointer(6);	
 		}
@@ -82,8 +84,12 @@ class HUD extends Applet
 				}
 				c.setPointer(6);	
 			}
-			else
+			else if(selectedItem==10)
 			c.setPointer(7);//back out of inventory
+			else if(selectedItem==11)
+			p.save();
+			else if(selectedItem==12)
+			load.LoadData(p);
 		}
 		g.setColor(Color.white);
 		g.fillRect(600,0,200,400);
@@ -111,6 +117,7 @@ class HUD extends Applet
 			}
 		}
 		g.drawString("Exit",640,40+20*10);
+		g.drawString("Save",640,40+20*11);
 	}
 	
 	public void drawShop(Graphics g, Pointer c) {

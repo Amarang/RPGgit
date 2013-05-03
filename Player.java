@@ -10,6 +10,10 @@ import java.util.Random;
 import java.awt.event.*;
 import java.lang.Math;
 import javax.sound.sampled.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 class Player
 {
@@ -115,10 +119,12 @@ class Player
     public String getName() { return name; }
     
     public void setDamage(int d) { health-=d; }
+    public void setLevel(int d) { level=d; }
     public void setDefense(int d) { defense-=d; }
-    public void setGold(int d) { gold+=d; }
+    public void setGold(int d) { gold=d; }
     public void pay(int d) {gold-=d;}
     public void setHealth(int d) { health=d; }
+    public void setHealthMax(int d) { healthmax=d; }
     public boolean setExperience(int d) 
     { 
 		experience+=d; 
@@ -260,6 +266,20 @@ class Player
 			System.out.println("equip slot removed "+j);
 			break;
 			}
+	}
+	public void save() 
+	{ 	
+		try {
+          File file = new File("data/save.txt");
+          System.out.println("saving, please dont turn off the power.");
+          BufferedWriter output = new BufferedWriter(new FileWriter(file));
+          output.write(level+"\t"+health+"\t"+healthmax+"\t"+gold);
+          output.close();
+          System.out.println("Batman has saved the game.");
+        } catch ( IOException e ) {
+           e.printStackTrace();
+        }
+        
 	}
     private boolean canMoveLeft() { return l; }
     private boolean canMoveRight() { return r; }
