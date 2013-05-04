@@ -19,7 +19,6 @@ class HUD extends Applet
 	private Player p;
 	private Monster m;
 	private Pointer c;
-	//private Load load;
 	private int INVENTORYSIZE;
 	Item[] inventory= new Item[INVENTORYSIZE];
 	Item[] equipped= new Item[INVENTORYSIZE];

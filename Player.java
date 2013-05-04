@@ -38,6 +38,7 @@ class Player
     private int townentrancey=36;
 	private int facing = 0; //0-3 north east south west
     private String name;
+    private String SaveFile = "data/save.txt";
     Random rand = new Random();
     
     private boolean battling=false;
@@ -286,7 +287,7 @@ class Player
 	public void load() 
 	{ 	
 		Load l = new Load();
-		String[][] stats = l.readFileToArray("data/save.txt");
+		String[][] stats = l.readFileToArray(SaveFile);
 		
 		setLevel(Integer.parseInt(stats[0][0]));
 		setHealth(Integer.parseInt(stats[0][1]));

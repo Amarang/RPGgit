@@ -24,7 +24,7 @@ class Item
     private int id;
     private int itemid;
     private int price;
-    private int numitems;
+    private int NUMITEMS;
 	private int type;
     private String names[] = {"Bamboo","Sword","Shield","Heart Medallion","Helmet","Cursed Seal","Broad Sword", "Azure's Terror", "Spiked Sheild", "Plate of Magi","Health Capsule"};
     private String itemlist;
@@ -39,59 +39,18 @@ class Item
     
     public Item(int itemid,String fileName) {
     	this.itemid=itemid;
-		try{
-			br = new BufferedReader(new FileReader(fileName));
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-			while (line != null) {
-				sb.append(line);
-				sb.append("\n");
-				line = br.readLine();
-			}
-			itemlist = sb.toString();
-			br.close();
-    	} catch (Exception e) {}
 		
-		char c;
-		String c1;
-		String[] s= {"","","","","","","",""};
-		int counter=-1;
-		int ii=3;
-		for (int i=0; i < itemlist.length()-5; i++) {
-			c = itemlist.charAt(i);
-			c1= itemlist.substring(i+1,i+3);
-			/*if (itemid>9)
-			{
-			c1= itemlist.substring(i+1,i+3);
-			ii=3;
-			//System.out.println(itemid+" "+Integer.parseInt(c1));	
-			}*/
-						
-			if(c=='i' && Integer.parseInt(c1)==itemid /*+Integer.toString(itemid)*/) 
-				{
-				System.out.println(itemid+" "+Integer.parseInt(c1));
-				c = itemlist.charAt(i+ii);
-				while (c!='\n')
-				{
-					
-					if (c==' ')
-						counter++;
-					else 
-					{
-					s[counter]+=c;	
-					} 		
-				ii++;
-				c = itemlist.charAt(i+ii);
-				}
-				
-				
-				}	
-			
-			
-		}
-		//System.out.println("MADE items!");
-		setStats(s);
-    }
+		
+		Load l = new Load();
+		String[][] data = l.readFileToArray(fileName);
+		
+		//copyOfRange just takes a range from an array
+		//data[itemid] looks like [i00, 3, 0, 0, 2, 5, 0]
+		//but you can't parseint on i00, so I'm skipping that one
+		//don't use it for anything anyways (same thing as itemid, right?)
+		setStats(Arrays.copyOfRange(data[itemid],1,data[itemid].length));
+		System.out.println("MADE items!");
+	}
 	
 	public int getItemID() {
 		return itemid;

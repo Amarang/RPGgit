@@ -27,39 +27,14 @@ class NPCData
 	
 		System.out.println("making NPC data");
 		
-		try {
-			System.out.println("inside NPCData try");
-			br = new BufferedReader(new FileReader(NPCDataFile));
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-			while (line != null) {
-				sb.append(line);
-				sb.append("\n");
-				line = br.readLine();
-			}
-			
-			System.out.println("end of NPCData try");
-			String data = sb.toString();
-			br.close();
-			
-			dataStr = data;
-    	} catch (Exception e) { System.out.println("couldn't get " + NPCDataFile); }
+		Load l = new Load();
+		String[][] data = l.readFileToArray(NPCDataFile);
 		
-		String temp = "";
-		System.out.println(dataStr.length());
-		for (int i=0; i < dataStr.length(); i++) {
-			char c = dataStr.charAt(i);
-			if(c == '\n') {
-				String[] lineArray;
-				Pattern pattern = Pattern.compile(Pattern.quote("\t"));
-				temp = temp.replace("\n", "");
-				lineArray = pattern.split(temp);
-				NPCNameMap.put(Integer.parseInt(lineArray[0]), lineArray[1]); //ID, name
-				NPCDescMap.put(Integer.parseInt(lineArray[0]), lineArray[2]); //ID, desc
-				temp = "";
-			}
-			temp += c;
+		for(int i = 0; i < data.length; i++) {
+			NPCNameMap.put(Integer.parseInt(data[i][0]), data[i][1]); //ID, name
+			NPCDescMap.put(Integer.parseInt(data[i][0]), data[i][2]); //ID, desc
 		}
+		
 	}
 	
 	public String getName(Sprite sp) {

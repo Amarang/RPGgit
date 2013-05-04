@@ -14,37 +14,9 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 class Load
-{
-	private String LoadDataFile;
-	private BufferedReader br;
-	private String dataStr;
-	private Player p;
-	String[] lineArray;
-	
+{	
     public Load() {
-		/*LoadDataFile = "data/save.txt";
-		
-		
-		System.out.println("getting load data");
-		
-		String temp = "";
-		String dataStr = readFile(LoadDataFile);
-		readFileToArray("items/items.txt");
-		System.out.println(dataStr.length());
-		for (int i=0; i < dataStr.length(); i++) {
-			char c = dataStr.charAt(i);
-			if(c == '\n') {
-				Pattern pattern = Pattern.compile(Pattern.quote("\t"));
-				temp = temp.replace("\n", "");
-				lineArray = pattern.split(temp);
-				System.out.println("Load" + lineArray[0]);
-				temp = "";
-			}
-			temp += c;
-		}*/
 	}
-	
-
 	
 	private String readFileToString(String fileName) {
 		String dataStr = "";
@@ -71,6 +43,7 @@ class Load
 	
 	public String[][] readFileToArray(String fileName) {
 		String dataStr = "";
+		String[] lineArray;
 		
 		int numLines = 0;
 		int numCols = 0;
@@ -81,12 +54,12 @@ class Load
 			Scanner scanner = new Scanner(file);
 			String nextLine = "";
 			try {
-				System.out.println(fileName);
+				//System.out.println(fileName);
 				while(scanner.hasNextLine()) {  
 					nextLine = scanner.nextLine();
 					int cols = nextLine.split("\t").length;
 					if(cols > numCols) numCols = cols;
-					System.out.println("cols" + cols);
+					//System.out.println("cols" + cols);
 					
 					numLines++;
 					fileContents.append(nextLine + "\n");
@@ -116,28 +89,20 @@ class Load
 			}
 			temp += c;
 		}
-		System.out.println("nline " + nline + " numCols " + numCols);
-		System.out.println(Arrays.deepToString(lines));
+		//System.out.println("nline " + nline + " numCols " + numCols);
+		//System.out.println(Arrays.deepToString(lines));
 		String[][] linesClean = new String[nline][numCols];
 		
 		int y = 0;
 		for(int j = 0; j < lines.length; j++) {
-			System.out.println("lines[j][0] " + lines[j][0]);
+			//System.out.println("lines[j][0] " + lines[j][0]);
 				if(lines[j][0] != null) {
 					linesClean[y] = lines[j];
 					y++;
 				}
 		}	
-		System.out.println("y " + y);
-		System.out.println(Arrays.deepToString(linesClean));
+		//System.out.println("y " + y);
+		//System.out.println(Arrays.deepToString(linesClean));
 		return linesClean;
 	}
-	
-	/*public void LoadData(Player p) {
-		p.setLevel(Integer.parseInt(lineArray[0]));
-		p.setHealth(Integer.parseInt(lineArray[1]));
-		p.setHealthMax(Integer.parseInt(lineArray[2]));
-		p.setGold(Integer.parseInt(lineArray[3]));
-	}*/
-
 }
