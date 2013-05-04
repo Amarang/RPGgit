@@ -91,12 +91,18 @@ public class RPG extends Applet implements KeyListener
 	boolean showinteraction=false;
 	boolean withinrangesprite=false;
 
+	
+	Message msg;
 	 
 	public static void main(String[] args) { } 
 	
 	public void init()
 	{
-		//load=new Load();
+		
+		
+		msg = new Message(appSizeX, appSizeY);
+		
+		
 		System.out.println("anear beginning of init in RPG.java");
 		
 		for (int i=0;i<NUMMAPS;i++)
@@ -357,6 +363,9 @@ public class RPG extends Applet implements KeyListener
 			pSp.setSpeed(40);
 			pSp.updateAnimationP(g, System.currentTimeMillis());
 			
+			
+			msg.update(g, System.currentTimeMillis());
+			
 			for (int i = 0; i< NUMSPRITES; i++)
          	{
 				if(sp[i].isReady()&&maptracker==1) {
@@ -394,6 +403,8 @@ public class RPG extends Applet implements KeyListener
 		g.drawString("fps:         " + Math.round(fps) + "",630,560);
 		
 		g.drawString("ms to paint: " + endPaint,630,580);
+		
+		
 	}
 
 	public void step(char direction) {
@@ -419,6 +430,8 @@ public class RPG extends Applet implements KeyListener
 		//System.out.println("facetile " + facingTile);
 		
 			pSp.start();
+			
+			msg.start();
 		
 		//withinrangesprite = false;
 		nearSprite = -1;
