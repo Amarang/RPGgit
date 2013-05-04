@@ -28,20 +28,9 @@ class TileMap
 		for(int w=0; w<MAPWIDTH;w++)
 			for(int h=0; h<MAPHEIGHT;h++) matrix[h][w]=-1;
 			
-		try{
-			br = new BufferedReader(new FileReader(fileName));
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-			while (line != null) {
-				sb.append(line);
-				sb.append("\n");
-				line = br.readLine();
-			}
-			map = sb.toString();
-			br.close();
-    	} catch (Exception e) {}
 		
-		String mapStr = map;
+		Load l = new Load();
+		String mapStr = l.readFileToString(fileName);
 		
 		int x=0;
 		int y=0;

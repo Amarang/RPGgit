@@ -18,7 +18,7 @@ class Load
     public Load() {
 	}
 	
-	private String readFileToString(String fileName) {
+	public String readFileToString(String fileName) {
 		String dataStr = "";
 		int numLines = 0;
 		try {

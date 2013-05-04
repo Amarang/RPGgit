@@ -179,10 +179,10 @@ class Battle extends Applet
 		g.setFont(title);
 		g.setColor(Color.white);
   		g.drawString("Congratulations on defeating the "+m.getName()+"! Exp earned: "+xp,50,500);
-  		if (levelup) {
+		g.drawString("Gold earned: "+gold,50,520);
+  		if (levelup)
 			g.drawString("Congratulations! You\'re now level "+p.getLevel(),50,540);
-			g.drawString("Gold earned: "+gold,50,520);
-		}
+		
 	}
 	public void drawMonster(Graphics g)
 	{	
@@ -198,35 +198,7 @@ class Battle extends Applet
 		double stat_scale = (p.getLevel() / 3.0 + 1);
 		
 		m = new Monster(monster_id, stat_scale);
-		/*switch(monster_id) {
-		case 0: //Creaboxireis
-			m = new Monster((int)(stat_scale * 17),(int)(stat_scale * 6),(int)(stat_scale * 5),(int)(stat_scale * 3),(int)(stat_scale * 1),0);
-			break;
-		case 1: //Ant
-			m = new Monster((int)(stat_scale * 9),(int)(stat_scale * 4),(int)(stat_scale * 3),(int)(stat_scale * 2),(int)(stat_scale * 6),1);
-			break;
-		case 2: //Wolf
-			m = new Monster((int)(stat_scale * 14),(int)(stat_scale * 6),(int)(stat_scale * 4),(int)(stat_scale * 6),(int)(stat_scale * 4),2);
-			break;
-		case 3: //Snake
-			m = new Monster((int)(stat_scale * 12),(int)(stat_scale * 8),(int)(stat_scale * 3),(int)(stat_scale * 8),(int)(stat_scale * 5),3);
-			break;
-		case 4: //Slime
-			m = new Monster((int)(stat_scale * 11),(int)(stat_scale * 8),(int)(stat_scale * 3),(int)(stat_scale * 3),(int)(stat_scale * 7),4);
-			break;
-		case 5: //Dragon
-			m = new Monster((int)(stat_scale * 24),(int)(stat_scale * 10),(int)(stat_scale * 6),(int)(stat_scale * 6),(int)(stat_scale * 9),5);
-			break;
-		case 6: //Skinnyman
-			m = new Monster((int)(stat_scale * 18),(int)(stat_scale * 12),(int)(stat_scale * 5),(int)(stat_scale * 10),(int)(stat_scale * 5),6);
-			break;
-		case 7: //Wisping Ghoul
-			m = new Monster((int)(stat_scale * 20),(int)(stat_scale * 6),(int)(stat_scale * 5),(int)(stat_scale * 3),(int)(stat_scale * 1),7);
-			break;
-		default:
-			m = new Monster((int)(stat_scale * 10),(int)(stat_scale * 5),(int)(stat_scale * 5),(int)(stat_scale * 3),(int)(stat_scale * 2), 1);
-			break;
-		}*/
+		
 		 c.reset();
 		 initialize = true;
 		mdefended=false;

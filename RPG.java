@@ -25,23 +25,19 @@ public class RPG extends Applet implements KeyListener
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
 	static int BATTLEFREQUENCY = 4; //percentage of encounter per step
-	static String map;
+	static int FPS = 500;
+	//static String map;
 	
 	TileData td = new TileData();
 	int appSizeX = 800;
 	int appSizeY = 600;
 	private TileMap[] theMap= new TileMap[NUMMAPS];
-	int startx=800/2/TILESIZE;//MAPWIDTH / 2;
-	int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
+	int startx=appSizeX/2/TILESIZE;
+	int starty=appSizeY/2/TILESIZE;
 	int maptracker = 0;
-	//WalkingThread walking;
-	int offsetX = 0;
-	int offsetY = 0;
-	int checkx = 0;
-	int checky = 0;
-	int playerposition=1;
-	int mapx=0;
-	int mapy=0;
+	
+	long prevPaint = 0;
+	long currPaint = 0;
 	
 	int nearSprite = -1;
 	
@@ -267,14 +263,23 @@ public class RPG extends Applet implements KeyListener
 	
 	public void DrawMap(Graphics g)
 	{	
+		int xDraw = 0;
+		int yDraw = 0;
 		
-		for(int x=0; x<MAPWIDTH[maptracker];x++) {
-			for(int y=0; y<MAPHEIGHT[maptracker];y++) {
-				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],
-						   (startx-p.getX())*TILESIZE + x*TILESIZE,
-						   (starty-p.getY())*TILESIZE + y*TILESIZE, this);
+		Dimension appletSize = this.getSize();
+		int appSizeY = appletSize.height;
+		int appSizeX = appletSize.width;
+		
+		for(int y=0; y<MAPHEIGHT[maptracker] && yDraw <= appSizeY; y++) {
+		//for(int y=0; y<MAPHEIGHT[maptracker]; y++) {
+			for(int x=0; x<MAPWIDTH[maptracker]; x++) {
+				xDraw = (startx-p.getX())*TILESIZE + x*TILESIZE;
+				yDraw = (starty-p.getY())*TILESIZE + y*TILESIZE;
+				if(xDraw >= appSizeX) break;
+				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],xDraw,yDraw,this);
 			}
 		}
+		
 		if (c.getPointer()==7)
 		{
 			if(showinventory) showinventory=false;
@@ -312,6 +317,7 @@ public class RPG extends Applet implements KeyListener
 		}	
 	}
 	public void update(Graphics g) {
+	
 		Graphics offgc;
 		Image offscreen = null;
 		Dimension d = size();
@@ -322,10 +328,20 @@ public class RPG extends Applet implements KeyListener
 		offgc.setColor(getForeground());
 		paint(offgc);
 		g.drawImage(offscreen, 0, 0, this);
+		
 	}
 	
 	public void paint(Graphics g)
-	{	
+	{
+	
+		try { Thread.sleep((int)(1000.0/FPS)); }
+		catch(InterruptedException e) {}
+
+		prevPaint = System.currentTimeMillis();
+		int dt = (int)(prevPaint - currPaint);
+		float fps = 1000.0F/(float)dt;
+		currPaint = prevPaint;
+		
 	
 		if(!battle)
 		{
@@ -375,6 +391,11 @@ public class RPG extends Applet implements KeyListener
 				key_space=false;
 			}	
 		}
+		
+		int endPaint = (int)(System.currentTimeMillis() - currPaint);
+		g.drawString("fps:         " + Math.round(fps) + "",630,560);
+		
+		g.drawString("ms to paint: " + endPaint,630,580);
 	}
 
 	public void step(char direction) {
@@ -438,6 +459,7 @@ public class RPG extends Applet implements KeyListener
 			else if (maptracker==0)
 			{
 				maptracker=1;
+				hud.updateNPCInfo();
 				
 				p.setTownX(p.getX());
 				p.setTownY(p.getY());

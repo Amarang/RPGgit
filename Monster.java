@@ -23,11 +23,7 @@ class Monster
     private int damage;
     private int defense;
     private int id;
-	
 	private String name;
-	
-    //private String names[] = {"Creaboxireis","Ant","Wolf","Snake","Slime","Dragon","Skinnyman","Wisping Ghoul"};
-    
 	
 	Random rand = new Random(); 
 	

@@ -32,7 +32,7 @@ class HUD extends Applet
 	private int thickness = 20;
 	private boolean battleHUD = false;
 	private boolean loadedRecently = false;
-	private NPCData nd = new NPCData();
+	private NPCData nd;// = new NPCData();
     
     public HUD(Player p, Image[] icons,Item[] shop) {
         this.p = p;
@@ -46,6 +46,10 @@ class HUD extends Applet
 		this.m = m;
 		this.icons = icons;
     }
+	
+	public void updateNPCInfo() {
+		nd = new NPCData();
+	}
 	
 	public void drawInventory(Graphics g, Pointer c) {
 		this.c=c;
@@ -384,7 +388,7 @@ class HUD extends Applet
 		int height = 160-paddingy*2;
 		int col2Offset = length/2; // x distance between two main (inventory and equip) columns
 		int compOffset = 150; // x distance between column and comparison strings
-		int thickness = 20;
+		//int thickness = 20;
 		String better = "(+)";
 		String worse  = "(-)";
 		String same   = "(=)";
@@ -449,7 +453,7 @@ class HUD extends Applet
 		int height = 160-paddingy*2;
 		int col2Offset = length/2; // x distance between two main (inventory and equip) columns
 		int compOffset = 150; // x distance between column and comparison strings
-		int thickness = 20;
+		//int thickness = 20;
 		
 		g.setColor(Color.BLACK);
 		g.drawRect(800-length-paddingx-1, 600-height-paddingy-1, length+1, height+1);
