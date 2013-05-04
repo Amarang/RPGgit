@@ -13,6 +13,8 @@ import javax.sound.sampled.*;
 
 class Monster
 {
+	private static int NUMMONSTERS = 9;
+	private static String monsterDataFile = "data/monsters.txt";
     private int health;
     private int healthmax;
     private int mana;
@@ -21,12 +23,12 @@ class Monster
     private int damage;
     private int defense;
     private int id;
-    private String names[] = {"Creaboxireis","Ant","Wolf","Snake","Slime","Dragon","Skinnyman","Wisping Ghoul"};
+	
+	private String name;
+	
+    //private String names[] = {"Creaboxireis","Ant","Wolf","Snake","Slime","Dragon","Skinnyman","Wisping Ghoul"};
     
-    private boolean l = true;
-    private boolean r = true;
-    private boolean u = true;
-    private boolean d = true;
+	
 	Random rand = new Random(); 
 	
 	TileData td = new TileData();
@@ -40,6 +42,20 @@ class Monster
         speed=spd;
         defense = def;
         id = identity;
+    }
+	
+	public Monster(int id, double statScale) {
+		Load l = new Load();
+		String[][] data = l.readFileToArray(monsterDataFile);
+		//NAME ID HP MANA STR SPD DEF
+		name = data[id][0];
+		this.id = id;
+		health = Integer.parseInt(data[id][2]);
+		healthmax = Integer.parseInt(data[id][2]);
+		mana = Integer.parseInt(data[id][3]);
+		strength = Integer.parseInt(data[id][4]);
+		speed = Integer.parseInt(data[id][5]);
+		defense = Integer.parseInt(data[id][6]);
     }
     
     public void reset() {
@@ -64,7 +80,8 @@ class Monster
     public int getDefense() { return defense; }
     public int getDamage() { return damage; }
     public int getId() { return id; }
-    public String getName() { return names[id]; }
+    //public String getName() { return names[id]; }
+    public String getName() { return name; }
     
     public void setDamage(int d) { health-=d; }
     public void setDefense(int d) { defense-=d; }

@@ -14,7 +14,7 @@ import javax.sound.sampled.*;
 class Battle extends Applet
 {
 	//private static int NUMSPRITES = 5;
-	
+	private static int NUMMONSTERS = 9;
 	private SoundClip hit;
 	private SoundClip death;
 	private SoundClip battlemusic;
@@ -179,9 +179,10 @@ class Battle extends Applet
 		g.setFont(title);
 		g.setColor(Color.white);
   		g.drawString("Congratulations on defeating the "+m.getName()+"! Exp earned: "+xp,50,500);
-  		if (levelup)
-  		g.drawString("congrats on leveling up to level "+p.getLevel(),50,540);
-  		g.drawString("Gold earned: "+gold,50,520);
+  		if (levelup) {
+			g.drawString("Congratulations! You\'re now level "+p.getLevel(),50,540);
+			g.drawString("Gold earned: "+gold,50,520);
+		}
 	}
 	public void drawMonster(Graphics g)
 	{	
@@ -193,9 +194,11 @@ class Battle extends Applet
 		battlemusic.play();
 		g.setFont(title);
 		key_space=false;
-		int monster_id = rand.nextInt(8);
+		int monster_id = rand.nextInt(NUMMONSTERS);
 		double stat_scale = (p.getLevel() / 3.0 + 1);
-		switch(monster_id) {
+		
+		m = new Monster(monster_id, stat_scale);
+		/*switch(monster_id) {
 		case 0: //Creaboxireis
 			m = new Monster((int)(stat_scale * 17),(int)(stat_scale * 6),(int)(stat_scale * 5),(int)(stat_scale * 3),(int)(stat_scale * 1),0);
 			break;
@@ -223,7 +226,7 @@ class Battle extends Applet
 		default:
 			m = new Monster((int)(stat_scale * 10),(int)(stat_scale * 5),(int)(stat_scale * 5),(int)(stat_scale * 3),(int)(stat_scale * 2), 1);
 			break;
-		}
+		}*/
 		 c.reset();
 		 initialize = true;
 		mdefended=false;

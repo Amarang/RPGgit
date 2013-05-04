@@ -1,0 +1,11 @@
+//NAME ID HP MANA STR SPD DEF
+
+Creaboxireis	0	17	6	5	3	1
+Ant	1	9	4	3	2	6
+Wolf	2	14	6	4	6	4
+Snake	3	12	8	3	8	5
+Slime	4	11	8	3	3	7
+Dragon	5	24	10	6	6	9
+Skinnyman	6	18	12	5	10	5
+Wisping Ghoul	7	20	6	5	3	1
+Pissed Black Dude	8	1	1	40	5	4

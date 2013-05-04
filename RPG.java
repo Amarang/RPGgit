@@ -21,7 +21,7 @@ public class RPG extends Applet implements KeyListener
 	static int NUMSPRITES = 6;
 	static int NUMITEMS = 11;
 	static int NUMICONS = 6;
-	static int NUMMONSTERS = 8;
+	static int NUMMONSTERS = 9;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
 	static int BATTLEFREQUENCY = 4; //percentage of encounter per step
