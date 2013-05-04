@@ -276,7 +276,7 @@ class Player
           output.write(level+"\t"+health+"\t"+healthmax+"\t"+gold);
           output.close();
           System.out.println("Batman has saved the game.");
-        } catch ( IOException e ) {
+        } catch ( Exception e ) {
            e.printStackTrace();
         }
         

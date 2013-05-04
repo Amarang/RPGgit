@@ -118,6 +118,7 @@ class HUD extends Applet
 		}
 		g.drawString("Exit",640,40+20*10);
 		g.drawString("Save",640,40+20*11);
+		g.drawString("Load",640,40+20*12);
 	}
 	
 	public void drawShop(Graphics g, Pointer c) {

@@ -103,7 +103,7 @@ public class RPG extends Applet implements KeyListener
 	public void init()
 	{
 		load=new Load();
-		System.out.println("near beginning of init in RPG.java");
+		System.out.println("anear beginning of init in RPG.java");
 		
 		for (int i=0;i<NUMMAPS;i++)
 			theMap[i] = new TileMap(MAPWIDTH[i], MAPHEIGHT[i], "maps/file"+i+".txt");
