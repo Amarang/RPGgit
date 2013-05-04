@@ -15,18 +15,15 @@ import java.util.regex.Pattern;
 
 class Load
 {
-	// map integer (sprite ID) to string (NPC name)
-	private Map<Integer, String> LoadDescMap = new HashMap<Integer, String>();
-	// map integer (sprite ID) to string (NPC description (caption), or whatever)
-	private Map<Integer, String> LoadNameMap = new HashMap<Integer, String>();
-	private String LoadDataFile = "data/save.txt";
+	private String LoadDataFile;
 	private BufferedReader br;
 	private String dataStr;
 	private Player p;
 	String[] lineArray;
 	
     public Load() {
-	
+		LoadDataFile = "data/save.txt";
+		
 		System.out.println("getting load data");
 		
 		try {
@@ -58,8 +55,6 @@ class Load
 				temp = temp.replace("\r", "");
 				lineArray = pattern.split(temp);
 				System.out.println("Load" + lineArray[0]);
-				//LoadNameMap.put(Integer.parseInt(lineArray[0]), lineArray[1]); //ID, name
-				//LoadDescMap.put(Integer.parseInt(lineArray[0]), lineArray[2]); //ID, desc
 				temp = "";
 			}
 			temp += c;

@@ -271,7 +271,7 @@ class Player
 	{ 	
 		try {
           File file = new File("data/save.txt");
-          System.out.println("saving, please dont turn off the power.");
+          System.out.println("saving, please don\'t turn off the power.");
           BufferedWriter output = new BufferedWriter(new FileWriter(file));
           output.write(level+"\t"+health+"\t"+healthmax+"\t"+gold);
           output.close();
