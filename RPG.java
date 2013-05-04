@@ -25,8 +25,7 @@ public class RPG extends Applet implements KeyListener
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
 	static int BATTLEFREQUENCY = 4; //percentage of encounter per step
-	static int FPS = 500;
-	//static String map;
+	static int FPS = 60;
 	
 	TileData td = new TileData();
 	int appSizeX = 800;
@@ -375,8 +374,7 @@ public class RPG extends Applet implements KeyListener
 			if(firsttimebattle) {
 				wait.suspend();
 				intro.stop();
-				//battlemusic.play(true);
-				b = new Battle(g, p, monsterImages,c,hit,sp, icons,death,battlemusic);
+				b = new Battle(p, monsterImages,c,icons,hit,death,battlemusic);
 				firsttimebattle = false;
 			} else {
 				

@@ -9,6 +9,7 @@ class SoundClip
 	private String cID = "";
 	
 	public SoundClip(String clipID) {
+		System.out.println("made SoundClip");
 		try {
 			cID = clipID;
 			URL soundURL = getClass().getResource("music/"+clipID+".wav");

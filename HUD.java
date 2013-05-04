@@ -35,6 +35,7 @@ class HUD extends Applet
 	private NPCData nd;// = new NPCData();
     
     public HUD(Player p, Image[] icons,Item[] shop) {
+		System.out.println("made HUD");
         this.p = p;
 		this.icons = icons;
 		this.shop = shop;
@@ -42,6 +43,7 @@ class HUD extends Applet
     }
 		
 	public HUD(Player p, Monster m, Image[] icons) {
+		System.out.println("made HUD");
         this.p = p;
 		this.m = m;
 		this.icons = icons;

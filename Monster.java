@@ -31,6 +31,7 @@ class Monster
 	int[] restricted = td.getRestricted();
     
     public Monster(int h, int m, int str, int spd,int def,int identity) {
+		System.out.println("made Monstermanual");
         health = h;
         healthmax = h;
         mana = m;
@@ -41,6 +42,7 @@ class Monster
     }
 	
 	public Monster(int id, double statScale) {
+		System.out.println("made Monsterdynamic");
 		Load l = new Load();
 		String[][] data = l.readFileToArray(monsterDataFile);
 		//NAME ID HP MANA STR SPD DEF

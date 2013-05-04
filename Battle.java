@@ -13,17 +13,14 @@ import javax.sound.sampled.*;
 
 class Battle extends Applet
 {
-	//private static int NUMSPRITES = 5;
 	private static int NUMMONSTERS = 9;
 	private SoundClip hit;
 	private SoundClip death;
 	private SoundClip battlemusic;
-	private Graphics g;
 	private Monster m;
 	private Pointer c;
 	private Image[] monsterImages;
 	private Image[] icons;
-	private Sprite[] sp;
 	private Player p;
 	private Random rand = new Random(); 
  	private Font title = new Font("DialogInput",Font.PLAIN,20);	
@@ -57,15 +54,14 @@ class Battle extends Applet
   	private boolean levelup = false;
   	private boolean playernotgone = true;
 	
-    public Battle(Graphics gr, Player pl, Image[] mi, Pointer cl,SoundClip hit,Sprite[] sp,Image[] icons,SoundClip death,SoundClip battlemusic) {
-		this.g = gr;
+    public Battle(Player pl, Image[] mi, Pointer cl,Image[] icons,SoundClip hit,SoundClip death,SoundClip battlemusic) {
+		System.out.println("made Battle");
 		this.p = pl;
 		this.c = cl;
 		this.monsterImages = mi;
 		this.hit = hit;
 		this.death = death;
 		this.battlemusic = battlemusic;
-		this.sp = sp;
 		this.icons = icons;
 	}
 	public boolean getBattle() { return battle; }
@@ -90,7 +86,7 @@ class Battle extends Applet
 					buffer=true;
 					xp=m.getId()+(rand.nextInt(3)+1)*(p.getLevel()+m.getStrength());
 					gold=m.getId()+1*rand.nextInt(3)*rand.nextInt(4)+1/(rand.nextInt(4)+1)*(p.getLevel()+m.getStrength());
-					p.setGold(gold);
+					p.addGold(gold);
 					if (p.setExperience(xp))
 						levelup=true;	
 				}
@@ -110,8 +106,9 @@ class Battle extends Applet
 					buffer=true;
 				
 					xp=-(p.getExperience()/2);
-					gold=-(p.getGold()/2);
-					p.setGold(gold);
+					//gold=-(p.getGold()/2);
+					//p.setGold(gold);
+					p.addGold(-(int)(p.getGold()/2));
 					if (p.setExperience(xp))
 						g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);	
 				}

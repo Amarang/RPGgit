@@ -51,6 +51,7 @@ class Player
 	TileData td = new TileData();
 	
     public Player(int xPos, int yPos,int h, int m, int str, int spd,int def,int g,int xp,int lvl,String playerName) {
+		System.out.println("made Player");
         x = xPos;
         y = yPos;
         lasttownx = xPos;
@@ -123,6 +124,7 @@ class Player
     public void setLevel(int d) { level=d; }
     public void setDefense(int d) { defense-=d; }
     public void setGold(int d) { gold=d; }
+    public void addGold(int d) { gold+=d; }
     public void pay(int d) {gold-=d;}
     public void setHealth(int d) { health=d; }
     public void setHealthMax(int d) { healthmax=d; }
