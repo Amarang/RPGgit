@@ -69,7 +69,6 @@ public class RPG extends Applet implements KeyListener
 	Monster m;
 	Battle b;
 	HUD hud;
-	Load load;
 	Sprite[] sp= new Sprite[NUMSPRITES];
 	Sprite pSp;
 	Item[] item= new Item[NUMITEMS];
@@ -102,7 +101,7 @@ public class RPG extends Applet implements KeyListener
 	
 	public void init()
 	{
-		load=new Load();
+		//load=new Load();
 		System.out.println("anear beginning of init in RPG.java");
 		
 		for (int i=0;i<NUMMAPS;i++)
@@ -200,7 +199,7 @@ public class RPG extends Applet implements KeyListener
 		  
 		addKeyListener(this);
 		
-		hud = new HUD(p, icons, shop,load);
+		hud = new HUD(p, icons, shop);
 			
 	}
 	

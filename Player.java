@@ -281,6 +281,20 @@ class Player
         }
         
 	}
+	
+	
+	public void load() 
+	{ 	
+		Load l = new Load();
+		String[][] stats = l.readFileToArray("data/save.txt");
+		
+		setLevel(Integer.parseInt(stats[0][0]));
+		setHealth(Integer.parseInt(stats[0][1]));
+		setHealthMax(Integer.parseInt(stats[0][2]));
+		setGold(Integer.parseInt(stats[0][3]));
+        
+	}
+	
     private boolean canMoveLeft() { return l; }
     private boolean canMoveRight() { return r; }
     private boolean canMoveUp() { return u; }
