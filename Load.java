@@ -26,25 +26,8 @@ class Load
 		
 		System.out.println("getting load data");
 		
-		try {
-			System.out.println("inside Load try");
-			br = new BufferedReader(new FileReader(LoadDataFile));
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-			while (line != null) {
-				sb.append(line);
-				sb.append("\n");
-				line = br.readLine();
-			}
-			
-			System.out.println("end of Load try");
-			String data = sb.toString();
-			br.close();
-			
-			dataStr = data;
-    	} catch (Exception e) { System.out.println("couldn't get " + LoadDataFile); }
-		
 		String temp = "";
+		String dataStr = readFile(LoadDataFile);
 		System.out.println(dataStr.length());
 		for (int i=0; i < dataStr.length(); i++) {
 			char c = dataStr.charAt(i);
@@ -52,14 +35,37 @@ class Load
 				
 				Pattern pattern = Pattern.compile(Pattern.quote("\t"));
 				temp = temp.replace("\n", "");
-				temp = temp.replace("\r", "");
 				lineArray = pattern.split(temp);
 				System.out.println("Load" + lineArray[0]);
 				temp = "";
 			}
 			temp += c;
 		}
+	}
+	
 
+	
+	private String readFile(String fileName) {
+		String dataStr = "";
+		
+		try {
+		
+			File file = new File(fileName);
+			StringBuilder fileContents = new StringBuilder((int)file.length());
+			Scanner scanner = new Scanner(file);
+			try {
+				while(scanner.hasNextLine()) {        
+					fileContents.append(scanner.nextLine() + "\n");
+				}
+				return fileContents.toString();
+			} finally {
+				scanner.close();
+			}
+		} catch (Exception e) { 
+			System.out.println("couldn't get " + fileName); 
+			e.printStackTrace();
+		}
+		return dataStr;
 	}
 	
 	public void LoadData(Player p) {

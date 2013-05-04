@@ -94,7 +94,7 @@ public class RPG extends Applet implements KeyListener
 	boolean firststep = false;
 	boolean oktomove = true;
 	boolean showinventory=false;
-	boolean showInteraction=false;
+	boolean showinteraction=false;
 	boolean withinrangesprite=false;
 
 	 
@@ -189,8 +189,7 @@ public class RPG extends Applet implements KeyListener
         for (int i = 0; i < NUMSPRITES; i++)
         {
 			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+20, rand.nextInt(10)+20, TILESIZE, i);
-			// i at the end is the sprite ID, so we can later identify which sprite is which
-			// useful if we have different NPC types
+			
 			sp[i].setSpeed(900+rand.nextInt(700));
 			sp[i].start();
         }
@@ -202,11 +201,12 @@ public class RPG extends Applet implements KeyListener
 		addKeyListener(this);
 		
 		hud = new HUD(p, icons, shop,load);
-		
-		//p.equip(item[5]);	
 			
 	}
 	
+	public boolean isFree() {
+		return !battle&&!showinventory&&!showinteraction;
+	}
 	
   	public void keyPressed(KeyEvent evt) 
 	{
@@ -217,28 +217,28 @@ public class RPG extends Applet implements KeyListener
 			{
 				released = false;
 				c.setPointer(1);
-				if (!battle&&!showinventory&&!showInteraction) step('l');
+				if (isFree()) step('l');
 				oktomove=false;
 			}
 			if(key==KeyEvent.VK_S)
 			{
 				released = false;
 				c.setPointer(2);
-				if (!battle&&!showinventory&&!showInteraction) step('d');
+				if (isFree()) step('d');
 				oktomove=false;
 			}
 			if(key==KeyEvent.VK_D)
 			{
 				released = false;
 				c.setPointer(3);
-				if (!battle&&!showinventory&&!showInteraction) step('r');
+				if (isFree()) step('r');
 				oktomove=false;
 			}
 			if(key==KeyEvent.VK_W)
 			{
 				released = false;
 				c.setPointer(0);
-				if (!battle&&!showinventory&&!showInteraction) step('u');
+				if (isFree()) step('u');
 				oktomove=false;
 			}
 			/*if(key==KeyEvent.VK_SPACE)
@@ -285,12 +285,12 @@ public class RPG extends Applet implements KeyListener
 		
 		if (c.getPointer()==11&&nearSprite>=0)
 		{
-			if(showInteraction) {
-				showInteraction = false;
+			if(showinteraction) {
+				showinteraction = false;
 				nearSprite = -1;
 			}
-			else showInteraction=true;
-			if(nearSprite >= 0) showInteraction=true;
+			else showinteraction=true;
+			if(nearSprite >= 0) showinteraction=true;
 			
 			System.out.println(c.getPointer());	
 				
@@ -303,11 +303,11 @@ public class RPG extends Applet implements KeyListener
 	public void PlayerMenu(Graphics g)
 	{
 		hud.draw(g);
-		if (showinventory&&!showInteraction)
+		if (showinventory&&!showinteraction)
 		{
 			hud.drawInventory(g,c);
 		}
-		if (showInteraction&&nearSprite==5)
+		if (showinteraction&&nearSprite==5)
 		{
 			hud.drawShop(g,c);
 		}	
@@ -333,10 +333,10 @@ public class RPG extends Applet implements KeyListener
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			
-			//if(!withinrangesprite) showInteraction = false;
+			//if(!withinrangesprite) showinteraction = false;
 			
-			//if(showInteraction && withinrangesprite && nearSprite >= 0) {
-			if(showInteraction && nearSprite >= 0) {
+			//if(showinteraction && withinrangesprite && nearSprite >= 0) {
+			if(showinteraction && nearSprite >= 0) {
 				hud.drawInteractionPane(g,nearSprite);
 			}
 			

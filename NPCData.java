@@ -53,9 +53,7 @@ class NPCData
 				String[] lineArray;
 				Pattern pattern = Pattern.compile(Pattern.quote("\t"));
 				temp = temp.replace("\n", "");
-				temp = temp.replace("\r", "");
 				lineArray = pattern.split(temp);
-				System.out.println("DFDF" + lineArray[0]);
 				NPCNameMap.put(Integer.parseInt(lineArray[0]), lineArray[1]); //ID, name
 				NPCDescMap.put(Integer.parseInt(lineArray[0]), lineArray[2]); //ID, desc
 				temp = "";
