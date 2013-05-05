@@ -20,9 +20,23 @@ class Load
 	
 	public String readFileToString(String fileName) {
 		String dataStr = "";
-		int numLines = 0;
-		try {
-			File file = new File(fileName);
+		//int numLines = 0;
+		
+		//Applet appl = new Applet();
+		
+		InputStream is = getClass().getClassLoader()
+                                .getResourceAsStream(fileName);
+		
+		Scanner s = new Scanner(is).useDelimiter("\\A");
+		return s.hasNext() ? s.next() : "";
+		
+		/*try {
+		
+		
+			System.out.println(URLClassLoader.getSystemResource(fileName).toString());
+			
+			File file = new File(URLClassLoader.getSystemResource(fileName).toString());
+			
 			StringBuilder fileContents = new StringBuilder((int)file.length());
 			Scanner scanner = new Scanner(file);
 			try {
@@ -37,8 +51,8 @@ class Load
 		} catch (Exception e) { 
 			System.out.println("couldn't get " + fileName); 
 			e.printStackTrace();
-		}
-		return dataStr;
+		}*/
+		//return dataStr;
 	}
 	
 	public String[][] readFileToArray(String fileName) {

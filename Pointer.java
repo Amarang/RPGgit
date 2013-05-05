@@ -1,5 +1,4 @@
-class Pointer
-{
+class Pointer {
 	private int choice = 1;	
     public Pointer(int x) { choice = x; }
     public void reset() { choice = 0; }
