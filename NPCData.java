@@ -25,7 +25,7 @@ class NPCData
 	
     public NPCData() {
 	
-		System.out.println("making NPC data");
+		//System.out.println("making NPC data");
 		
 		Load l = new Load();
 		String[][] data = l.readFileToArray(NPCDataFile);

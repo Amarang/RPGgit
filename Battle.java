@@ -85,8 +85,7 @@ class Battle extends Applet
 					key_space=false;
 					buffer=true;
 					xp=((m.getHealthMax() + m.getDamage() + m.getDefense() + m.getSpeed() + m.getMana())*3/2 - 
-						(p.getHealthMax() + p.getDamage() + p.getDefense() + p.getSpeed() + p.getMana()))*(p.getLevel()/3+1);
-						
+						(p.getHealthMax() + p.getDamage() + p.getDefense() + p.getSpeed() + p.getMana()))*(p.getLevel()/3+1);	
 					if (xp<2*p.getLevel())
 						xp=2*p.getLevel();
 					gold=m.getId()+(rand.nextInt(4)+1)*(p.getLevel()*m.getStrength())/(p.getLevel());
@@ -196,7 +195,7 @@ class Battle extends Applet
 		g.setFont(title);
 		key_space=false;
 		int monster_id = rand.nextInt(NUMMONSTERS);
-		double stat_scale = (p.getLevel() / 3.0 + 1);
+		double stat_scale = (p.getLevel() / 4.0 + 1+(p.getX()/80)+(p.getY()/80));
 		
 		m = new Monster(monster_id, stat_scale);
 		
