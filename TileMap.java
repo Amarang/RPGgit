@@ -45,8 +45,8 @@ class TileMap
 			
 			if(i != mapStr.length()-1 && c != '\n' && c != '\r') 
 				if(x < MAPWIDTH && y < MAPHEIGHT)
-					if(!(c-98 > 123 || c-47 < 0))
-						matrix[y][x] = (int)c - 97;
+					if(!(c > 126 || c < 64))
+						matrix[y][x] = (int)c - 65;
 		}
 	}
 	

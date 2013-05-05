@@ -14,10 +14,10 @@ import javax.sound.sampled.*;
 public class RPG extends Applet implements KeyListener
 {
 	static int TILESIZE = 20;
-	static int NUMMAPS = 3;
-	static int MAPWIDTH[] = {400,90,43};
-	static int MAPHEIGHT[] = {300,70,50};
-	static int TILETYPES = 14;
+	static int NUMMAPS = 4;
+	static int MAPWIDTH[] = {400,90,43,80};
+	static int MAPHEIGHT[] = {300,70,50,60};
+	static int TILETYPES = 50;
 	static int NUMSPRITES = 6;
 	static int NUMITEMS = 11;
 	static int NUMICONS = 6;
@@ -33,7 +33,7 @@ public class RPG extends Applet implements KeyListener
 	private TileMap[] theMap = new TileMap[NUMMAPS];
 	int startx = appSizeX/2/TILESIZE;
 	int starty = appSizeY/2/TILESIZE;
-	int maptracker = 0;
+	int maptracker = 3;
 	
 	long prevPaint = 0;
 	long currPaint = 0;
