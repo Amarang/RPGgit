@@ -84,7 +84,11 @@ class Battle extends Applet
 				{
 					key_space=false;
 					buffer=true;
-					xp=m.getId()+(rand.nextInt(3)+1)*(p.getLevel()+m.getStrength());
+					xp=((m.getHealthMax() + m.getDamage() + m.getDefense() + m.getSpeed() + m.getMana())*3/2 - 
+						(p.getHealthMax() + p.getDamage() + p.getDefense() + p.getSpeed() + p.getMana()))*(p.getLevel()/3+1);
+						
+					if (xp<2*p.getLevel())
+						xp=2*p.getLevel();
 					gold=m.getId()+(rand.nextInt(4)+1)*(p.getLevel()*m.getStrength())/(p.getLevel());
 					p.addGold(gold);
 					if (p.setExperience(xp))

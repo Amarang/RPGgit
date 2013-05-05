@@ -28,7 +28,7 @@ class Message
 	private int defaultFadeDuration = 1000; //milliseconds
 	
 	private int fadeDuration = 1000; //milliseconds
-	private int msPerFrame = 50; //milliseconds
+	private int msPerFrame = 15; //milliseconds
 	
 	private boolean running;
 		
