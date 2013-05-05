@@ -25,6 +25,8 @@ class Message
 	private String text;
 	
 	private long previousTime = 0;
+	private int defaultFadeDuration = 1000; //milliseconds
+	
 	private int fadeDuration = 1000; //milliseconds
 	private int msPerFrame = 50; //milliseconds
 	
@@ -47,14 +49,19 @@ class Message
 		Color tempCol = g.getColor();
 		Font tempFont = g.getFont();
 		
-		int numLines = 3;
+		//int numLines = 3;
+		
+		int lettersPerLine = 70;
+		int numLines = (int)(text.length() / lettersPerLine + 1);
+		
 		
 		Composite original = g2d.getComposite();
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.BLACK);
 		
-		g.fillRect(padding,height-thickness*numLines-padding*2,width-2*padding,thickness*numLines+padding);
+		g.fillRoundRect(padding,height-thickness*numLines-padding*2,width-2*padding,thickness*numLines+padding, padding, padding);
+		
 		
 		
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
@@ -62,10 +69,30 @@ class Message
 		g.setFont(labelFont);
 		g.setColor(Color.WHITE);
 		
-		String lines[] = {"dfdf", "dfdlfkjdf", "dfdklfjdfk"};
+		System.out.println(text);
+		
+		
+		System.out.println("numlines should be " + numLines);
+		System.out.println("alpha " + alpha);
+		//String lines[] = {"dfdf", "dfdlfkjdf", "dfdklfjdfk"};
+		String[] lines = new String[numLines];
+		
+		
+		for(int i = 0; i < numLines; i++) {
+			try {
+				lines[i] = text.substring(i,i+lettersPerLine);
+			} catch (Exception e) {
+				try {
+					lines[i] = text.substring(i,text.length());
+				} catch (Exception e2) {
+					lines[i] = "";
+				}
+			}
+			
+		}
 		
 		for(int i = 0; i < lines.length; i++) {
-			g.drawString(lines[i],padding*2,height-thickness*(i+1)-padding+15/2);
+			g.drawString(lines[i],padding*2,height-thickness*(i+1)-padding+15/2+2);
 		}
 		
 		g.setColor(tempCol);
@@ -79,7 +106,7 @@ class Message
 		if(running) {
 			draw(g, alpha);
 			if(previousTime == 0 || time - previousTime >= msPerFrame) {
-				alpha -= (float)(1.0 / fadeDuration * msPerFrame);
+				alpha -= (float)(1.0 * (1.05-alpha)*3 / fadeDuration * msPerFrame);
 				previousTime = time;
 			}
 			if(alpha <= 0) {
@@ -92,8 +119,15 @@ class Message
 		this.text = txt;
 	}
 	
+	public void setTextAndStart(String txt, int duration) {
+		this.text = txt;
+		this.fadeDuration = duration;
+		start();
+	}
+	
 	public void setTextAndStart(String txt) {
 		this.text = txt;
+		this.fadeDuration = defaultFadeDuration;
 		start();
 	}
 	
