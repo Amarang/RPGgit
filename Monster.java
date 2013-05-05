@@ -48,12 +48,12 @@ class Monster
 		//NAME ID HP MANA STR SPD DEF
 		name = data[id][0];
 		this.id = id;
-		health = Integer.parseInt(data[id][2]);
-		healthmax = Integer.parseInt(data[id][2]);
-		mana = Integer.parseInt(data[id][3]);
-		strength = Integer.parseInt(data[id][4]);
-		speed = Integer.parseInt(data[id][5]);
-		defense = Integer.parseInt(data[id][6]);
+		health = (int)(statScale*Integer.parseInt(data[id][2]));
+		healthmax = (int)(statScale*Integer.parseInt(data[id][2]));
+		mana = (int)(statScale*Integer.parseInt(data[id][3]));
+		strength = (int)(statScale*Integer.parseInt(data[id][4]));
+		speed = (int)(statScale*Integer.parseInt(data[id][5]));
+		defense = (int)(statScale*Integer.parseInt(data[id][6]));
     }
     
     public void reset() {

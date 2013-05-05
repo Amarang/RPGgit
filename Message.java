@@ -54,7 +54,7 @@ class Message
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.BLACK);
 		
-		g.fillRect(padding,height-thickness*numLines-padding,width-2*padding,thickness*numLines);
+		g.fillRect(padding,height-thickness*numLines-padding*2,width-2*padding,thickness*numLines+padding);
 		
 		
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
@@ -65,7 +65,7 @@ class Message
 		String lines[] = {"dfdf", "dfdlfkjdf", "dfdklfjdfk"};
 		
 		for(int i = 0; i < lines.length; i++) {
-			g.drawString(text,padding*2,height-thickness*i+15/2-3);
+			g.drawString(lines[i],padding*2,height-thickness*(i+1)-padding+15/2);
 		}
 		
 		g.setColor(tempCol);
