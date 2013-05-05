@@ -291,10 +291,10 @@ class Player
 		Load l = new Load();
 		String[][] stats = l.readFileToArray(SaveFile);
 		
-		setLevel(Integer.parseInt(stats[0][0]));
-		setHealth(Integer.parseInt(stats[0][1]));
-		setHealthMax(Integer.parseInt(stats[0][2]));
-		setGold(Integer.parseInt(stats[0][3]));
+		setLevel(Integer.parseInt(stats[0][0].trim()));
+		setHealth(Integer.parseInt(stats[0][1].trim()));
+		setHealthMax(Integer.parseInt(stats[0][2].trim()));
+		setGold(Integer.parseInt(stats[0][3].trim()));
         
 	}
 	

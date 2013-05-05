@@ -71,13 +71,13 @@ class Item
 	}
     public void setStats(String[] s) {
     	
-    	strength = Integer.parseInt(s[1]);
-    	defense = Integer.parseInt(s[2]);
-    	health = Integer.parseInt(s[3]);
-    	icon = Integer.parseInt(s[4]);
-    	type = Integer.parseInt(s[4]);
-    	price = Integer.parseInt(s[5]);
-    	//onetimeuse = Integer.parseInt(s[5]);
+    	strength = Integer.parseInt(s[1].trim());
+    	defense = Integer.parseInt(s[2].trim());
+    	health = Integer.parseInt(s[3].trim());
+    	icon = Integer.parseInt(s[4].trim());
+    	type = Integer.parseInt(s[4].trim());
+    	price = Integer.parseInt(s[5].trim());
+    	onetimeuse = Integer.parseInt(s[6].trim());
     }
     public void reset() {
     	health = 0;

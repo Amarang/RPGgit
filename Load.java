@@ -52,11 +52,11 @@ class Load
 			e.printStackTrace();
 		}
 		
-		//dataStr.replace("\n\n","\n");
+		
 		
 		dataStr += "\n";
 		
-		
+		dataStr.replace("\r","");
 			//String nextLine = "";
 			
 				//System.out.println(fileName);
@@ -70,23 +70,8 @@ class Load
 				if(cols > numCols) numCols = cols;
 				
 			}
-			
-				/*while(scanner.hasNextLine()) {
-				
-					nextLine = scanner.nextLine();
-					int cols = nextLine.split("\t").length;
-					if(cols > numCols) numCols = cols;
-					//System.out.println("cols" + cols);
-					
-					numLines++;
-					fileContents.append(nextLine + "\n");
-					
-				}*/
-				
-				
-		
-			
-		
+
+
 		String[][] lines = new String[numLines][numCols];
 		String temp = "";
 		int nline = 0;
@@ -96,7 +81,8 @@ class Load
 				Pattern pattern = Pattern.compile(Pattern.quote("\t"));
 				temp = temp.replace("\n", "");
 				lineArray = pattern.split(temp);
-				if(!(temp.length() < 1 || lineArray.length == 0 || temp.length() == 0 || temp.charAt(0) == '/')) {
+				
+				if(!(temp.length() < 1 || lineArray.length == 1 || temp.length() == 0 || temp.charAt(0) == '/')) {
 					lines[nline] = lineArray;
 					nline++;
 				}
@@ -104,8 +90,8 @@ class Load
 			}
 			temp += c;
 		}
-		System.out.println("nline " + nline + " numCols " + numCols);
-		System.out.println(Arrays.deepToString(lines));
+		//System.out.println("nline " + nline + " numCols " + numCols);
+		//System.out.println(Arrays.deepToString(lines));
 		String[][] linesClean = new String[nline][numCols];
 		
 		int y = 0;
@@ -116,8 +102,8 @@ class Load
 					y++;
 				}
 		}	
-		System.out.println("y " + y);
-		System.out.println(Arrays.deepToString(linesClean));
+		//System.out.println("y " + y);
+		//System.out.println(Arrays.deepToString(linesClean));
 		return linesClean;
 	}
 }
