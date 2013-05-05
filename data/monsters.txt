@@ -1,5 +1,4 @@
 //NAME ID HP MANA STR SPD DEF
-
 Creaboxireis	0	17	6	5	3	1
 Ant	1	9	4	3	2	6
 Wolf	2	14	6	4	6	4

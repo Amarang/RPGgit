@@ -48,7 +48,11 @@ class Item
 		//data[itemid] looks like [i00, 3, 0, 0, 2, 5, 0]
 		//but you can't parseint on i00, so I'm skipping that one
 		//don't use it for anything anyways (same thing as itemid, right?)
-		setStats(Arrays.copyOfRange(data[itemid],1,data[itemid].length));
+		
+		//setStats(Arrays.copyOfRange(data[itemid],1,data[itemid].length));
+		
+		setStats(data[itemid]);
+		
 		System.out.println("MADE items!");
 	}
 	
@@ -67,13 +71,13 @@ class Item
 	}
     public void setStats(String[] s) {
     	
-    	strength = Integer.parseInt(s[0]);
-    	defense = Integer.parseInt(s[1]);
-    	health = Integer.parseInt(s[2]);
-    	icon = Integer.parseInt(s[3]);
-    	type = Integer.parseInt(s[3]);
-    	price = Integer.parseInt(s[4]);
-    	onetimeuse = Integer.parseInt(s[5]);
+    	strength = Integer.parseInt(s[1]);
+    	defense = Integer.parseInt(s[2]);
+    	health = Integer.parseInt(s[3]);
+    	icon = Integer.parseInt(s[4]);
+    	type = Integer.parseInt(s[4]);
+    	price = Integer.parseInt(s[5]);
+    	//onetimeuse = Integer.parseInt(s[5]);
     }
     public void reset() {
     	health = 0;

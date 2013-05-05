@@ -24,8 +24,8 @@ public class RPG extends Applet implements KeyListener
 	static int NUMMONSTERS = 10;
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
-	static int WALKINGDELAY = 125;
-	static int BATTLEFREQUENCY = 4; //percentage of encounter per step
+	static int WALKINGDELAY = 10;
+	static int BATTLEFREQUENCY = 0; //percentage of encounter per step
 	static int FPS = 60;
 	int boss=0;
 	
@@ -46,6 +46,7 @@ public class RPG extends Applet implements KeyListener
 	long currPaint = 0;
 	
 	int nearSprite = -1;
+	int shopkeeperID = 1;
 	
 	static boolean music = true;
 	boolean sound = true;	
@@ -326,7 +327,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			hud.drawInventory(g,c);
 		}
-		if (showinteraction&&nearSprite==5)
+		if (showinteraction&&nearSprite==shopkeeperID)
 		{
 			hud.drawShop(g,c);
 		}	

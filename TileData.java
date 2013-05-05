@@ -7,7 +7,7 @@ class TileData
 	private Map<Integer, Integer> soundMap = new HashMap<Integer, Integer>();
 	
 	
-	private boolean NOCLIP = false;
+	private boolean NOCLIP = true;
 	
 	private int[] restricted = new int[] {-1, 2, 3}; //-1 is outside map
 	private int[] walkRestricted = new int[] {-1, 2, 3,10,13};
