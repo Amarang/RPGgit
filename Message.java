@@ -20,15 +20,13 @@ class Message
     private int width;
     private int height;
 	private float alpha;
-	
 	private int padding = 10;
-	
 	private int thickness = 20;
-
-	private long previousTime = 0;
+	private String text;
 	
+	private long previousTime = 0;
 	private int fadeDuration = 1000; //milliseconds
-	private int msPerFrame = 100; //milliseconds
+	private int msPerFrame = 50; //milliseconds
 	
 	private boolean running;
 		
@@ -45,35 +43,39 @@ class Message
 	}
 	
 	public void draw(Graphics g, Float alpha) {
-	 Graphics2D g2d = (Graphics2D) g;
+		Graphics2D g2d = (Graphics2D) g;
 		Color tempCol = g.getColor();
 		Font tempFont = g.getFont();
 		
+		int numLines = 3;
+		
+		Composite original = g2d.getComposite();
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-		//g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.BLACK);
 		
-		g.fillRect(padding,height-thickness-padding,width-2*padding,thickness);
+		g.fillRect(padding,height-thickness*numLines-padding,width-2*padding,thickness*numLines);
 		
 		
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9F));
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 		Font labelFont = new Font("Monospaced",Font.BOLD,15);	
 		g.setFont(labelFont);
 		g.setColor(Color.WHITE);
-  		g.drawString("Oops, try again",padding*2,height-thickness+15/2-3);
+		
+		String lines[] = {"dfdf", "dfdlfkjdf", "dfdklfjdfk"};
+		
+		for(int i = 0; i < lines.length; i++) {
+			g.drawString(text,padding*2,height-thickness*i+15/2-3);
+		}
 		
 		g.setColor(tempCol);
 		g.setFont(tempFont);
 		
-		//alpha += 0.01;
+		g2d.setComposite(original);
 	
 	}
 
     public void update(Graphics g, long time) {
-	
-		
-		//draw(g);
-		//so first 4 images must be cardinal directions (U R D L) (N E S W)
 		if(running) {
 			draw(g, alpha);
 			if(previousTime == 0 || time - previousTime >= msPerFrame) {
@@ -84,6 +86,20 @@ class Message
 				stop();
 			}
 		}
+	}
+	
+	public void setText(String txt) {
+		this.text = txt;
+	}
+	
+	public void setTextAndStart(String txt) {
+		this.text = txt;
+		start();
+	}
+	
+	
+	public String getText() {
+		return text;
 	}
 
 }

@@ -338,6 +338,9 @@ public class RPG extends Applet implements KeyListener
 	
 	public void paint(Graphics g)
 	{
+		Graphics2D g2d = (Graphics2D) g;
+		
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 	
 		try { Thread.sleep((int)(1000.0/FPS)); }
 		catch(InterruptedException e) {}
@@ -346,6 +349,8 @@ public class RPG extends Applet implements KeyListener
 		int dt = (int)(prevPaint - currPaint);
 		float fps = 1000.0F/(float)dt;
 		currPaint = prevPaint;
+		
+		
 		
 	
 		if(!battle)
@@ -379,6 +384,7 @@ public class RPG extends Applet implements KeyListener
 		else if (battle)
 		{
 			
+			msg.stop();
 			p.setBattleCondition(true);
 			if(firsttimebattle) {
 				wait.suspend();
@@ -411,10 +417,30 @@ public class RPG extends Applet implements KeyListener
 		
 		outofbounds.stop();
 		switch(direction) {
-			case 'l': if(!p.moveLeftB()) outofbounds.play(); break;
-			case 'r': if(!p.moveRightB()) outofbounds.play(); break;
-			case 'u': if(!p.moveUpB()) outofbounds.play(); break;
-			case 'd': if(!p.moveDownB()) outofbounds.play(); break;
+			case 'l':
+				if(!p.moveLeftB()) {
+					outofbounds.play();
+					msg.setTextAndStart("You can\'t move there!");
+				}
+				break;
+			case 'r':
+				if(!p.moveRightB()) {
+					outofbounds.play();
+					msg.setTextAndStart("You can\'t move there!");
+				}
+				break;
+			case 'u':
+				if(!p.moveUpB()) {
+					outofbounds.play();
+					msg.setTextAndStart("You can\'t move there!");
+				}
+				break;
+			case 'd':
+				if(!p.moveDownB()) {
+					outofbounds.play();
+					msg.setTextAndStart("You can\'t move there!");
+				}
+				break;
 		}
 		
 		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
@@ -431,7 +457,6 @@ public class RPG extends Applet implements KeyListener
 		
 			pSp.start();
 			
-			msg.start();
 		
 		//withinrangesprite = false;
 		nearSprite = -1;
@@ -461,6 +486,7 @@ public class RPG extends Applet implements KeyListener
 		
 		if (td.isTown(currTile))
 		{
+			msg.setTextAndStart("Changing maps");
 			if (maptracker==1)
 			{
 				maptracker=0;
