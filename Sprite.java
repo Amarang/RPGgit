@@ -48,7 +48,7 @@ class Sprite extends Applet
 	}
 	TileData td = new TileData();
 	public Sprite(Image image, int x, int y, int TS, int ID) {
-		System.out.println("instantiated single image sprite");
+		//System.out.println("instantiated single image sprite");
 		isReady = true;
 		multiframe = false;
 		this.ID = ID;
@@ -61,7 +61,7 @@ class Sprite extends Applet
 	}
 	
 	public Sprite(Image[] images, int x, int y, int TS, int ID) {
-		System.out.println("instantiated multi-image sprite");
+		//System.out.println("instantiated multi-image sprite");
 		isReady = true;
 		multiframe = true;
 		this.ID = ID;
@@ -75,7 +75,7 @@ class Sprite extends Applet
 	}
 	
 	public Sprite(Image[] images, Player p, int TS) {
-		System.out.println("instantiated multi-image sprite");
+		//System.out.println("instantiated multi-image sprite");
 		isReady = true;
 		multiframe = true;
 		this.x = p.getX();

@@ -16,7 +16,7 @@ class TileData
 	private int bed = 12;
     
     public TileData() {
-		System.out.println("made TileData");
+		//System.out.println("made TileData");
 		/// soundMap.put(id of tile, id of sound)
 		soundMap.put(1, 0); //grass
 		soundMap.put(5, 1); //wood

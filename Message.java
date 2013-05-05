@@ -69,11 +69,11 @@ class Message
 		g.setFont(labelFont);
 		g.setColor(Color.WHITE);
 		
-		System.out.println(text);
+		//System.out.println(text);
 		
 		
-		System.out.println("numlines should be " + numLines);
-		System.out.println("alpha " + alpha);
+		//System.out.println("numlines should be " + numLines);
+		//System.out.println("alpha " + alpha);
 		//String lines[] = {"dfdf", "dfdlfkjdf", "dfdklfjdfk"};
 		String[] lines = new String[numLines];
 		

@@ -22,7 +22,7 @@ class TileMap
 	private BufferedReader br;
 	
 	public TileMap(int MAPWIDTH, int MAPHEIGHT, String fileName) {
-		System.out.println("made TileMap");
+		//System.out.println("made TileMap");
 	
 		matrix = new int[MAPHEIGHT][MAPWIDTH];
 		

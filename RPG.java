@@ -21,11 +21,12 @@ public class RPG extends Applet implements KeyListener
 	static int NUMSPRITES = 6;
 	static int NUMITEMS = 11;
 	static int NUMICONS = 6;
-	static int NUMMONSTERS = 9;
+	static int NUMMONSTERS = 10;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
-	static int BATTLEFREQUENCY = 4; //percentage of encounter per step
+	static int BATTLEFREQUENCY = 0; //percentage of encounter per step
 	static int FPS = 60;
+	int boss=0;
 	
 	TileData td = new TileData();
 	int appSizeX = 800;
@@ -33,7 +34,7 @@ public class RPG extends Applet implements KeyListener
 	private TileMap[] theMap = new TileMap[NUMMAPS];
 	int startx = appSizeX/2/TILESIZE;
 	int starty = appSizeY/2/TILESIZE;
-	int maptracker = 3;
+	int maptracker = 0;
 	
 	long prevPaint = 0;
 	long currPaint = 0;
@@ -46,6 +47,7 @@ public class RPG extends Applet implements KeyListener
 	SoundClip hit;
 	SoundClip death;
 	SoundClip battlemusic;
+	SoundClip bossmusic;
 	SoundClip outofbounds;
 	
 	Image[] tileImages = new Image[TILETYPES];
@@ -132,6 +134,7 @@ public class RPG extends Applet implements KeyListener
 		hit = new SoundClip("hit");
 		death = new SoundClip("death");
 		battlemusic = new SoundClip("battlemusic");
+		bossmusic = new SoundClip("bossmusic");
 		outofbounds = new SoundClip("goat");
 		
 		try { 
@@ -390,7 +393,7 @@ public class RPG extends Applet implements KeyListener
 			if(firsttimebattle) {
 				wait.suspend();
 				intro.stop();
-				b = new Battle(p, monsterImages,c,icons,hit,death,battlemusic);
+				b = new Battle(p, monsterImages,c,icons,hit,death,battlemusic,bossmusic,boss);
 				firsttimebattle = false;
 			} else {
 				
@@ -398,9 +401,11 @@ public class RPG extends Applet implements KeyListener
 					battle = false;
 					firsttimebattle = true;
 					battlemusic.stop();
+					bossmusic.stop();
 					death.stop();
 					intro.play();
 					wait.resume();
+					boss=0;
 				}
 				key_space=false;
 			}	
@@ -443,7 +448,7 @@ public class RPG extends Applet implements KeyListener
 				}
 				break;
 		}
-		
+		System.out.println(p.getX()+" "+p.getY());
 		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
 		int facingTile = theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing());
 		//{x, y}
@@ -465,7 +470,7 @@ public class RPG extends Applet implements KeyListener
 		
 		//withinrangesprite = false;
 		nearSprite = -1;
-		for (int i=0;i< NUMSPRITES;i++)
+		for (int i=0;i< sp.length;i++)
 		{
 			
 			if(theMap[maptracker].within(p, sp[i], 3)) {
@@ -477,15 +482,17 @@ public class RPG extends Applet implements KeyListener
 			 || (sp[i].getX() == p.getX())
 			 &&  sp[i].getY() == p.getY() )
 			{
-				System.out.println("NEAR SPRITE id = " + sp[i].getID());
+				//System.out.println("NEAR SPRITE id = " + sp[i].getID());
 				nearSprite = sp[i].getID();
 				break;
 			}
 		}	
 		
-		if (rand.nextInt(1000) < BATTLEFREQUENCY * 10
+		if ((rand.nextInt(1000) < BATTLEFREQUENCY * 10||(p.getX()==85&&p.getY()==57))
 			&& !td.isBattleRestricted(currTile) && maptracker == 0)
 		{
+			if(p.getX()==85&&p.getY()==57)
+				boss=1; 
 			battle=true;
 		}
 		
@@ -508,7 +515,7 @@ public class RPG extends Applet implements KeyListener
 				p.setX(p.getTownEntranceX());
 				p.setY(p.getTownEntranceY());	
 			}
-			System.out.println(maptracker);
+			//System.out.println(maptracker);
 			
 			
 			for (int i=0;i< NUMSPRITES;i++)

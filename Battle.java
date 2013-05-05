@@ -13,10 +13,11 @@ import javax.sound.sampled.*;
 
 class Battle extends Applet
 {
-	private static int NUMMONSTERS = 9;
+	private static int NUMMONSTERS = 10;
 	private SoundClip hit;
 	private SoundClip death;
 	private SoundClip battlemusic;
+	private SoundClip bossmusic;
 	private Monster m;
 	private Pointer c;
 	private Image[] monsterImages;
@@ -32,6 +33,8 @@ class Battle extends Applet
 	private boolean pdefended = false;
 	private int xp;
 	private int gold;
+	private int boss;
+	
 	
 	private boolean released = false;
 	private boolean key_a=false;
@@ -54,7 +57,7 @@ class Battle extends Applet
   	private boolean levelup = false;
   	private boolean playernotgone = true;
 	
-    public Battle(Player pl, Image[] mi, Pointer cl,Image[] icons,SoundClip hit,SoundClip death,SoundClip battlemusic) {
+    public Battle(Player pl, Image[] mi, Pointer cl,Image[] icons,SoundClip hit,SoundClip death,SoundClip battlemusic,SoundClip bossmusic,int boss) {
 		System.out.println("made Battle");
 		this.p = pl;
 		this.c = cl;
@@ -63,6 +66,8 @@ class Battle extends Applet
 		this.death = death;
 		this.battlemusic = battlemusic;
 		this.icons = icons;
+		this.bossmusic=bossmusic;
+		this.boss=boss;
 	}
 	public boolean getBattle() { return battle; }
 	public boolean getSpace() { return key_space; }
@@ -191,13 +196,27 @@ class Battle extends Applet
 	public void Initialize(Graphics g)
 	{
 		death.stop();
-		battlemusic.play();
-		g.setFont(title);
-		key_space=false;
-		int monster_id = rand.nextInt(NUMMONSTERS);
-		double stat_scale = (p.getLevel() / 4.0 + 1+(p.getX()/80)+(p.getY()/80));
+		if (boss==0)
+		{
+			battlemusic.play();
+			g.setFont(title);
+			key_space=false;
+			int monster_id = rand.nextInt(NUMMONSTERS);
+			double stat_scale = (p.getLevel() / 4.0 + 1+(p.getX()/80)+(p.getY()/80));
+			
+			m = new Monster(monster_id, stat_scale);	
+		}
+		else if (boss==1)
+		{
+			bossmusic.play();
+			g.setFont(title);
+			key_space=false;
+			int monster_id = 9;
+			double stat_scale = 1D;
+			
+			m = new Monster(monster_id, stat_scale);	
+		}
 		
-		m = new Monster(monster_id, stat_scale);
 		
 		 c.reset();
 		 initialize = true;
