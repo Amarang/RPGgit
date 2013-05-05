@@ -101,6 +101,7 @@ public class RPG extends Applet implements KeyListener
 		
 		
 		msg = new Message(appSizeX, appSizeY);
+		msg.setTextAndStart("Hi BAMAN HW QR YOU D)TAY!(", 2000);
 		
 		
 		System.out.println("anear beginning of init in RPG.java");
@@ -420,25 +421,25 @@ public class RPG extends Applet implements KeyListener
 			case 'l':
 				if(!p.moveLeftB()) {
 					outofbounds.play();
-					msg.setTextAndStart("You can\'t move there!");
+					msg.setTextAndStart("You can\'t move there!",600);
 				}
 				break;
 			case 'r':
 				if(!p.moveRightB()) {
 					outofbounds.play();
-					msg.setTextAndStart("You can\'t move there!");
+					msg.setTextAndStart("You can\'t move there!",600);
 				}
 				break;
 			case 'u':
 				if(!p.moveUpB()) {
 					outofbounds.play();
-					msg.setTextAndStart("You can\'t move there!");
+					msg.setTextAndStart("You can\'t move there!",600);
 				}
 				break;
 			case 'd':
 				if(!p.moveDownB()) {
 					outofbounds.play();
-					msg.setTextAndStart("You can\'t move there!");
+					msg.setTextAndStart("You can\'t move there!",600);
 				}
 				break;
 		}
@@ -456,7 +457,11 @@ public class RPG extends Applet implements KeyListener
 		//System.out.println("facetile " + facingTile);
 		
 			pSp.start();
-			
+			/*msg.setTextAndStart(
+								"abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz ",
+								1000
+								);
+			*/
 		
 		//withinrangesprite = false;
 		nearSprite = -1;
@@ -486,7 +491,7 @@ public class RPG extends Applet implements KeyListener
 		
 		if (td.isTown(currTile))
 		{
-			msg.setTextAndStart("Changing maps");
+			msg.setTextAndStart("Changing maps", 1500);
 			if (maptracker==1)
 			{
 				maptracker=0;
