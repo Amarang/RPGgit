@@ -29,6 +29,11 @@ public class RPG extends Applet implements KeyListener
 	static int FPS = 60;
 	int boss=0;
 	
+	/////DEBUG/////
+	//also can hit f key to toggle
+	boolean debug = true;
+	/////DEBUG/////
+	
 	TileData td = new TileData();
 	int appSizeX = 800;
 	int appSizeY = 600;
@@ -413,9 +418,38 @@ public class RPG extends Applet implements KeyListener
 		}
 		
 		int endPaint = (int)(System.currentTimeMillis() - currPaint);
-		g.drawString("fps:         " + Math.round(fps) + "",630,560);
 		
-		g.drawString("ms to paint: " + endPaint,630,580);
+		
+		////////////////////////
+		/////DEBUG DISPLAY//////
+		////////////////////////
+		
+		if(debug) {
+			Color tempc = g.getColor();
+			Composite original = g2d.getComposite();
+			
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75F));
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+			
+			g.setColor(Color.BLACK);
+			
+			g.fillRoundRect(610,480, 175, 110, 20, 20);
+			g.setColor(Color.WHITE);
+			
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.85F));
+			g.drawString("curr tile:  " + theMap[maptracker].getVal(p.getX(), p.getY()), 620,500);
+			g.drawString("face tile:  " + theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing()), 620,520);
+			g.drawString("(x,y):     (" + p.getX() + "," + p.getY() + ")", 620,540);
+			g.drawString("fps:        " + Math.round(fps), 620,560);
+			g.drawString("ms to paint:" + endPaint, 620,580);
+			
+			g.setColor(tempc);
+			g2d.setComposite(original);
+		}
+		
+		////////////////////////
+		/////DEBUG DISPLAY//////
+		////////////////////////
 		
 		
 	}
@@ -449,7 +483,6 @@ public class RPG extends Applet implements KeyListener
 				}
 				break;
 		}
-		System.out.println(p.getX()+" "+p.getY());
 		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
 		int facingTile = theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing());
 		//{x, y}
@@ -462,21 +495,16 @@ public class RPG extends Applet implements KeyListener
 		//System.out.println("facing " + p.getFacing());
 		//System.out.println("facetile " + facingTile);
 		
-			pSp.start();
-			/*msg.setTextAndStart(
-								"abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz abcde fghijklmnop qrstuvwxyz ",
-								1000
-								);
-			*/
+		pSp.start();
 		
 		//withinrangesprite = false;
 		nearSprite = -1;
 		for (int i=0;i< sp.length;i++)
 		{
 			
-			if(theMap[maptracker].within(p, sp[i], 3)) {
+			//if(theMap[maptracker].within(p, sp[i], 3)) {
 				//withinrangesprite = true;
-			}
+			//}
 				
 			if( (sp[i].getX() == facingCoords[0]
 			 &&  sp[i].getY() == facingCoords[1])
@@ -555,6 +583,12 @@ public class RPG extends Applet implements KeyListener
 		{
 			if (!battle)
 				c.setPointer(11);
+		}
+		
+		if(key==KeyEvent.VK_F)
+		{
+			if(debug) debug = false;
+			else debug = true;
 		}
 	} 	
 	
