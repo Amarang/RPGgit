@@ -18,10 +18,11 @@ public class RPG extends Applet implements KeyListener
 	static int MAPWIDTH[] = {400,90,43,80};
 	static int MAPHEIGHT[] = {300,70,50,60};
 	static int TILETYPES = 50;
-	static int NUMSPRITES = 6;
+	static int NUMSPRITES = 2;
 	static int NUMITEMS = 11;
 	static int NUMICONS = 6;
 	static int NUMMONSTERS = 10;
+	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 125;
 	static int BATTLEFREQUENCY = 4; //percentage of encounter per step

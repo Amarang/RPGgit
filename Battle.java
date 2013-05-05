@@ -14,6 +14,7 @@ import javax.sound.sampled.*;
 class Battle extends Applet
 {
 	private static int NUMMONSTERS = 10;
+	private static int NUMBOSSES = 1;
 	private SoundClip hit;
 	private SoundClip death;
 	private SoundClip battlemusic;
@@ -201,7 +202,7 @@ class Battle extends Applet
 			battlemusic.play();
 			g.setFont(title);
 			key_space=false;
-			int monster_id = rand.nextInt(NUMMONSTERS);
+			int monster_id = rand.nextInt(NUMMONSTERS-NUMBOSSES);
 			double stat_scale = (p.getLevel() / 4.0 + 1+(p.getX()/80)+(p.getY()/80));
 			
 			m = new Monster(monster_id, stat_scale);	
