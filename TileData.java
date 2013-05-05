@@ -10,7 +10,7 @@ class TileData
 	private boolean NOCLIP = false;
 	
 	private int[] restricted = new int[] {-1, 2, 3}; //-1 is outside map
-	private int[] walkRestricted = new int[] {-1, 2, 3,10};
+	private int[] walkRestricted = new int[] {-1, 2, 3,10,13};
 	private int[] battleRestricted = new int[] {-1, 4};
 	private int town = 4;
 	private int bed = 12;

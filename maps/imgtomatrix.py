@@ -1,5 +1,5 @@
 from PIL import Image
-imgfile = Image.open("map.png")
+imgfile = Image.open("map0.png")
 
 pic = imgfile.load()
 
@@ -26,9 +26,9 @@ colorls = removeDuplicates(colorls)
 for y in range(ySize):
 	for x in range(xSize):
 		if (x == xSize-1):
-			print colorls.index(pic[x,y])
+			#print colorls.index(pic[x,y])
 			out.write(str(alphabet[colorls.index(pic[x,y])]))
 			if(not (y == xSize-1)): out.write("\n")
 		else:
-			print colorls.index(pic[x,y]),
+			#print colorls.index(pic[x,y]),
 			out.write(str(alphabet[colorls.index(pic[x,y])]) + " ")

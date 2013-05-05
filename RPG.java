@@ -30,9 +30,9 @@ public class RPG extends Applet implements KeyListener
 	TileData td = new TileData();
 	int appSizeX = 800;
 	int appSizeY = 600;
-	private TileMap[] theMap= new TileMap[NUMMAPS];
-	int startx=appSizeX/2/TILESIZE;
-	int starty=appSizeY/2/TILESIZE;
+	private TileMap[] theMap = new TileMap[NUMMAPS];
+	int startx = appSizeX/2/TILESIZE;
+	int starty = appSizeY/2/TILESIZE;
 	int maptracker = 0;
 	
 	long prevPaint = 0;
@@ -64,10 +64,10 @@ public class RPG extends Applet implements KeyListener
 	Monster m;
 	Battle b;
 	HUD hud;
-	Sprite[] sp= new Sprite[NUMSPRITES];
+	Sprite[] sp = new Sprite[NUMSPRITES];
 	Sprite pSp;
-	Item[] item= new Item[NUMITEMS];
-	Item[] shop= new Item[NUMITEMS];
+	Item[] item = new Item[NUMITEMS];
+	Item[] shop = new Item[NUMITEMS];
 	Pointer c = new Pointer(0);
 	
 	Random rand = new Random(); 
@@ -80,16 +80,16 @@ public class RPG extends Applet implements KeyListener
     MediaTracker mt;
 	
 	boolean released = false;
-	boolean key_space=false;
-	boolean key_enter=false;
-	boolean run=false;
-	boolean battle=false;
+	boolean key_space = false;
+	boolean key_enter = false;
+	boolean run = false;
+	boolean battle = false;
 	boolean firsttimebattle = true;
 	boolean firststep = false;
 	boolean oktomove = true;
-	boolean showinventory=false;
-	boolean showinteraction=false;
-	boolean withinrangesprite=false;
+	boolean showinventory = false;
+	boolean showinteraction = false;
+	boolean withinrangesprite = false;
 
 	
 	Message msg;
