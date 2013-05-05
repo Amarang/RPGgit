@@ -7,5 +7,5 @@ Slime	4	11	8	3	3	7
 Dragon	5	24	10	6	6	9
 Skinnyman	6	18	12	5	10	5
 Wisping Ghoul	7	20	6	5	3	1
-Pissed Black Dude	8	1	1	40	5	4
+Outlaw	8	1	1	40	5	4
 Captain Taol	9	50	12	12	6	7

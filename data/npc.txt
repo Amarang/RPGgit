@@ -1,2 +1,2 @@
-0	Maggot	<html><b><a href=\"http://google.com\">8====D</a></b></html>
-1	Shopkeeper	hello there, have a look at my 8===D
+0	Bobby	<html><b><a href=\"http://google.com\">hello</a></b></html>
+1	Shopkeeper	hello there, have a look at my wares.
