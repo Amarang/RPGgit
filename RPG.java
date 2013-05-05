@@ -347,6 +347,10 @@ public class RPG extends Applet implements KeyListener
 		
 	}
 	
+	public void stop() {
+		intro.stop();
+	}
+	
 	public void paint(Graphics g)
 	{
 		Graphics2D g2d = (Graphics2D) g;
