@@ -85,7 +85,7 @@ class Battle extends Applet
 					key_space=false;
 					buffer=true;
 					xp=m.getId()+(rand.nextInt(3)+1)*(p.getLevel()+m.getStrength());
-					gold=m.getId()+1*rand.nextInt(3)*rand.nextInt(4)+1/(rand.nextInt(4)+1)*(p.getLevel()+m.getStrength());
+					gold=m.getId()+(rand.nextInt(4)+1)*(p.getLevel()*m.getStrength())/(p.getLevel());
 					p.addGold(gold);
 					if (p.setExperience(xp))
 						levelup=true;	
