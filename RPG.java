@@ -34,6 +34,8 @@ public class RPG extends Applet implements KeyListener
 	boolean debug = true;
 	/////DEBUG/////
 	
+	boolean running;// = true;
+	
 	TileData td = new TileData();
 	int appSizeX = 800;
 	int appSizeY = 600;
@@ -108,6 +110,7 @@ public class RPG extends Applet implements KeyListener
 	public void init()
 	{
 		
+		running = true;
 		
 		msg = new Message(appSizeX, appSizeY);
 		msg.setTextAndStart("Hi BAMAN HW QR YOU D)TAY!(", 2000);
@@ -334,6 +337,8 @@ public class RPG extends Applet implements KeyListener
 	}
 	public void update(Graphics g) {
 	
+		if(!running) return;
+		
 		Graphics offgc;
 		Image offscreen = null;
 		Dimension d = size();
@@ -347,8 +352,21 @@ public class RPG extends Applet implements KeyListener
 		
 	}
 	
+	 
+	public void destroy() {
+		intro.stop();
+		running = false;
+	}
+	
 	public void stop() {
 		intro.stop();
+		running = false;
+	}
+	
+	public void start() {
+		if(running == false)
+			intro.play();
+		running = true;
 	}
 	
 	public void paint(Graphics g)
