@@ -629,9 +629,8 @@ class HUD extends Applet
 		
 		Color tempCol = g.getColor();
 	
-		g.setColor(Color.RED);
 		
-		int scale = 4;
+		int scale = 10;
 		
 		int width = appSizeX/2;
 		int height = appSizeY/2;
@@ -643,15 +642,27 @@ class HUD extends Applet
 	
 		int xDraw = 0;
 		int yDraw = 0;
+		// int startx = Math.max(0, p.getX()-width/tilesize/2);
+		// int starty = Math.max(0, p.getY()-height/tilesize/2);
 		
 		
-		//for(int y=0; y<mapheight[maptracker] && yDraw <= appSizeY; y++) {
+		g.setColor(Color.WHITE);
+		g.fillRect(offsetx-1, offsety-1, width+1, height+tilesizemini*2+1);
+		
+		g.setColor(Color.BLACK);
+		g.drawRect(offsetx-1, offsety-1, width+1, height+tilesizemini*2+1);
+		
+		
+		g.setColor(Color.RED);
+		//for(int y=0; y<mapheight[maptracker] && yDraw-offsety <= height; y++) {
+		
 		for(int y=0; y<mapheight[maptracker] && yDraw-offsety <= height; y++) {
 			for(int x=0; x<mapwidth[maptracker]; x++) {
-				//xDraw = (p.getX())*tilesizemini + x*tilesizemini;
-				//yDraw = (p.getY())*tilesizemini + y*tilesizemini;
-				xDraw = offsetx + x*tilesizemini;
-				yDraw = offsety + y*tilesizemini;
+			
+				xDraw = (offsetx + x*tilesizemini);
+				yDraw = (offsety + y*tilesizemini);
+				
+				
 				if(xDraw-offsetx >= width) break;
 				
 				
@@ -663,6 +674,25 @@ class HUD extends Applet
 				
 			}
 		}
+		
+		/*for(int y=Math.max(0,p.getY()-height/tilesizemini/2); y<Math.min(mapheight[maptracker],p.getY()+height/tilesizemini/2); y++) {
+			for(int x=Math.max(0,p.getX()-width/tilesizemini/2); x<Math.min(mapwidth[maptracker],p.getX()+width/tilesizemini/2); x++) {
+			
+				xDraw = (offsetx + x*tilesizemini);
+				yDraw = (offsety + y*tilesizemini);
+				
+				
+				//if(xDraw-offsetx >= width) break;
+				
+				
+				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],xDraw,yDraw, tilesizemini, tilesizemini,this);
+				
+				if(x == p.getX() && y == p.getY()) {
+					g.fillRect(xDraw,yDraw,tilesizemini,tilesizemini);
+				}
+				
+			}
+		}*/
 		
 		
 		
