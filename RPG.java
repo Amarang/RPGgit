@@ -98,9 +98,12 @@ public class RPG extends Applet implements KeyListener
 	boolean firsttimebattle = true;
 	boolean firststep = false;
 	boolean oktomove = true;
-	boolean showinventory = false;
-	boolean showinteraction = false;
 	boolean withinrangesprite = false;
+	
+	boolean showinventory = false;
+	boolean showstats = false;
+	boolean showminimap = false;
+	boolean showinteraction = false;
 
 	
 	Message msg;
@@ -215,11 +218,12 @@ public class RPG extends Applet implements KeyListener
 		addKeyListener(this);
 		
 		hud = new HUD(p, icons, shop);
+		hud.initMinimap(MAPWIDTH, MAPHEIGHT, TILESIZE, theMap, tileImages, this.getSize());
 			
 	}
 	
 	public boolean isFree() {
-		return !battle&&!showinventory&&!showinteraction;
+		return !battle&&!showinventory&&!showinteraction&&!showstats&&!showminimap;
 	}
 	
   	public void keyPressed(KeyEvent evt) 
@@ -290,14 +294,22 @@ public class RPG extends Applet implements KeyListener
 		int appSizeX = appletSize.width;
 		
 		for(int y=0; y<MAPHEIGHT[maptracker] && yDraw <= appSizeY; y++) {
-		//for(int y=0; y<MAPHEIGHT[maptracker]; y++) {
 			for(int x=0; x<MAPWIDTH[maptracker]; x++) {
 				xDraw = (startx-p.getX())*TILESIZE + x*TILESIZE;
 				yDraw = (starty-p.getY())*TILESIZE + y*TILESIZE;
 				if(xDraw >= appSizeX) break;
-				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],xDraw,yDraw,this);
+				
+				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],xDraw,yDraw, TILESIZE, TILESIZE,this);
+				
 			}
 		}
+		
+		
+		repaint();			
+	}
+	
+	public void HandlePointer() {
+	
 		
 		if (c.getPointer()==7)
 		{
@@ -307,7 +319,7 @@ public class RPG extends Applet implements KeyListener
 		}
 		
 		if (c.getPointer()==11&&nearSprite>=0)
-		{
+		{ // c 11 = E
 			if(showinteraction) {
 				showinteraction = false;
 				nearSprite = -1;
@@ -321,8 +333,30 @@ public class RPG extends Applet implements KeyListener
 			
 		}
 		
-		repaint();			
+		if (c.getPointer()==12)
+		{ // c 12 = R
+			if(showstats) {
+				showstats = false;
+			}
+			else showstats=true;
+				
+			c.setPointer(5);
+			
+		}
+		
+		if (c.getPointer()==13)
+		{ // c 13 = M
+			if(showminimap) {
+				showminimap = false;
+			}
+			else showminimap=true;
+				
+			c.setPointer(5);
+			
+		}
+		
 	}
+	
 	public void PlayerMenu(Graphics g)
 	{
 		hud.draw(g);
@@ -333,6 +367,14 @@ public class RPG extends Applet implements KeyListener
 		if (showinteraction&&nearSprite==shopkeeperID)
 		{
 			hud.drawShop(g,c);
+		}	
+		if (showstats)
+		{
+			hud.drawStats(g,p);
+		}
+		if (showminimap)
+		{
+			hud.drawMinimap(g,maptracker);
 		}	
 	}
 	public void update(Graphics g) {
@@ -390,6 +432,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			p.setBattleCondition(false);
 			DrawMap(g);	
+			HandlePointer();
 			
 			//if(!withinrangesprite) showinteraction = false;
 			
@@ -606,6 +649,16 @@ public class RPG extends Applet implements KeyListener
 		{
 			if (!battle)
 				c.setPointer(11);
+		}
+		if(key==KeyEvent.VK_R)
+		{
+			if (!battle)
+				c.setPointer(12);
+		}
+		if(key==KeyEvent.VK_M)
+		{
+			if (!battle)
+				c.setPointer(13);
 		}
 		
 		if(key==KeyEvent.VK_F)

@@ -16,6 +16,15 @@ import javax.swing.*;
 
 class HUD extends Applet
 {
+
+	private int appSizeX;
+	private int appSizeY;
+	private int tilesize;
+	private int[] mapwidth;
+	private int[] mapheight;
+	private TileMap[] theMap;
+	private Image[] tileImages;
+	
 	private Player p;
 	private Monster m;
 	private Pointer c;
@@ -33,6 +42,9 @@ class HUD extends Applet
 	private boolean battleHUD = false;
 	private boolean loadedRecently = false;
 	private NPCData nd;// = new NPCData();
+	
+	private float HUDalpha = 0.85F;
+	private int HUDround = 10;
     
     public HUD(Player p, Image[] icons,Item[] shop) {
 		System.out.println("made HUD");
@@ -106,21 +118,38 @@ class HUD extends Applet
 			}
 			//load.LoadData(p);
 		}
+		
+		int paddingx = 7;
+		int paddingy = 7;
+		
+		Graphics2D g2d = (Graphics2D) g;
+		Color tempCol = g.getColor();
+		Font tempFont = g.getFont();
+		
+		Composite original = g2d.getComposite();
+		
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+				
 		g.setColor(Color.white);
-		g.fillRect(600,0,200,400);
+		g.fillRoundRect(600-paddingx,0+paddingy,200,400, HUDround,HUDround);
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0F));
+		
 		g.setColor(Color.black);
-		g.drawRect(600,0,200,400);
+		g.drawRoundRect(600-paddingx,0+paddingy,200,400, HUDround,HUDround);
 		g.setColor(Color.red);
-		g.drawRect(601,24+selectedItem*20,198,20);
+		g.drawRoundRect(601-paddingx,24+selectedItem*20+paddingy,198,20, HUDround,HUDround);
 		g.setColor(Color.black);
-		g.drawString("Gold: "+p.getGold(),640,20);
+		g.drawString("Gold: "+p.getGold(),640-paddingx,20+paddingy);
 		inventory =p.getInventory();
 		for (int i=0;i<inventory.length;i++)
 		{
 			if(inventory[i]!=null)
 			{
-				g.drawString(inventory[i].getName(),650,40+20*i);
-				drawIcon(g, inventory[i].getIcon(), 620, 25+20*i);
+				g.drawString(inventory[i].getName(),650-paddingx,40+20*i+paddingy);
+				drawIcon(g, inventory[i].getIcon(), 620-paddingx, 25+20*i+paddingy);
 				
 				if(selectedItem<inventory.length&&!(inventory[selectedItem] == null))
 					drawItemPane(g, inventory[selectedItem]);
@@ -128,12 +157,18 @@ class HUD extends Applet
 			
 			if (p.isEquipped(inventory[i])&&inventory[i]!=null) {
 				//g.drawString("E",605,40+20*i);	
-				drawIcon(g,3, 601,24+20*i);
+				drawIcon(g,3, 601-paddingx,24+20*i+paddingy);
 			}
 		}
-		g.drawString("Exit",640,40+20*10);
-		g.drawString("Save",640,40+20*11);
-		g.drawString("Load",640,40+20*12);
+		g.drawString("Exit",640-paddingx,40+20*10+paddingy);
+		g.drawString("Save",640-paddingx,40+20*11+paddingy);
+		g.drawString("Load",640-paddingx,40+20*12+paddingy);
+		
+		
+		
+		g.setColor(tempCol);
+		g.setFont(tempFont);
+		g2d.setComposite(original);
 	}
 	
 	public void drawShop(Graphics g, Pointer c) {
@@ -185,18 +220,37 @@ class HUD extends Applet
 			else
 				c.setPointer(11);//back out of inventory
 		}
+		
+		
+		int paddingx = 7;
+		int paddingy = 7;
+		
+		
+		Graphics2D g2d = (Graphics2D) g;
+		Color tempCol = g.getColor();
+		Font tempFont = g.getFont();
+		Composite original = g2d.getComposite();
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		
+		//player inventory
 		g.setColor(Color.white);
-		g.fillRect(600,0,200,400);
+		g.fillRoundRect(600-paddingx,0+paddingy,200,400, HUDround,HUDround); // player
+		g.fillRoundRect(400-paddingx*2,0+paddingy,200,400, HUDround,HUDround); // shop
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+		
+		
 		g.setColor(Color.black);
-		g.drawRect(600,0,200,400);
+		g.drawRoundRect(600-paddingx,0+paddingy,200,400, HUDround,HUDround);
 		g.drawString("Gold: "+p.getGold(),640,20);
 		inventory =p.getInventory();
 		for (int i=0;i<inventory.length;i++)
 		{
 			if(inventory[i]!=null)
 			{
-				g.drawString(inventory[i].getName(),650,40+20*i);
-				drawIcon(g, inventory[i].getIcon(), 620, 25+20*i);
+				g.drawString(inventory[i].getName(),650-paddingx,40+20*i+paddingy);
+				drawIcon(g, inventory[i].getIcon(), 620-paddingx, 25+20*i+paddingy);
 				
 				if(selectedItem<inventory.length&&selectedItemx==1&&!(inventory[selectedItem] == null))
 					drawItemPane(g, inventory[selectedItem]);
@@ -204,25 +258,29 @@ class HUD extends Applet
 			
 			if (p.isEquipped(inventory[i])&&inventory[i]!=null) {
 				//g.drawString("E",605,40+20*i);	
-				drawIcon(g,3, 601,24+20*i);
+				drawIcon(g,3, 601-paddingx,24+20*i+paddingy);
 			}
 		}
-		g.drawString("Exit",640,40+20*10);
+		g.drawString("Exit",640-paddingx,40+20*10+paddingy);
+		//end player inventory
 		
-		g.setColor(Color.white);
-		g.fillRect(400,0,200,400);
+		//shop
+		
+		//white rectangle for shop drawn with player above so we don't have to change 
+		//anti aliasing back and forth too much
 		g.setColor(Color.black);
-		g.drawRect(400,0,200,400);
+		g.drawRoundRect(400-paddingx*2,0+paddingy,200,400, HUDround,HUDround);
 		g.setColor(Color.red);
-		g.drawRect(401+200*selectedItemx,24+selectedItem*20,198,20);
+		g.drawRoundRect(401+200*selectedItemx-paddingx*(2-selectedItemx),24+selectedItem*20+paddingy,198,20, HUDround,HUDround);
 		g.setColor(Color.black);
-		g.drawString("Shop: ",440,20);
+		g.drawString("Shop: ",440-paddingx*2,20+paddingy);
+		
 		for (int i=0;i<shop.length;i++)
 		{
 			if(shop[i]!=null)
 			{
-				g.drawString(shop[i].getName(),450,40+20*i);
-				drawIcon(g, shop[i].getIcon(), 420, 25+20*i);
+				g.drawString(shop[i].getName(),450-paddingx*2,40+20*i+paddingy);
+				drawIcon(g, shop[i].getIcon(), 420-paddingx*2, 25+20*i+paddingy);
 				
 				if(selectedItem<shop.length&&selectedItemx==0&&!(shop[selectedItem] == null))
 					drawItemPane(g, shop[selectedItem]);
@@ -230,11 +288,15 @@ class HUD extends Applet
 			
 			if (p.isEquipped(shop[i])&&shop[i]!=null) {
 				//g.drawString("E",605,40+20*i);	
-				drawIcon(g,3, 401,24+20*i);
+				drawIcon(g,3, 401-paddingx*2,24+20*i+paddingy);
 			}
 		}
-		g.drawString("Exit",440,40+20*shop.length);
-	
+		g.drawString("Exit",440-paddingx*2,40+20*shop.length+paddingy);
+		//end shop
+		
+		g.setColor(tempCol);
+		g.setFont(tempFont);
+		g2d.setComposite(original);
 	}
 	
 	public void draw(Graphics g) {
@@ -290,6 +352,21 @@ class HUD extends Applet
 		
 		g.setColor(color);
 		g.fillRect(xStart, yStart, (int)(percentage*length), thickness);
+		
+		/* ROUNDED STUFF
+		
+		
+		int barRound = HUDround/2;
+		
+		g.drawRoundRect(xStart-1, yStart-1, length+1, thickness+1, barRound,barRound);
+		
+		g.setColor(Color.WHITE);
+		g.fillRoundRect(xStart, yStart, length, thickness, barRound,barRound);
+		
+		g.setColor(color);
+		g.fillRoundRect(xStart, yStart, (int)(percentage*length), thickness, barRound,barRound);
+		
+		ROUNDED STUFF */
 	}
 	
 	public void drawIcon(Graphics g, int iconID, int xStart, int yStart) {
@@ -381,7 +458,14 @@ class HUD extends Applet
 	}
 	
 	public void drawItemPane(Graphics g, Item i) {
-		Color temp = g.getColor();
+		
+		Graphics2D g2d = (Graphics2D) g;
+		Color tempCol = g.getColor();
+		Font tempFont = g.getFont();
+		Composite original = g2d.getComposite();
+		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		int paddingx = 5;
 		int paddingy = 5;
 		int offsetx = 15; // dist from left of screen
@@ -400,13 +484,16 @@ class HUD extends Applet
 		String spdComp = "";
 		String prcComp = "";
 		
-		g.setColor(Color.BLACK);
-		g.drawRect(800-length-paddingx-1, 600-height-paddingy-1, length+1, height+1);
 		
+		//for some reason, alpha needs to be set lower here for it to look the same as other things
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha-0.1F));
 		g.setColor(Color.WHITE);
-		g.fillRect(800-length-paddingx, 600-height-paddingy, length, height);
+		g.fillRoundRect(800-length-paddingx, 600-height-paddingy, length, height, HUDround,HUDround);
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0F));
 		
 		g.setColor(Color.BLACK);
+		g.drawRoundRect(800-length-paddingx, 600-height-paddingy, length, height, HUDround,HUDround);
 		
 		g.drawLine(length/2, 600-height-paddingy, length/2, 600-paddingy);
 		
@@ -442,11 +529,23 @@ class HUD extends Applet
 		drawLabelIntComp(g, "Speed: ", i.getSpeed(), spdComp, compOffset, offsetx, offsety+ 4*thickness + 10, Color.BLACK);
 		drawLabelIntComp(g, "Price: ", i.getPrice(), prcComp, compOffset, offsetx, offsety+ 5*thickness + 10, Color.BLACK);
 		drawIcon(g,3, length-paddingx-20,offsety);
-		g.setColor(temp);
+		
+		
+		g.setColor(tempCol);
+		g.setFont(tempFont);
+		g2d.setComposite(original);
 	}
 	
 	public void drawInteractionPane(Graphics g, int sID) {
-		Color temp = g.getColor();
+	
+		Graphics2D g2d = (Graphics2D) g;
+		Color tempCol = g.getColor();
+		Font tempFont = g.getFont();
+		Composite original = g2d.getComposite();
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		
 		int paddingx = 5;
 		int paddingy = 5;
 		int offsetx = 15; // dist from left of screen
@@ -457,13 +556,15 @@ class HUD extends Applet
 		int compOffset = 150; // x distance between column and comparison strings
 		//int thickness = 20;
 		
-		g.setColor(Color.BLACK);
-		g.drawRect(800-length-paddingx-1, 600-height-paddingy-1, length+1, height+1);
 		
 		g.setColor(Color.WHITE);
-		g.fillRect(800-length-paddingx, 600-height-paddingy, length, height);
+		g.fillRoundRect(800-length-paddingx, 600-height-paddingy, length, height, HUDround,HUDround);
+		
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0F));
 		
 		g.setColor(Color.BLACK);
+		g.drawRoundRect(800-length-paddingx, 600-height-paddingy, length, height, HUDround,HUDround);
 		
 		String str;
 		
@@ -471,13 +572,102 @@ class HUD extends Applet
 		str += nd.getDesc(sID);
 		drawTextInBox(g, str, offsetx, offsety, (int)(0.8*length), height); 
 		
-		g.setColor(temp);
+		
+		g.setColor(tempCol);
+		g.setFont(tempFont);
+		g2d.setComposite(original);
+	}
+	
+	public void drawStats(Graphics g, Player p) {
+	
+		Graphics2D g2d = (Graphics2D) g;
+		Color tempCol = g.getColor();
+		Font tempFont = g.getFont();
+		Composite original = g2d.getComposite();
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		int width = 200;
+		int height = 300;
+		
+		int paddingx = 5;
+		int paddingy = 5;
+		int offsetx = (800-width)/2; // dist from left of screen
+		int offsety = (600-height)/2; // dist from top of screen
+		
+		g.setColor(Color.BLACK);
+		g.drawRect(offsetx, offsety, width, height);
+		
+		g.setColor(Color.WHITE);
+		g.fillRect(offsetx, offsety, width, height);
+		
+		g.setColor(Color.BLACK);
+	
+		
+		g.setColor(tempCol);
+		g.setFont(tempFont);
+		g2d.setComposite(original);
 	}
 	
 	public String comparison(int one, int two, String greater, String less, String equal) {
 		if(one == two) return equal;
 		else if(one > two) return greater;
 		else return less;
+	}
+	
+	public void initMinimap(int[] mapwidth, int[] mapheight, int tilesize, TileMap[] theMap, Image[] tileImages, Dimension d) {
+		this.mapwidth = mapwidth;
+		this.mapheight = mapheight;
+		this.tilesize = tilesize;
+		this.theMap = theMap;
+		this.tileImages = tileImages;
+		appSizeX = d.width;
+		appSizeY = d.height;
+	}
+	
+	public void drawMinimap(Graphics g, int maptracker) {	
+		
+		Color tempCol = g.getColor();
+	
+		g.setColor(Color.RED);
+		
+		int scale = 4;
+		
+		int width = appSizeX/2;
+		int height = appSizeY/2;
+		
+		int offsetx = (appSizeX-width)/2;
+		int offsety = (appSizeY-height)/2;
+		
+		int tilesizemini = tilesize/scale;
+	
+		int xDraw = 0;
+		int yDraw = 0;
+		
+		
+		//for(int y=0; y<mapheight[maptracker] && yDraw <= appSizeY; y++) {
+		for(int y=0; y<mapheight[maptracker] && yDraw-offsety <= height; y++) {
+			for(int x=0; x<mapwidth[maptracker]; x++) {
+				//xDraw = (p.getX())*tilesizemini + x*tilesizemini;
+				//yDraw = (p.getY())*tilesizemini + y*tilesizemini;
+				xDraw = offsetx + x*tilesizemini;
+				yDraw = offsety + y*tilesizemini;
+				if(xDraw-offsetx >= width) break;
+				
+				
+				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],xDraw,yDraw, tilesizemini, tilesizemini,this);
+				
+				if(x == p.getX() && y == p.getY()) {
+					g.fillRect(xDraw,yDraw,tilesizemini,tilesizemini);
+				}
+				
+			}
+		}
+		
+		
+		
+		
+		g.setColor(tempCol);		
 	}
 
 }
