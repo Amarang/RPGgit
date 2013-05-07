@@ -10,17 +10,20 @@ import java.util.Random;
 import java.awt.event.*;
 import java.lang.Math;
 import javax.sound.sampled.*;
+import java.util.List;
 
 class Battle extends Applet
 {
 	private static int NUMMONSTERS = 10;
 	private static int NUMBOSSES = 1;
+	private static int TICKERLENGTH = 5;
 	private SoundClip hit;
 	private SoundClip death;
 	private SoundClip battlemusic;
 	private SoundClip bossmusic;
 	private Monster m;
 	private Pointer c;
+	private List<String> ticker;
 	private Image[] monsterImages;
 	private Image[] icons;
 	private Player p;
@@ -73,9 +76,16 @@ class Battle extends Applet
 		this.icons = icons;
 		this.bossmusic=bossmusic;
 		this.boss=boss;
+		this.ticker = new ArrayList<String>();
 	}
 	public boolean getBattle() { return battle; }
 	public boolean getSpace() { return key_space; }
+	
+	public void pushToTicker(String s) { 
+		ticker.add(s);
+		if(ticker.size() > TICKERLENGTH) ticker.remove(0);
+	}
+	
 	public boolean BattleSequence(Graphics g, boolean key_space,boolean key_enter)
 	{
 		this.key_space = key_space;
@@ -122,8 +132,10 @@ class Battle extends Applet
 					//gold=-(p.getGold()/2);
 					//p.setGold(gold);
 					p.addGold(-(int)(p.getGold()/2));
-					if (p.setExperience(xp))
-						g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);	
+					if (p.setExperience(xp)) {
+						//g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);
+						pushToTicker("congrats on leveling up to level : "+p.getLevel());
+					}
 				}
 				battlemusic.stop();
 				death.play();
@@ -154,17 +166,17 @@ class Battle extends Applet
 		g.setColor(Color.white);
 		drawMonster(g);
 		g.drawString("Enemy: "+ m.getName(),300,30+100);
-  		g.drawString("monster health = "+ m.getHealth(),300,50+100);
-  		g.drawString("strength = "+ m.getStrength(),300,71+100);
-  		g.drawString("defense = "+ m.getDefense(),300,91+100);
+  		//g.drawString("monster health = "+ m.getHealth(),300,50+100);
+  		//g.drawString("strength = "+ m.getStrength(),300,71+100);
+  		//g.drawString("defense = "+ m.getDefense(),300,91+100);
 		
-  		g.drawString("your health = "+ p.getHealth(),30,50);
-  		g.drawString("strength = "+ p.getStrength(),30,71+100+100);
-  		g.drawString("defense = "+ p.getDefense(),30,91+100);
+  		//g.drawString("your health = "+ p.getHealth(),30,50);
+  		//g.drawString("strength = "+ p.getStrength(),30,71+100+100);
+  		//g.drawString("defense = "+ p.getDefense(),30,91+100);
 		
 		HUD hud = new HUD(p, m, icons);
 		hud.battleDraw(g);
-		hud.drawTicker(g,p);
+		hud.drawTicker(g,ticker);
 	}
 	public void Defeat(Graphics g)
 	{
@@ -175,9 +187,12 @@ class Battle extends Applet
 		Display(g);
 		g.setFont(title);
 		g.setColor(Color.white);
-  		g.drawString("You were killed by the "+m.getName()+"! Exp lost : "+xp,50,500);
-  		g.drawString("Gold lost : "+gold,50,520);
-  		g.drawString("You take some time to tend to your wounds.",50,540);
+  		//g.drawString("You were killed by the "+m.getName()+"! Exp lost : "+xp,50,500);
+		pushToTicker("You were killed by the "+m.getName()+"! Exp lost : "+xp);
+  		//g.drawString("Gold lost : "+gold,50,520);
+		pushToTicker("Gold lost : "+gold);
+  		//g.drawString("You take some time to tend to your wounds.",50,540);
+		pushToTicker("You take some time to tend to your wounds.");
   		
 	}
 	public void Victory(Graphics g)
@@ -189,16 +204,24 @@ class Battle extends Applet
 		Display(g);
 		g.setFont(title);
 		g.setColor(Color.white);
-  		g.drawString("Congratulations on defeating the "+m.getName()+"! Exp earned: "+xp,50,500);
-		g.drawString("Gold earned: "+gold,50,520);
-  		if (levelup)
-			g.drawString("Congratulations! You\'re now level "+p.getLevel(),50,540);
+  		//g.drawString("Congratulations on defeating the "+m.getName()+"! Exp earned: "+xp,50,500);
+		pushToTicker("Congratulations on defeating the "+m.getName()+"! Exp earned: "+xp);
+		//g.drawString("Gold earned: "+gold,50,520);
+		pushToTicker("Gold earned: "+gold);
+  		if (levelup) {
+			//g.drawString("Congratulations! You\'re now level "+p.getLevel(),50,540);
+			pushToTicker("Congratulations! You\'re now level "+p.getLevel());
+		
+		}
 		
 	}
 	public void drawMonster(Graphics g)
 	{	
 		g.drawImage(monsterImages[m.getId()],350,250, this);
 	}
+	
+	
+	
 	public void Initialize(Graphics g)
 	{
 		death.stop();
@@ -291,7 +314,8 @@ class Battle extends Applet
 			case 0: 
 				hit.play();
 				p.spell();
-				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);	
+				//g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);	
+				pushToTicker("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!");
 				mdamagedealt=(p.getDamage()-m.getDefense());
   				if (mdamagedealt>0)
   				m.setDamage(mdamagedealt); 
@@ -302,7 +326,8 @@ class Battle extends Applet
 				case -1:
 					hit.play();
 					p.attack(); 
-					g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
+					//g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
+					pushToTicker("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!");
 					mdamagedealt=(p.getDamage()-m.getDefense());
 	  				if (mdamagedealt>0)
 	  				m.setDamage(mdamagedealt);	 
@@ -310,7 +335,8 @@ class Battle extends Applet
 				case 0:
 					hit.play();
 					p.attack(); 
-					g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
+					//g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
+					pushToTicker("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!");
 					mdamagedealt=(p.getDamage()-m.getDefense());
 	  				if (mdamagedealt>0)
 	  				m.setDamage(mdamagedealt);	 
@@ -319,20 +345,23 @@ class Battle extends Applet
 					if (rand.nextInt(2)==0)
 					battle=false;
 					else
-					g.drawString("NO ESCAPE",50,500);
+					//g.drawString("NO ESCAPE",50,500);
+					pushToTicker("NO ESCAPE");
 						break;
 				}
 				break;	
 			case 2: 
 				p.defend(); 
-				g.drawString("Defending! You braced yourself!",50,500); 
+				//g.drawString("Defending! You braced yourself!",50,500); 
+				pushToTicker("Defending! You braced yourself!");
 					pdefended=true;
 					break;
 			}
 			key_space=false;
 			playernotgone=false;
-			if (m.getHealth()>0)
-			g.drawString("The "+m.getName()+" is ready!",370,540); 
+			//if (m.getHealth()>0)
+			//g.drawString("The "+m.getName()+" is ready!",370,540); 
+			//pushToTicker("The "+m.getName()+" is ready!");
 		}
 		
 		if (key_space&&c.getPointer()<4&&!playernotgone&&m.getHealth()>0)
@@ -351,7 +380,8 @@ class Battle extends Applet
 			{
 				hit.play();
 				m.attack();
-				g.drawString("Attack! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",370,500);
+				//g.drawString("Attack! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",370,500);
+				pushToTicker("Attack! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!");
 				pdamagedealt=(m.getDamage()-p.getDefense());
   				if (pdamagedealt>0)
   					p.setDamage(pdamagedealt);	
@@ -361,7 +391,8 @@ class Battle extends Applet
 			{
 				hit.play();
 				m.spell();
-				g.drawString("Spell! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",370,500);	
+				//g.drawString("Spell! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",370,500);	
+				pushToTicker("Spell! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!");
 				pdamagedealt=(m.getDamage()-p.getDefense());
   				if (pdamagedealt>0)
   					p.setDamage(pdamagedealt);	
@@ -370,12 +401,14 @@ class Battle extends Applet
 			if (monstaction==2)
 			{
 				m.defend();
-				g.drawString("Defending! Enemy has braced itself!",370,500);	
+				//g.drawString("Defending! Enemy has braced itself!",370,500);	
+				pushToTicker("Defending! Enemy has braced itself!");
 					mdefended=true;
 			}
 			if (monstaction==3)
 			{
-				g.drawString("Tried to run!",370,500);
+				//g.drawString("Tried to run!",370,500);
+				pushToTicker("Tried to run!");
 				if(m.canRun())
 					battle=false;
 			}

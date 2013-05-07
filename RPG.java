@@ -116,10 +116,10 @@ public class RPG extends Applet implements KeyListener
 		running = true;
 		
 		msg = new Message(appSizeX, appSizeY);
-		msg.setTextAndStart("Hi BAMAN HW QR YOU D)TAY!(", 2000);
+		//msg.setTextAndStart("Hi BAMAN HW QR YOU D)TAY!(", 2000);
 		
 		
-		System.out.println("anear beginning of init in RPG.java");
+		//System.out.println("anear beginning of init in RPG.java");
 		
 		for (int i=0;i<NUMMAPS;i++)
 			theMap[i] = new TileMap(MAPWIDTH[i], MAPHEIGHT[i], "maps/file"+i+".txt");
