@@ -22,10 +22,11 @@ public class RPG extends Applet implements KeyListener
 	static int NUMITEMS = 11;
 	static int NUMICONS = 6;
 	static int NUMMONSTERS = 10;
+	static int NUMSPELLS = 4;
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
-	static int WALKINGDELAY = 12; //default 125
-	static int BATTLEFREQUENCY = 100; //percentage of encounter per step (default 3)
+	static int WALKINGDELAY = 125; //default 125
+	static int BATTLEFREQUENCY = 4; //percentage of encounter per step (default 3)
 	static int FPS = 60;
 	int boss=0;
 	
@@ -73,6 +74,7 @@ public class RPG extends Applet implements KeyListener
 	
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman");
 	Monster m;
+	Spell[] spell = new Spell[NUMSPELLS];
 	Battle b;
 	HUD hud;
 	Sprite[] sp = new Sprite[NUMSPRITES];
@@ -139,6 +141,9 @@ public class RPG extends Applet implements KeyListener
 		for(int i = 0; i < item.length; i++) {
 			item[i] = new Item(i,"items/items.txt");
 			shop[i] = item[i];	
+		}
+		for(int i = 0; i < spell.length; i++) {
+			spell[i] = new Spell(i,"data/spells.txt");	
 		}
 		p.addItem(item[0]);
 		p.addItem(item[5]);
@@ -465,7 +470,7 @@ public class RPG extends Applet implements KeyListener
 			if(firsttimebattle) {
 				wait.suspend();
 				intro.stop();
-				b = new Battle(p, monsterImages,c,icons,hit,death,battlemusic,bossmusic,boss);
+				b = new Battle(p, monsterImages,c,icons,hit,death,battlemusic,bossmusic,boss,spell);
 				firsttimebattle = false;
 			} else {
 				

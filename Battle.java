@@ -32,12 +32,15 @@ class Battle extends Applet
 	private boolean initialize = false;
 	private boolean mdefended = false;
 	private boolean pdefended = false;
-	private boolean inmenu = false;
+	private boolean initemmenu = false;
+	private boolean inspellmenu = false;
 	private int xp;
 	private int gold;
 	private int boss;
 	private int xchoice=1;
 	private int ychoice=-1;
+	private int spelltracker;
+	HUD hud;
 	
 	
 	
@@ -61,8 +64,9 @@ class Battle extends Applet
   	private int mdamagedealt;
   	private boolean levelup = false;
   	private boolean playernotgone = true;
+  	Spell[] spell;
 	
-    public Battle(Player pl, Image[] mi, Pointer cl,Image[] icons,SoundClip hit,SoundClip death,SoundClip battlemusic,SoundClip bossmusic,int boss) {
+    public Battle(Player pl, Image[] mi, Pointer cl,Image[] icons,SoundClip hit,SoundClip death,SoundClip battlemusic,SoundClip bossmusic,int boss, Spell[] spell) {
 		System.out.println("made Battle");
 		this.p = pl;
 		this.c = cl;
@@ -73,6 +77,8 @@ class Battle extends Applet
 		this.icons = icons;
 		this.bossmusic=bossmusic;
 		this.boss=boss;
+		this.spell = spell;
+		
 	}
 	public boolean getBattle() { return battle; }
 	public boolean getSpace() { return key_space; }
@@ -101,7 +107,7 @@ class Battle extends Applet
 					gold=m.getId()+(rand.nextInt(4)+1)*(p.getLevel()*m.getStrength())/(p.getLevel());
 					p.addGold(gold);
 					if (p.setExperience(xp))
-						levelup=true;	
+						levelup=true;
 				}
 				Victory(g);
 				if (key_space)
@@ -162,7 +168,6 @@ class Battle extends Applet
   		g.drawString("strength = "+ p.getStrength(),30,71+100+100);
   		g.drawString("defense = "+ p.getDefense(),30,91+100);
 		
-		HUD hud = new HUD(p, m, icons);
 		hud.battleDraw(g);
 		hud.drawTicker(g,p);
 	}
@@ -223,7 +228,7 @@ class Battle extends Applet
 			m = new Monster(monster_id, stat_scale);	
 		}
 		
-		
+		hud = new HUD(p, m, icons,spell);
 		 c.reset();
 		 initialize = true;
 		mdefended=false;
@@ -238,10 +243,9 @@ class Battle extends Applet
 		g.fillRect(0,0,800,600);
 		g.setColor(Color.white);
 		drawMonster(g);
-		Actions(g);
-		Display(g);
-  	
-  		g.setColor(Color.red);
+  		if (!initemmenu)
+  		{
+  		
   		switch(c.getPointer()) {
 			case 0:
 				xchoice=1; 
@@ -262,6 +266,9 @@ class Battle extends Applet
 					xchoice++;
 					break;
   		}
+  		Actions(g);
+		Display(g);
+		g.setColor(Color.red);
   		switch(xchoice) {
 			case 0: 
 				g.drawRect(309,399,72,22); 
@@ -272,6 +279,7 @@ class Battle extends Applet
 			case 2: 
 				g.drawRect(459,399,72,22); 
 					break;
+  		}
   		}
 	}
 	
@@ -284,62 +292,106 @@ class Battle extends Applet
   		g.drawString("Defend",460,420);
   		g.drawString("Run",380,440);
   		hit.stop();
-		if (key_space&&c.getPointer()<4&&playernotgone)
-		{
-			
+  		System.out.println(c.getPointer());
+  		if (initemmenu)
+	  		{
+		  		initemmenu=!hud.drawItems(g,c,key_space);
+		  		playernotgone=initemmenu;
+		  		key_space=false;
+		  		xchoice=-1;	
+	  		}
+  		if (inspellmenu)
+	  		{
+		  		spelltracker=hud.drawSpells(g,c,key_space);
+		  		if(spelltracker>=0)
+			  		{
+			  		useSpell(spelltracker,g);
+					mdamagedealt=(p.getDamage()-m.getDefense());
+  					if (mdamagedealt>0)
+  					m.setDamage(mdamagedealt); 
+  					playernotgone=false;
+			  		inspellmenu=false;
+			  		key_space=false;
+			  		xchoice=-1;		
+			  		}
+			 	
+	  		}
+		if (key_space&&xchoice!=-1&&playernotgone)
+		{	
 			switch(xchoice) {
 			case 0: 
 				hit.play();
-				p.spell();
-				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);	
-				mdamagedealt=(p.getDamage()-m.getDefense());
-  				if (mdamagedealt>0)
-  				m.setDamage(mdamagedealt); 
+				if (inspellmenu==false)
+					key_space=false;	
+					if (hud.drawSpells(g,c,key_space)==-1)
+					{
+					inspellmenu = true;	
+					}
+					else
+					inspellmenu = false;
+					xchoice=-1;	
 					break;
 			case 1:
-				
+				xchoice=-1;	
 				switch(ychoice) {
 				case -1:
+					xchoice=-1;
 					hit.play();
-					p.attack(); 
-					g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
+					p.attack();
+					g.drawString("Attacked: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
 					mdamagedealt=(p.getDamage()-m.getDefense());
 	  				if (mdamagedealt>0)
-	  				m.setDamage(mdamagedealt);	 
+	  				m.setDamage(mdamagedealt);
+	  				 	 
 						break; 
 				case 0:
-					hit.play();
-					p.attack(); 
-					g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
+					//hit.play();
+					xchoice=-1;
+					if (initemmenu==false)
+					key_space=false;	
+					if (!hud.drawItems(g,c,key_space))
+					{
+					initemmenu = true;	
+					}
+					else
+					initemmenu = false;
+					g.drawString("Item used: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
 					mdamagedealt=(p.getDamage()-m.getDefense());
 	  				if (mdamagedealt>0)
-	  				m.setDamage(mdamagedealt);	 
+	  				m.setDamage(mdamagedealt);
+	  						 
 						break; 
 				case 1:
+					xchoice=-1;	
 					if (rand.nextInt(2)==0)
 					battle=false;
 					else
 					g.drawString("NO ESCAPE",50,500);
+					
 						break;
 				}
 				break;	
-			case 2: 
+			case 2:
+				xchoice=-1; 
 				p.defend(); 
 				g.drawString("Defending! You braced yourself!",50,500); 
 					pdefended=true;
+						
 					break;
 			}
 			key_space=false;
+			if (!initemmenu&&!inspellmenu)
 			playernotgone=false;
 			if (m.getHealth()>0)
 			g.drawString("The "+m.getName()+" is ready!",370,540); 
 		}
 		
-		if (key_space&&c.getPointer()<4&&!playernotgone&&m.getHealth()>0)
+		if (key_space&&!playernotgone&&m.getHealth()>0&&!initemmenu&&!inspellmenu)
 		{
 			playernotgone=true;
 			key_space=false;
 			c.setPointer(5);
+			xchoice=-1; 
 			if (mdefended)
 			{
 			m.setDefense(m.getDefense()/2);
@@ -384,8 +436,33 @@ class Battle extends Applet
 			p.setDefense(p.getDefense()/2);
 			pdefended=false;	
 			}
+		
+		c.setPointer(5);
 		}
 		key_space=false;	 
+	}
+	public void useSpell(int spellid,Graphics g)
+	{
+		if(p.getMana()>=spell[spellid].getCost())
+		{
+		p.payMana(spell[spellid].getCost());
+		switch(spell[spellid].getTarget()){
+			case 0:
+				m.setDamage(spell[spellid].getDamage());
+				break;	
+			case 1:
+				p.setDamage(spell[spellid].getDamage());
+				break;
+		}
+		g.setColor(Color.white);
+		//g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
+		g.drawString("Used "+spell[spellid].getName()+"and dealt "+spell[spellid].getDamage()+" Damage.",50,500);	
+		}
+		else
+		g.drawString(spell[spellid].getName()+" Failed!",100,500);	
+		
+		
+			
 	}
 	public void delay(double n)
 	{

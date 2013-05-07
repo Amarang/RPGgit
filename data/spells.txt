@@ -1,0 +1,5 @@
+// NAME ID	Target	Damage	Cost
+Heal	0	1	-12	3	
+Infliction	1	0	8	2
+Pain	2	0	15	5
+Crucify	3	0	50	20

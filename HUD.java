@@ -42,6 +42,7 @@ class HUD extends Applet
 	private boolean battleHUD = false;
 	private boolean loadedRecently = false;
 	private NPCData nd;// = new NPCData();
+	Spell[] spell;
 	
 	private float HUDalpha = 0.85F;
 	private int HUDround = 10;
@@ -54,11 +55,12 @@ class HUD extends Applet
 		//this.load = load;
     }
 		
-	public HUD(Player p, Monster m, Image[] icons) {
+	public HUD(Player p, Monster m, Image[] icons, Spell[] spell) {
 		System.out.println("made HUD");
         this.p = p;
 		this.m = m;
 		this.icons = icons;
+		this.spell = spell;
     }
 	
 	public void updateNPCInfo() {
@@ -306,6 +308,7 @@ class HUD extends Applet
 		int gold = p.getGold();
 		int experience = p.getExperience();
 		int mana = p.getMana();
+		int manamax = p.getManaMax();
 		int levelExperience = p.getLevelExperience();
 		
 		int offsetx = 5;
@@ -313,7 +316,7 @@ class HUD extends Applet
 		
 		//hp, mana, exp bars
 		drawBar(g, offsetx, 0*thickness + offsety, 250, thickness, HPColor, health, healthmax);
-		drawBar(g, offsetx, 1*thickness + offsety, 250, thickness, ManaColor, mana, mana);
+		drawBar(g, offsetx, 1*thickness + offsety, 250, thickness, ManaColor, mana, manamax);
 		drawBar(g, offsetx, 2*thickness + offsety, 250, thickness, ExperienceColor, experience, levelExperience);
 		
 		//icons
@@ -745,5 +748,212 @@ class HUD extends Applet
 		
 	
 	}
-
+	public boolean drawItems(Graphics g, Pointer c, boolean key_space) {
+		System.out.println(c.getPointer());
+		System.out.println("hmm");
+		
+		this.c=c;
+		if (c.getPointer()==2)
+		{
+			if (selectedItem<12)
+			selectedItem++;
+			c.setPointer(6);	
+		}
+		if (c.getPointer()==0)
+		{
+			if (selectedItem>0)
+			selectedItem--;	
+			c.setPointer(6);
+		}
+		if (key_space)
+		{
+			if (selectedItem<10)
+			{
+				if(!(inventory[selectedItem] == null)) {
+					System.out.println(inventory[selectedItem].getUseage());
+					if(!p.alreadySameType(inventory[selectedItem]) && !p.isEquipped(inventory[selectedItem])&&inventory[selectedItem].getUseage()==0)
+					{
+						p.equip(inventory[selectedItem]);
+						return true;
+					} else if (p.isEquipped(inventory[selectedItem])){
+						p.unequip(inventory[selectedItem]);
+						return true;
+					}
+					else if(!p.alreadySameType(inventory[selectedItem]) && !p.isEquipped(inventory[selectedItem])&&inventory[selectedItem].getUseage()==1)
+					{
+						p.use(inventory[selectedItem]);
+						p.removeItem(inventory[selectedItem]);
+						return true;
+					} 
+					
+				} else {
+					System.out.println("tried to fetch non-existent item");
+				}
+				c.setPointer(6);	
+			}
+			else if(selectedItem==10)
+			{
+				c.setPointer(7);//back out of inventory
+				loadedRecently = false;
+				return true;
+			}
+			else if(selectedItem==11)
+				p.save();
+			else if(selectedItem==12)
+			{
+				if(!loadedRecently) {
+					p.load();
+				}
+				loadedRecently = true;
+			}
+			//load.LoadData(p);
+		}
+		
+		int paddingx = 7;
+		int paddingy = 150;
+		
+		Graphics2D g2d = (Graphics2D) g;
+		Color tempCol = g.getColor();
+		Font tempFont = g.getFont();
+		
+		Composite original = g2d.getComposite();
+		
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+				
+		g.setColor(Color.white);
+		g.fillRoundRect(600-paddingx,0+paddingy,200,400, HUDround,HUDround);
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0F));
+		
+		g.setColor(Color.black);
+		g.drawRoundRect(600-paddingx,0+paddingy,200,400, HUDround,HUDround);
+		g.setColor(Color.red);
+		g.drawRoundRect(601-paddingx,24+selectedItem*20+paddingy,198,20, HUDround,HUDround);
+		g.setColor(Color.black);
+		g.drawString("Gold: "+p.getGold(),640-paddingx,20+paddingy);
+		inventory =p.getInventory();
+		for (int i=0;i<inventory.length;i++)
+		{
+			if(inventory[i]!=null)
+			{
+				g.drawString(inventory[i].getName(),650-paddingx,40+20*i+paddingy);
+				drawIcon(g, inventory[i].getIcon(), 620-paddingx, 25+20*i+paddingy);
+				
+				if(selectedItem<inventory.length&&!(inventory[selectedItem] == null))
+					drawItemPane(g, inventory[selectedItem]);
+			}
+			
+			if (p.isEquipped(inventory[i])&&inventory[i]!=null) {
+				//g.drawString("E",605,40+20*i);	
+				drawIcon(g,3, 601-paddingx,24+20*i+paddingy);
+			}
+		}
+		g.drawString("Exit",640-paddingx,40+20*10+paddingy);
+		g.drawString("Save",640-paddingx,40+20*11+paddingy);
+		g.drawString("Load",640-paddingx,40+20*12+paddingy);
+		
+		
+		
+		g.setColor(tempCol);
+		g.setFont(tempFont);
+		g2d.setComposite(original);
+		return false;
+	}
+	public int drawSpells(Graphics g, Pointer c, boolean key_space) {
+		this.c=c;
+		if (c.getPointer()==2)
+		{
+			if (selectedItem<12)
+			selectedItem++;
+			c.setPointer(6);	
+		}
+		if (c.getPointer()==0)
+		{
+			if (selectedItem>0)
+			selectedItem--;	
+			c.setPointer(6);
+		}
+		if (key_space)
+		{
+			if (selectedItem<10)
+			{
+				if(!(spell[selectedItem] == null)) {
+					return spell[selectedItem].getSpellID();
+					
+				} else {
+					System.out.println("tried to fetch non-existent item");
+				}
+				c.setPointer(6);	
+			}
+			else if(selectedItem==10)
+			{
+				c.setPointer(7);//back out of spell
+				loadedRecently = false;
+				return 0;
+			}
+			else if(selectedItem==11)
+				p.save();
+			else if(selectedItem==12)
+			{
+				if(!loadedRecently) {
+					p.load();
+				}
+				loadedRecently = true;
+			}
+			//load.LoadData(p);
+		}
+		
+		int paddingx = 7;
+		int paddingy = 150;
+		
+		Graphics2D g2d = (Graphics2D) g;
+		Color tempCol = g.getColor();
+		Font tempFont = g.getFont();
+		
+		Composite original = g2d.getComposite();
+		
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+				
+		g.setColor(Color.white);
+		g.fillRoundRect(600-paddingx,0+paddingy,200,400, HUDround,HUDround);
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0F));
+		
+		g.setColor(Color.black);
+		g.drawRoundRect(600-paddingx,0+paddingy,200,400, HUDround,HUDround);
+		g.setColor(Color.red);
+		g.drawRoundRect(601-paddingx,24+selectedItem*20+paddingy,198,20, HUDround,HUDround);
+		g.setColor(Color.black);
+		g.drawString("Gold: "+p.getGold(),640-paddingx,20+paddingy);
+		for (int i=0;i<spell.length;i++)
+		{
+			if(spell[i]!=null)
+			{
+				g.drawString(spell[i].getName(),650-paddingx,40+20*i+paddingy);
+				//drawIcon(g, spell[i].getIcon(), 620-paddingx, 25+20*i+paddingy);
+				
+				//if(selectedItem<spell.length&&!(spell[selectedItem] == null))
+					//drawItemPane(g, spell[selectedItem]);
+			}
+			
+			/*if (p.isEquipped(spell[i])&&spell[i]!=null) {
+				//g.drawString("E",605,40+20*i);	
+				//drawIcon(g,3, 601-paddingx,24+20*i+paddingy);
+			}*/
+		}
+		g.drawString("Exit",640-paddingx,40+20*10+paddingy);
+		g.drawString("Save",640-paddingx,40+20*11+paddingy);
+		g.drawString("Load",640-paddingx,40+20*12+paddingy);
+		
+		
+		
+		g.setColor(tempCol);
+		g.setFont(tempFont);
+		g2d.setComposite(original);
+		return -1;
+	}
 }

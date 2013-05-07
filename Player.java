@@ -24,6 +24,7 @@ class Player
     private int health;
     private int healthmax;
     private int mana;
+    private int manamax;
     private int strength;
     private int speed;
     private int damage;
@@ -59,6 +60,7 @@ class Player
         health = h;
         healthmax=h;
         mana = m;
+        manamax = m;
         strength = str;
         speed= spd;
         defense = def;
@@ -115,17 +117,20 @@ class Player
     public int getDamage() { return damage; }
     public int getLevel() { return level; }
     public int getHealthMax() { return healthmax; }
+    public int getManaMax() { return manamax; }
     public int getGold() { return gold; }
     public int getExperience() { return experience; }
     public int getLevelExperience() { return levelExperience; }
     public String getName() { return name; }
     
-    public void setDamage(int d) { health-=d; }
+    public void setDamage(int d) { if (health-d >healthmax) health = healthmax; else health-=d; }
     public void setLevel(int d) { level=d; }
     public void setDefense(int d) { defense-=d; }
     public void setGold(int d) { gold=d; }
     public void addGold(int d) { gold+=d; }
     public void pay(int d) {gold-=d;}
+    
+    public void payMana(int d) {mana-=d;}
     public void setHealth(int d) { health=d; }
     public void setHealthMax(int d) { healthmax=d; }
     public boolean setExperience(int d) 
@@ -148,7 +153,7 @@ class Player
 		experience = 0;
 		level++; 
 		healthmax+=rand.nextInt(4)+1;
-		mana+=rand.nextInt(4)+1;
+		manamax+=rand.nextInt(4)+1;
 		strength+=rand.nextInt(4)+1;
 		speed+=rand.nextInt(4)+1;
 		defense+=rand.nextInt(4)+1;
