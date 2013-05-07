@@ -25,7 +25,7 @@ public class RPG extends Applet implements KeyListener
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 12; //default 125
-	static int BATTLEFREQUENCY = 0; //percentage of encounter per step (default 3)
+	static int BATTLEFREQUENCY = 100; //percentage of encounter per step (default 3)
 	static int FPS = 60;
 	int boss=0;
 	

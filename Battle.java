@@ -25,16 +25,20 @@ class Battle extends Applet
 	private Image[] icons;
 	private Player p;
 	private Random rand = new Random(); 
- 	private Font title = new Font("DialogInput",Font.PLAIN,20);	
+ 	private Font title = new Font("DialogInput",Font.PLAIN,20);
 	
 	private boolean run=false;
 	private boolean battle=true;
 	private boolean initialize = false;
 	private boolean mdefended = false;
 	private boolean pdefended = false;
+	private boolean inmenu = false;
 	private int xp;
 	private int gold;
 	private int boss;
+	private int xchoice=1;
+	private int ychoice=-1;
+	
 	
 	
 	private boolean released = false;
@@ -160,6 +164,7 @@ class Battle extends Applet
 		
 		HUD hud = new HUD(p, m, icons);
 		hud.battleDraw(g);
+		hud.drawTicker(g,p);
 	}
 	public void Defeat(Graphics g)
 	{
@@ -238,16 +243,33 @@ class Battle extends Applet
   	
   		g.setColor(Color.red);
   		switch(c.getPointer()) {
-			case 0: 
-				g.drawRect(379,379,72,22); 	
+			case 0:
+				xchoice=1; 
+				if (ychoice>-1)
+					ychoice--;
 					break;
 			case 1: 
-				g.drawRect(309,399,72,22); 
+				if (xchoice>0)
+					xchoice--;
 					break;
 			case 2: 
-				g.drawRect(379,399,72,22);
+				xchoice=1; 
+				if (ychoice<1)
+					ychoice++;
 					break;
 			case 3: 
+				if (xchoice<2)
+					xchoice++;
+					break;
+  		}
+  		switch(xchoice) {
+			case 0: 
+				g.drawRect(309,399,72,22); 
+					break;
+			case 1: 
+				g.drawRect(379,399+22*ychoice,72,22);
+					break;
+			case 2: 
 				g.drawRect(459,399,72,22); 
 					break;
   		}
@@ -258,22 +280,15 @@ class Battle extends Applet
 	{
 		g.drawString("Attack",380,400);
   		g.drawString("Spell",310,420);
-  		g.drawString("Defend",380,420);
-  		g.drawString("Run",460,420);
+  		g.drawString("Item",380,420);
+  		g.drawString("Defend",460,420);
+  		g.drawString("Run",380,440);
   		hit.stop();
 		if (key_space&&c.getPointer()<4&&playernotgone)
 		{
 			
-			switch(c.getPointer()) {
+			switch(xchoice) {
 			case 0: 
-				hit.play();
-				p.attack(); 
-				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
-				mdamagedealt=(p.getDamage()-m.getDefense());
-  				if (mdamagedealt>0)
-  				m.setDamage(mdamagedealt);	 
-					break;
-			case 1: 
 				hit.play();
 				p.spell();
 				g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);	
@@ -281,16 +296,37 @@ class Battle extends Applet
   				if (mdamagedealt>0)
   				m.setDamage(mdamagedealt); 
 					break;
+			case 1:
+				
+				switch(ychoice) {
+				case -1:
+					hit.play();
+					p.attack(); 
+					g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
+					mdamagedealt=(p.getDamage()-m.getDefense());
+	  				if (mdamagedealt>0)
+	  				m.setDamage(mdamagedealt);	 
+						break; 
+				case 0:
+					hit.play();
+					p.attack(); 
+					g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
+					mdamagedealt=(p.getDamage()-m.getDefense());
+	  				if (mdamagedealt>0)
+	  				m.setDamage(mdamagedealt);	 
+						break; 
+				case 1:
+					if (rand.nextInt(2)==0)
+					battle=false;
+					else
+					g.drawString("NO ESCAPE",50,500);
+						break;
+				}
+				break;	
 			case 2: 
 				p.defend(); 
 				g.drawString("Defending! You braced yourself!",50,500); 
 					pdefended=true;
-					break;
-			case 3: 
-				if (rand.nextInt(2)==0)
-				battle=false;
-				else
-				g.drawString("NO ESCAPE",50,500);
 					break;
 			}
 			key_space=false;

@@ -699,5 +699,51 @@ class HUD extends Applet
 		
 		g.setColor(tempCol);		
 	}
+	
+	
+	public void drawTicker(Graphics g, Player p) {
+
+		Graphics2D g2d = (Graphics2D) g;
+		Color tempCol = g.getColor();
+		Font tempFont = g.getFont();
+		
+		int padding = 10;
+		int thickness = 20;
+		int width = 800;//applet
+		double widthPercentage = 0.75; //%age of width to take up
+		int height = 600;//applet
+		int numLines = 4;
+		
+		
+		//String[] lines = new String[numLines];
+		String[] inputStrings = {"adfsdf", "DFDF", "dfkjdlfjkdfkljdflkjdfkljdf", "dlkfjdlfkj",
+		"dfljkdf", "dlfjkdfdidi339df", "23lkj4df", "2309", "3209jf2f"};
+		String[] lines = Arrays.copyOfRange(inputStrings,inputStrings.length-numLines,inputStrings.length);
+		
+		Composite original = g2d.getComposite();
+		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setColor(Color.BLACK);
+		
+		g.fillRoundRect(padding,(height-thickness*numLines-padding*2),(int)(widthPercentage*(width-2*padding)),thickness*numLines+padding, padding, padding);
+		
+		
+		
+		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+		Font labelFont = new Font("Monospaced",Font.BOLD,15);	
+		g.setFont(labelFont);
+		g.setColor(Color.WHITE);
+		
+		for(int i = 0; i < lines.length; i++) {
+		g.drawString(lines[i],padding*2,height-thickness*(i+1)-padding+15/2+2);
+		}
+		
+		g.setColor(tempCol);
+		g.setFont(tempFont);
+		
+		g2d.setComposite(original);
+		
+	
+	}
 
 }
