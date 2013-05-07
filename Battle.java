@@ -10,17 +10,22 @@ import java.util.Random;
 import java.awt.event.*;
 import java.lang.Math;
 import javax.sound.sampled.*;
+import java.util.List;
 
 class Battle extends Applet
 {
 	private static int NUMMONSTERS = 10;
 	private static int NUMBOSSES = 1;
+	private static int TICKERLENGTH = 5;
 	private SoundClip hit;
 	private SoundClip death;
 	private SoundClip battlemusic;
 	private SoundClip bossmusic;
 	private Monster m;
 	private Pointer c;
+	
+	private List<String> ticker;
+	
 	private Image[] monsterImages;
 	private Image[] icons;
 	private Player p;
@@ -78,10 +83,17 @@ class Battle extends Applet
 		this.bossmusic=bossmusic;
 		this.boss=boss;
 		this.spell = spell;
+		this.ticker = new ArrayList<String>();
 		
 	}
 	public boolean getBattle() { return battle; }
 	public boolean getSpace() { return key_space; }
+	
+	public void pushToTicker(String s) {
+		ticker.add(s);
+		if(ticker.size() > TICKERLENGTH) ticker.remove(0);	
+	}
+	
 	public boolean BattleSequence(Graphics g, boolean key_space,boolean key_enter)
 	{
 		this.key_space = key_space;
@@ -129,7 +141,7 @@ class Battle extends Applet
 					//p.setGold(gold);
 					p.addGold(-(int)(p.getGold()/2));
 					if (p.setExperience(xp))
-						g.drawString("congrats on leveling up to level : "+p.getLevel(),50,540);	
+						pushToTicker("Congratulations! You are now level "+p.getLevel()+".");	
 				}
 				battlemusic.stop();
 				death.play();
@@ -169,7 +181,7 @@ class Battle extends Applet
   		g.drawString("defense = "+ p.getDefense(),30,91+100);
 		
 		hud.battleDraw(g);
-		hud.drawTicker(g,p);
+		hud.drawTicker(g,ticker);
 	}
 	public void Defeat(Graphics g)
 	{
@@ -180,9 +192,9 @@ class Battle extends Applet
 		Display(g);
 		g.setFont(title);
 		g.setColor(Color.white);
-  		g.drawString("You were killed by the "+m.getName()+"! Exp lost : "+xp,50,500);
-  		g.drawString("Gold lost : "+gold,50,520);
-  		g.drawString("You take some time to tend to your wounds.",50,540);
+  		pushToTicker("You were killed by the "+m.getName()+"!");
+  		pushToTicker("You lost " + xp + " experience and " + gold + " gold.");
+  		pushToTicker("You take some time to tend to your wounds.");
   		
 	}
 	public void Victory(Graphics g)
@@ -194,10 +206,10 @@ class Battle extends Applet
 		Display(g);
 		g.setFont(title);
 		g.setColor(Color.white);
-  		g.drawString("Congratulations on defeating the "+m.getName()+"! Exp earned: "+xp,50,500);
-		g.drawString("Gold earned: "+gold,50,520);
+  		pushToTicker("Congratulations on defeating the "+m.getName()+"!");
+		pushToTicker("Gained "+xp+" experience and " + gold + " gold.");
   		if (levelup)
-			g.drawString("Congratulations! You\'re now level "+p.getLevel(),50,540);
+			pushToTicker("Congratulations! You are now level "+p.getLevel()+".");	
 		
 	}
 	public void drawMonster(Graphics g)
@@ -306,8 +318,7 @@ class Battle extends Applet
 		  		if(spelltracker>=0)
 			  		{
 			  		useSpell(spelltracker,g);
-					mdamagedealt=(p.getDamage()-m.getDefense());
-  					if (mdamagedealt>0)
+					mdamagedealt=Math.max(0,(p.getDamage()-m.getDefense()));
   					m.setDamage(mdamagedealt); 
   					playernotgone=false;
 			  		inspellmenu=false;
@@ -338,9 +349,8 @@ class Battle extends Applet
 					xchoice=-1;
 					hit.play();
 					p.attack();
-					g.drawString("Attacked: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
-					mdamagedealt=(p.getDamage()-m.getDefense());
-	  				if (mdamagedealt>0)
+					pushToTicker("Attacked: "+ Math.max(0,(p.getDamage()-m.getDefense()))+" damage!");
+					mdamagedealt=Math.max(0,(p.getDamage()-m.getDefense()));
 	  				m.setDamage(mdamagedealt);
 	  				 	 
 						break; 
@@ -355,9 +365,8 @@ class Battle extends Applet
 					}
 					else
 					initemmenu = false;
-					g.drawString("Item used: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
-					mdamagedealt=(p.getDamage()-m.getDefense());
-	  				if (mdamagedealt>0)
+					pushToTicker("Item used: "+ (p.getDamage()-m.getDefense())+" damage!");
+					mdamagedealt=Math.max(0,(p.getDamage()-m.getDefense()));
 	  				m.setDamage(mdamagedealt);
 	  						 
 						break; 
@@ -366,7 +375,7 @@ class Battle extends Applet
 					if (rand.nextInt(2)==0)
 					battle=false;
 					else
-					g.drawString("NO ESCAPE",50,500);
+					pushToTicker("NO ESCAPE!");
 					
 						break;
 				}
@@ -374,7 +383,7 @@ class Battle extends Applet
 			case 2:
 				xchoice=-1; 
 				p.defend(); 
-				g.drawString("Defending! You braced yourself!",50,500); 
+				pushToTicker("Defending! You braced yourself!"); 
 					pdefended=true;
 						
 					break;
@@ -382,8 +391,8 @@ class Battle extends Applet
 			key_space=false;
 			if (!initemmenu&&!inspellmenu)
 			playernotgone=false;
-			if (m.getHealth()>0)
-			g.drawString("The "+m.getName()+" is ready!",370,540); 
+			//if (m.getHealth()>0)
+				//pushToTicker("The "+m.getName()+" is ready!"); 
 		}
 		
 		if (key_space&&!playernotgone&&m.getHealth()>0&&!initemmenu&&!inspellmenu)
@@ -403,31 +412,29 @@ class Battle extends Applet
 			{
 				hit.play();
 				m.attack();
-				g.drawString("Attack! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",370,500);
-				pdamagedealt=(m.getDamage()-p.getDefense());
-  				if (pdamagedealt>0)
-  					p.setDamage(pdamagedealt);	
+				pushToTicker("Attack! "+m.getName()+" dealt "+ m.getDamage()+" damage!");
+				pdamagedealt=Math.max(0,(m.getDamage()-p.getDefense()));
+  				p.setDamage(pdamagedealt);	
 				}
 				
 			if (monstaction==1)
 			{
 				hit.play();
 				m.spell();
-				g.drawString("Spell! enemy "+m.getName()+" dealt: "+ m.getDamage()+" damage!",370,500);	
-				pdamagedealt=(m.getDamage()-p.getDefense());
-  				if (pdamagedealt>0)
-  					p.setDamage(pdamagedealt);	
+				pushToTicker("Spell! "+m.getName()+" dealt "+ m.getDamage()+" damage!");	
+				pdamagedealt=Math.max(0,(m.getDamage()-p.getDefense()));
+  				p.setDamage(pdamagedealt);	
 				
 			}
 			if (monstaction==2)
 			{
 				m.defend();
-				g.drawString("Defending! Enemy has braced itself!",370,500);	
+				pushToTicker("Defending! Enemy has braced itself!");	
 					mdefended=true;
 			}
 			if (monstaction==3)
 			{
-				g.drawString("Tried to run!",370,500);
+				pushToTicker(m.getName() + " tried to run!");
 				if(m.canRun())
 					battle=false;
 			}
@@ -456,10 +463,10 @@ class Battle extends Applet
 		}
 		g.setColor(Color.white);
 		//g.drawString("You dealt: "+ (p.getDamage()-m.getDefense())+" damage!",50,500);
-		g.drawString("Used "+spell[spellid].getName()+"and dealt "+spell[spellid].getDamage()+" Damage.",50,500);	
+		pushToTicker("Used "+spell[spellid].getName()+" and dealt "+spell[spellid].getDamage()+" damage.");	
 		}
 		else
-		g.drawString(spell[spellid].getName()+" Failed!",100,500);	
+		pushToTicker(spell[spellid].getName()+" failed!");	
 		
 		
 			

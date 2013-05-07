@@ -13,6 +13,7 @@ import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+import java.util.List;
 
 class HUD extends Applet
 {
@@ -704,7 +705,7 @@ class HUD extends Applet
 	}
 	
 	
-	public void drawTicker(Graphics g, Player p) {
+	public void drawTicker(Graphics g, List<String> inputStrings) {
 
 		Graphics2D g2d = (Graphics2D) g;
 		Color tempCol = g.getColor();
@@ -715,13 +716,16 @@ class HUD extends Applet
 		int width = 800;//applet
 		double widthPercentage = 0.75; //%age of width to take up
 		int height = 600;//applet
-		int numLines = 4;
-		
+		int maxNumLines = 5;
+		int numLines = maxNumLines;
 		
 		//String[] lines = new String[numLines];
-		String[] inputStrings = {"adfsdf", "DFDF", "dfkjdlfjkdfkljdflkjdfkljdf", "dlkfjdlfkj",
+		/*String[] inputStrings = {"adfsdf", "DFDF", "dfkjdlfjkdfkljdflkjdfkljdf", "dlkfjdlfkj",
 		"dfljkdf", "dlfjkdfdidi339df", "23lkj4df", "2309", "3209jf2f"};
-		String[] lines = Arrays.copyOfRange(inputStrings,inputStrings.length-numLines,inputStrings.length);
+		String[] lines = Arrays.copyOfRange(inputStrings,inputStrings.length-numLines,inputStrings.length);*/
+		
+		String[] lines = inputStrings.subList(Math.max(0,inputStrings.size()-maxNumLines),inputStrings.size()).toArray(new String[0]);
+		numLines = lines.length;
 		
 		Composite original = g2d.getComposite();
 		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
@@ -738,7 +742,8 @@ class HUD extends Applet
 		g.setColor(Color.WHITE);
 		
 		for(int i = 0; i < lines.length; i++) {
-		g.drawString(lines[i],padding*2,height-thickness*(i+1)-padding+15/2+2);
+			if(i==lines.length-1) g.setColor(Color.RED);
+			g.drawString(lines[i],padding*2,height-thickness*(lines.length+1-(i+1))-padding+15/2+2);
 		}
 		
 		g.setColor(tempCol);
