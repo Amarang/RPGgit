@@ -706,26 +706,20 @@ class HUD extends Applet
 	
 	
 	public void drawTicker(Graphics g, List<String> inputStrings) {
-
 		Graphics2D g2d = (Graphics2D) g;
 		Color tempCol = g.getColor();
 		Font tempFont = g.getFont();
+		
+		int numLines = inputStrings.size();
+		if(numLines < 1) return;
 		
 		int padding = 10;
 		int thickness = 20;
 		int width = 800;//applet
 		double widthPercentage = 0.75; //%age of width to take up
 		int height = 600;//applet
-		int maxNumLines = 5;
-		int numLines = maxNumLines;
 		
-		//String[] lines = new String[numLines];
-		/*String[] inputStrings = {"adfsdf", "DFDF", "dfkjdlfjkdfkljdflkjdfkljdf", "dlkfjdlfkj",
-		"dfljkdf", "dlfjkdfdidi339df", "23lkj4df", "2309", "3209jf2f"};
-		String[] lines = Arrays.copyOfRange(inputStrings,inputStrings.length-numLines,inputStrings.length);*/
-		
-		String[] lines = inputStrings.subList(Math.max(0,inputStrings.size()-maxNumLines),inputStrings.size()).toArray(new String[0]);
-		numLines = lines.length;
+		String[] lines = inputStrings.subList(Math.max(0,inputStrings.size()-numLines),inputStrings.size()).toArray(new String[0]);
 		
 		Composite original = g2d.getComposite();
 		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
@@ -734,15 +728,15 @@ class HUD extends Applet
 		
 		g.fillRoundRect(padding,(height-thickness*numLines-padding*2),(int)(widthPercentage*(width-2*padding)),thickness*numLines+padding, padding, padding);
 		
-		
+		g.setColor(Color.WHITE);
+		g.drawRoundRect(padding,(height-thickness*numLines-padding*2),(int)(widthPercentage*(width-2*padding)),thickness*numLines+padding, padding, padding);
 		
 		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 		Font labelFont = new Font("Monospaced",Font.BOLD,15);	
 		g.setFont(labelFont);
-		g.setColor(Color.WHITE);
 		
 		for(int i = 0; i < lines.length; i++) {
-			if(i==lines.length-1) g.setColor(Color.RED);
+			if(i==lines.length-1) g.setColor(new Color(215, 75, 75));
 			g.drawString(lines[i],padding*2,height-thickness*(lines.length+1-(i+1))-padding+15/2+2);
 		}
 		
@@ -961,4 +955,9 @@ class HUD extends Applet
 		g2d.setComposite(original);
 		return -1;
 	}
+	
+	public void drawAlignedString(Graphics g, String s, int x, int y){  
+            int width = (int)g.getFontMetrics().getStringBounds(s, g).getWidth();  
+            g.drawString(s, (int)(x-width/2), y);  
+     } 
 }

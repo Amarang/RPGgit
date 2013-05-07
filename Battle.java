@@ -16,7 +16,7 @@ class Battle extends Applet
 {
 	private static int NUMMONSTERS = 10;
 	private static int NUMBOSSES = 1;
-	private static int TICKERLENGTH = 5;
+	private static int TICKERLENGTH = 4;
 	private SoundClip hit;
 	private SoundClip death;
 	private SoundClip battlemusic;
@@ -171,14 +171,15 @@ class Battle extends Applet
 		g.setFont(title);
 		g.setColor(Color.white);
 		drawMonster(g);
-		g.drawString("Enemy: "+ m.getName(),300,30+100);
-  		g.drawString("monster health = "+ m.getHealth(),300,50+100);
-  		g.drawString("strength = "+ m.getStrength(),300,71+100);
-  		g.drawString("defense = "+ m.getDefense(),300,91+100);
+		//g.drawString(m.getName(),(int)(800/2-m.getName().length()*15/2),30+100);
+		hud.drawAlignedString(g, m.getName(), 800/2, 30+100);
+  		//g.drawString("monster health = "+ m.getHealth(),300,50+100);
+  		//g.drawString("strength = "+ m.getStrength(),300,71+100);
+  		//g.drawString("defense = "+ m.getDefense(),300,91+100);
 		
-  		g.drawString("your health = "+ p.getHealth(),30,50);
-  		g.drawString("strength = "+ p.getStrength(),30,71+100+100);
-  		g.drawString("defense = "+ p.getDefense(),30,91+100);
+  		//g.drawString("your health = "+ p.getHealth(),30,50);
+  		//g.drawString("strength = "+ p.getStrength(),30,71+100+100);
+  		//g.drawString("defense = "+ p.getDefense(),30,91+100);
 		
 		hud.battleDraw(g);
 		hud.drawTicker(g,ticker);
