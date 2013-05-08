@@ -30,10 +30,7 @@ public class RPG extends Applet implements KeyListener
 	static int FPS = 60;
 	int boss=0;
 	
-	/////DEBUG/////
-	//also can hit f key to toggle
-	boolean debug = true;
-	/////DEBUG/////
+	
 	
 	boolean running;// = true;
 	
@@ -64,13 +61,6 @@ public class RPG extends Applet implements KeyListener
 	Image[] monsterImages = new Image[NUMMONSTERS];
 	Image[] icons = new Image[NUMICONS];
 
-	Image player;
-	Image player1;
-	Image player2;
-	Image player1a;
-	Image player2a;
-	Image u,u1,u2,u3,u4, l,l1,l2,l3,l4, d,d1,d2,d3,d4, r,r1,r2,r3,r4;
-	
 	
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman");
 	Monster m;
@@ -93,6 +83,7 @@ public class RPG extends Applet implements KeyListener
 	WaitThread wait;
     MediaTracker mt;
 	
+	boolean debug = true; // toggle with f
 	boolean released = false;
 	boolean key_space = false;
 	boolean key_enter = false;
@@ -119,10 +110,10 @@ public class RPG extends Applet implements KeyListener
 		running = true;
 		
 		msg = new Message(appSizeX, appSizeY);
-		msg.setTextAndStart("Hi BAMasdfAN HW QR YOU D)TAY!(", 2000);
+		//msg.setTextAndStart("Hi BAMasdfAN HW QR YOU D)TAY!(", 2000);
 		
 		
-		System.out.println("anear beginning of init in RPG.java");
+		System.out.println("near beginning of init in RPG.java");
 		
 		for (int i=0;i<NUMMAPS;i++)
 			theMap[i] = new TileMap(MAPWIDTH[i], MAPHEIGHT[i], "maps/file"+i+".txt");
@@ -177,33 +168,33 @@ public class RPG extends Applet implements KeyListener
 			icons[i] = img;
 		}
 		 
-		player = getImage(base,"images/entities/player/player.png");
-		player1 = getImage(base,"images/entities/player/player1.png");
-		player2 = getImage(base,"images/entities/player/player2.png");
-		player1a = getImage(base,"images/entities/player/player1a.png");
-		player2a = getImage(base,"images/entities/player/player2a.png");
-        Image[] playerImgs = new Image[] {player, player1, player2, player1a, player2a};
+		Image npc = getImage(base,"images/entities/npc/npc.png");
+		Image npc1 = getImage(base,"images/entities/npc/npc1.png");
+		Image npc2 = getImage(base,"images/entities/npc/npc2.png");
+		Image npc1a = getImage(base,"images/entities/npc/npc1a.png");
+		Image npc2a = getImage(base,"images/entities/npc/npc2a.png");
+        Image[] npcImgs = new Image[] {npc, npc1, npc2, npc1a, npc2a};
 				
-		u = getImage(base,"images/entities/playertestb/u.png");
-		l = getImage(base,"images/entities/playertestb/l.png");
-		d = getImage(base,"images/entities/playertestb/d.png");
-		r = getImage(base,"images/entities/playertestb/r.png");
-		u1 = getImage(base,"images/entities/playertestb/u1.png");
-		l1 = getImage(base,"images/entities/playertestb/l1.png");
-		d1 = getImage(base,"images/entities/playertestb/d1.png");
-		r1 = getImage(base,"images/entities/playertestb/r1.png");
-		u2 = getImage(base,"images/entities/playertestb/u2.png");
-		l2 = getImage(base,"images/entities/playertestb/l2.png");
-		d2 = getImage(base,"images/entities/playertestb/d2.png");
-		r2 = getImage(base,"images/entities/playertestb/r2.png");
-		u3 = getImage(base,"images/entities/playertestb/u3.png");
-		l3 = getImage(base,"images/entities/playertestb/l3.png");
-		d3 = getImage(base,"images/entities/playertestb/d3.png");
-		r3 = getImage(base,"images/entities/playertestb/r3.png");
-		u4 = getImage(base,"images/entities/playertestb/u4.png");
-		l4 = getImage(base,"images/entities/playertestb/l4.png");
-		d4 = getImage(base,"images/entities/playertestb/d4.png");
-		r4 = getImage(base,"images/entities/playertestb/r4.png");
+		Image u = getImage(base,"images/entities/player/u.png");
+		Image l = getImage(base,"images/entities/player/l.png");
+		Image d = getImage(base,"images/entities/player/d.png");
+		Image r = getImage(base,"images/entities/player/r.png");
+		Image u1 = getImage(base,"images/entities/player/u1.png");
+		Image l1 = getImage(base,"images/entities/player/l1.png");
+		Image d1 = getImage(base,"images/entities/player/d1.png");
+		Image r1 = getImage(base,"images/entities/player/r1.png");
+		Image u2 = getImage(base,"images/entities/player/u2.png");
+		Image l2 = getImage(base,"images/entities/player/l2.png");
+		Image d2 = getImage(base,"images/entities/player/d2.png");
+		Image r2 = getImage(base,"images/entities/player/r2.png");
+		Image u3 = getImage(base,"images/entities/player/u3.png");
+		Image l3 = getImage(base,"images/entities/player/l3.png");
+		Image d3 = getImage(base,"images/entities/player/d3.png");
+		Image r3 = getImage(base,"images/entities/player/r3.png");
+		Image u4 = getImage(base,"images/entities/player/u4.png");
+		Image l4 = getImage(base,"images/entities/player/l4.png");
+		Image d4 = getImage(base,"images/entities/player/d4.png");
+		Image r4 = getImage(base,"images/entities/player/r4.png");
         Image[] playerDirs = new Image[] {u,u1,u2,u3,u4, r,r1,r2,r3,r4, d,d1,d2,d3,d4, l,l1,l2,l3,l4};
 				
 		
@@ -211,7 +202,7 @@ public class RPG extends Applet implements KeyListener
 		
         for (int i = 0; i < NUMSPRITES; i++)
         {
-			sp[i] = new Sprite(playerImgs, rand.nextInt(10)+20, rand.nextInt(10)+20, TILESIZE, i);
+			sp[i] = new Sprite(npcImgs, rand.nextInt(10)+20, rand.nextInt(10)+20, TILESIZE, i);
 			
 			sp[i].setSpeed(900+rand.nextInt(700));
 			sp[i].start();
@@ -224,13 +215,16 @@ public class RPG extends Applet implements KeyListener
 		addKeyListener(this);
 		
 		hud = new HUD(p, icons, shop);
-		//hud.initMinimap(MAPWIDTH, MAPHEIGHT, TILESIZE, theMap, tileImages, this.getSize());
 		mm = new Minimap(MAPWIDTH, MAPHEIGHT, TILESIZE, theMap, tileImages, p, this.getSize());
 			
 	}
 	
 	public boolean isFree() {
-		return !battle&&!showinventory&&!showinteraction&&!showstats&&!showminimap;
+		return (!battle
+			 && !showinventory
+			 && !showinteraction
+			 && !showstats
+			 && !mm.stopMovement());
 	}
 	
   	public void keyPressed(KeyEvent evt) 
@@ -353,11 +347,9 @@ public class RPG extends Applet implements KeyListener
 		
 		if (c.getPointer()==13)
 		{ // c 13 = M
-			if(showminimap) {
-				showminimap = false;
-			}
-			else showminimap=true;
-				
+			mm.toggleState();
+			showminimap = mm.isVisible();
+			//System.out.println(mm.isVisible());
 			c.setPointer(5);
 			
 		}
@@ -561,13 +553,6 @@ public class RPG extends Applet implements KeyListener
 		int facingTile = theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing());
 		//{x, y}
 		int[] facingCoords = theMap[maptracker].getFacingCoords(p.getX(), p.getY(), p.getFacing());
-		
-		//keep for future tile debugging
-		
-		//System.out.println("P " + p.getX() + ", " + p.getY());
-		//System.out.println("currtile " + currTile);
-		//System.out.println("facing " + p.getFacing());
-		//System.out.println("facetile " + facingTile);
 		
 		pSp.start();
 		

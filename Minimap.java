@@ -26,8 +26,15 @@ class Minimap
 	
 	private Player p;
     
-	private static int NUMSTATES = 2;
-	private int state = 1;
+	private static int NUMSTATES = 5; //"off" is a state as well
+	private static int SCALE = 10; //new tile size is tilesize/scale
+	private int state = 0; // 0 is off
+	
+	//state 0 off
+	//state 1 large minimap centered
+	//state 2 corner minimap
+	//state 3 corner minimap slightly transparent
+	//state 3 corner minimap no "facing"
 
 	public Minimap(int[] mapwidth, int[] mapheight, int tilesize, TileMap[] theMap, Image[] tileImages, Player p, Dimension d) {
 		this.mapwidth = mapwidth;
@@ -42,23 +49,104 @@ class Minimap
 	
 	public void toggleState() {
 		state++;
-		if(state > NUMSTATES) {
-			state = 1;
+		if(state > NUMSTATES-1) {
+			state = 0;
 		}
+		System.out.println("minimap state " + state);
 	}
 	
+	public boolean stopMovement() {
+		return state==1;
+	}
+	
+	public boolean isVisible() {
+		return !(state==0); //state 0 means minimap is off
+	}
+	
+	public void drawCenteredString(Graphics g, String s, int x, int y){  
+            int width = (int)g.getFontMetrics().getStringBounds(s, g).getWidth();  
+            int height = (int)g.getFontMetrics().getStringBounds(s, g).getHeight();  
+            g.drawString(s, (int)(x-width/2), (int)(y-height/2));  
+    }
+	
 	public void draw(Graphics g, int maptracker) {	
+		
+		Graphics2D g2d = (Graphics2D) g;
 		Color tempCol = g.getColor();
+		Font tempFont = g.getFont();
 		
-		int scale = 4;
+		Composite original = g2d.getComposite();		
 		
-		int width = appSizeX/2;
-		int height = appSizeY/2;
 		
-		int offsetx = (appSizeX-width)/2;
-		int offsety = (appSizeY-height)/2;
+		int width, height, offsetx, offsety, facingx, facingy;
+		boolean showFacing = true;
+		String facingstr = "";
 		
-		int tilesizemini = tilesize/scale;
+		
+		
+		if(state == 1) {
+		
+			width = appSizeX/2;
+			height = appSizeY/2;
+			offsetx = (appSizeX-width)/2;
+			offsety = (appSizeY-height)/2;
+			facingx = (int)(offsetx + width/2);
+			facingy = (offsety + height + 30);
+		}
+		else if(state == 2)
+		{
+		
+			width = 150;//300;
+			height = 150;//300;
+			offsetx = 600;//(appSizeX-width)/2;
+			offsety = 50;//(appSizeY-height)/2;
+			facingx = (int)(offsetx + width/2);
+			facingy = (offsety + height + 30);
+		}
+		else if(state == 3)
+		{
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		
+			width = 150;//300;
+			height = 150;//300;
+			offsetx = 600;//(appSizeX-width)/2;
+			offsety = 50;//(appSizeY-height)/2;
+			facingx = (int)(offsetx + width/2);
+			facingy = (offsety + height + 30);
+			
+		}
+		else if(state == 4)
+		{
+			showFacing = false;
+		
+			width = 150;//300;
+			height = 150;//300;
+			offsetx = 600;//(appSizeX-width)/2;
+			offsety = 50;//(appSizeY-height)/2;
+			facingx = (int)(offsetx + width/2);
+			facingy = (offsety + height + 30);
+			
+		} else {
+		
+			System.out.println("oops! state isn\'t quite right in minimap.java");
+			return;
+		}
+		
+		
+		if(showFacing) {
+			switch(p.getFacing()) {
+				case 0: facingstr = "north"; break;
+				case 1: facingstr = "east"; break;
+				case 2: facingstr = "south"; break;
+				case 3: facingstr = "west"; break;
+				default: facingstr = "???"; break;
+			}
+		}
+		
+		
+		
+		int tilesizemini = tilesize/SCALE;
 		
 		int startx = (int)(width/tilesizemini/2);
 		int starty = (int)(height/tilesizemini/2);
@@ -71,6 +159,9 @@ class Minimap
 		
 		g.setColor(Color.BLACK);
 		g.drawRect(offsetx-1, offsety-1, width+1, height+tilesizemini*2+1);
+		
+		if(showFacing)
+			drawCenteredString(g, "Facing " + facingstr, facingx, facingy);
 		
 		g.setColor(Color.RED);
 		
@@ -86,11 +177,19 @@ class Minimap
 				
 				if(x == p.getX() && y == p.getY()) {
 					g.fillRect(xDraw,yDraw,tilesizemini,tilesizemini);
+					//g.fillRect(xDraw-tilesizemini,yDraw-tilesizemini,tilesizemini*2,tilesizemini*2);
+					//above line will increase size of marker
 				}
 				
 			}
 		}
-		g.setColor(tempCol);		
+		
+		
+		g.setColor(tempCol);
+		g.setFont(tempFont);
+		g2d.setComposite(original);
+
+		
 	}
 	
 }
