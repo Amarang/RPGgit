@@ -26,6 +26,9 @@ class Load
 		
 			Scanner s = new Scanner(is).useDelimiter("\\A");
 			dataStr = s.hasNext() ? s.next() : "";
+			
+			is.close();
+			
 		} catch (Exception e) {
 			System.out.println("couldn't get " + fileName); 
 			e.printStackTrace();
