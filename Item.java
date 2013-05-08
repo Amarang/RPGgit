@@ -1,15 +1,4 @@
-import java.io.*;
-import java.awt.*;
-import java.applet.*;
-import javax.swing.*;
-import java.util.*;
-import java.awt.image.*;
-import java.net.*;
-import javax.imageio.*;
 import java.util.Random;
-import java.awt.event.*;
-import java.lang.Math;
-import javax.sound.sampled.*;
 
 class Item
 {
@@ -21,20 +10,12 @@ class Item
     private int damage;
     private int defense;
     private int onetimeuse;
-    private int id;
     private int itemid;
     private int price;
-    private int NUMITEMS;
 	private int type;
     private String names[] = {"Bamboo","Sword","Shield","Heart Medallion","Helmet","Cursed Seal","Broad Sword", "Azure's Terror", "Spiked Sheild", "Plate of Magi","Health Capsule"};
-    private String itemlist;
-	private BufferedReader br;
 	private int icon;
     
-    private boolean l = true;
-    private boolean r = true;
-    private boolean u = true;
-    private boolean d = true;
 	Random rand = new Random(); 
     
     public Item(int itemid,String fileName) {
@@ -106,9 +87,4 @@ class Item
     public void attack() { damage= rand.nextInt(speed) + strength; }
     public void spell() { damage= rand.nextInt(speed) + mana; }
     public void defend() { defense*=2; }
-   // public void run() { if(canRun()) run=true; }
-    
-
-    
-
 }

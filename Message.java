@@ -1,18 +1,4 @@
-import java.io.*;
 import java.awt.*;
-import java.applet.*;
-import javax.swing.*;
-import java.util.*;
-import java.awt.image.*;
-import java.net.*;
-import javax.imageio.*;
-import java.util.Random;
-import java.awt.event.*;
-import java.lang.Math;
-import javax.sound.sampled.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import javax.swing.*;
 
 class Message
 {
@@ -49,8 +35,6 @@ class Message
 		Color tempCol = g.getColor();
 		Font tempFont = g.getFont();
 		
-		//int numLines = 3;
-		
 		int lettersPerLine = 70;
 		int numLines = (int)(text.length() / lettersPerLine + 1);
 		
@@ -62,19 +46,11 @@ class Message
 		
 		g.fillRoundRect(padding,height-thickness*numLines-padding*2,width-2*padding,thickness*numLines+padding, padding, padding);
 		
-		
-		
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 		Font labelFont = new Font("Monospaced",Font.BOLD,15);	
 		g.setFont(labelFont);
 		g.setColor(Color.WHITE);
 		
-		//System.out.println(text);
-		
-		
-		//System.out.println("numlines should be " + numLines);
-		//System.out.println("alpha " + alpha);
-		//String lines[] = {"dfdf", "dfdlfkjdf", "dfdklfjdfk"};
 		String[] lines = new String[numLines];
 		
 		

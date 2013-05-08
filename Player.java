@@ -1,19 +1,7 @@
-import java.io.*;
-import java.awt.*;
-import java.applet.*;
-import javax.swing.*;
-import java.util.*;
-import java.awt.image.*;
-import java.net.*;
-import javax.imageio.*;
 import java.util.Random;
-import java.awt.event.*;
-import java.lang.Math;
-import javax.sound.sampled.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 class Player
 {

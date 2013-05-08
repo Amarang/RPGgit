@@ -1,17 +1,4 @@
-import java.io.*;
 import java.awt.*;
-import java.applet.*;
-import javax.swing.*;
-import java.util.*;
-import java.awt.image.*;
-import java.net.*;
-import java.awt.event.*;
-import java.lang.Math;
-import javax.sound.sampled.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import javax.swing.*;
-import java.util.List;
 
 class Minimap
 {

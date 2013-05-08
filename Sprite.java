@@ -1,17 +1,8 @@
-import java.io.*;
 import java.awt.*;
 import java.applet.*;
-import javax.swing.*;
-import java.util.*;
-import java.awt.image.*;
-import java.net.*;
-import javax.imageio.*;
 import java.util.Random;
-import java.awt.event.*;
-import java.lang.Math;
-import javax.sound.sampled.*;
 
-class Sprite extends Applet
+class Sprite
 {
 	private boolean multiframe = false;
 	private boolean isReady = false;
@@ -107,25 +98,24 @@ class Sprite extends Applet
 	
 	public void drawSprite(Graphics g) {
 		//System.out.println("S " + x + ", " + y);
-		g.drawImage(image,x*(TILESIZE),y*(TILESIZE), this);
+		g.drawImage(image,x*(TILESIZE),y*(TILESIZE), null);
 	}
 	
 	public void drawFrame(Graphics g, int frame) {
 		//g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
 		try {
-		g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
+		g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), null);
 		} catch (Exception e) { System.out.println("tried to get frame " + frame); }
 	}
 	
 	public void drawFrame2(Graphics g, int frame, int px, int py) {
-		//g.drawImage(frames[frame],x*(TILESIZE),y*(TILESIZE), this);
 		
 		int startx=800/2/TILESIZE;//MAPWIDTH / 2;
 		int starty=600/2/TILESIZE;//MAPHEIGHT / 2;
 		try {
 		g.drawImage(frames[frame],
 				   (startx-px)*TILESIZE + x*TILESIZE,
-				   (starty-py)*TILESIZE + y*TILESIZE, this);
+				   (starty-py)*TILESIZE + y*TILESIZE, null);
 		} catch (Exception e) { System.out.println("tried to get frame " + frame); }
 	}
 	

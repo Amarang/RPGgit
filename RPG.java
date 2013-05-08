@@ -1,15 +1,10 @@
 import java.io.*;
 import java.awt.*;
 import java.applet.*;
-import javax.swing.*;
-import java.util.*;
-import java.awt.image.*;
 import java.net.*;
-import javax.imageio.*;
 import java.util.Random;
 import java.awt.event.*;
 import java.lang.Math;
-import javax.sound.sampled.*;
 
 public class RPG extends Applet implements KeyListener
 {
@@ -107,10 +102,12 @@ public class RPG extends Applet implements KeyListener
 	public void init()
 	{
 		
+		setSize(appSizeX, appSizeY);
+		
 		running = true;
 		
 		msg = new Message(appSizeX, appSizeY);
-		//msg.setTextAndStart("Hi BAMasdfAN HW QR YOU D)TAY!(", 2000);
+		msg.setTextAndStart("Hi BAMasdfAN HW QR YOU D)TAY!(", 2000);
 		
 		
 		System.out.println("near beginning of init in RPG.java");

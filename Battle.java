@@ -12,7 +12,7 @@ import java.lang.Math;
 import javax.sound.sampled.*;
 import java.util.List;
 
-class Battle extends Applet
+class Battle
 {
 	private static int NUMMONSTERS = 10;
 	private static int NUMBOSSES = 1;

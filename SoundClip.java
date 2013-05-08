@@ -1,6 +1,5 @@
 import java.applet.*;
 import java.net.*;
-import javax.sound.sampled.*;
 
 class SoundClip
 {
