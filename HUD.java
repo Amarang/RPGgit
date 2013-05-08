@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 import java.util.List;
 
-class HUD extends Applet
+class HUD
 {
 
 	private int appSizeX;
@@ -429,7 +429,7 @@ class HUD extends Applet
 		g0.setColor(Color.BLACK);
 		textLabel.paint(g0);
 					
-		g.drawImage(bi, xOffset, yOffset, this);
+		g.drawImage(bi, xOffset, yOffset, null);
 	
 	}
 	
@@ -632,53 +632,7 @@ class HUD extends Applet
 		appSizeX = d.width;
 		appSizeY = d.height;
 	}
-	
-	public void drawMinimap(Graphics g, int maptracker) {	
-		Color tempCol = g.getColor();
-		
-		int scale = 4;
-		
-		int width = appSizeX/2;
-		int height = appSizeY/2;
-		
-		int offsetx = (appSizeX-width)/2;
-		int offsety = (appSizeY-height)/2;
-		
-		int tilesizemini = tilesize/scale;
-		
-		int startx = (int)(width/tilesizemini/2);
-		int starty = (int)(height/tilesizemini/2);
-	
-		int xDraw = 0;
-		int yDraw = 0;
-		
-		g.setColor(Color.WHITE);
-		g.fillRect(offsetx-1, offsety-1, width+1, height+tilesizemini*2+1);
-		
-		g.setColor(Color.BLACK);
-		g.drawRect(offsetx-1, offsety-1, width+1, height+tilesizemini*2+1);
-		
-		g.setColor(Color.RED);
-		
-		for(int y=Math.max(0,p.getY()-starty); y<mapheight[maptracker] && yDraw-offsety <= height; y++) {
-			for(int x=Math.max(0,p.getX()-startx); x<mapwidth[maptracker]; x++) {
-			
-				xDraw = (offsetx + (x-Math.max(0,p.getX()-startx))*tilesizemini);
-				yDraw = (offsety + (y-Math.max(0,p.getY()-starty))*tilesizemini);
-				
-				if(xDraw-offsetx >= width) break;
-				
-				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],xDraw,yDraw, tilesizemini, tilesizemini,this);
-				
-				if(x == p.getX() && y == p.getY()) {
-					g.fillRect(xDraw,yDraw,tilesizemini,tilesizemini);
-				}
-				
-			}
-		}
-		g.setColor(tempCol);		
-	}
-	
+
 	
 	public void drawTicker(Graphics g, List<String> inputStrings) {
 		Graphics2D g2d = (Graphics2D) g;

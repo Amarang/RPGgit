@@ -25,8 +25,8 @@ public class RPG extends Applet implements KeyListener
 	static int NUMSPELLS = 4;
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
-	static int WALKINGDELAY = 125; //default 125
-	static int BATTLEFREQUENCY = 4; //percentage of encounter per step (default 3)
+	static int WALKINGDELAY = 10; //default 125
+	static int BATTLEFREQUENCY = 0; //percentage of encounter per step (default 3)
 	static int FPS = 60;
 	int boss=0;
 	
@@ -82,6 +82,7 @@ public class RPG extends Applet implements KeyListener
 	Item[] item = new Item[NUMITEMS];
 	Item[] shop = new Item[NUMITEMS];
 	Pointer c = new Pointer(0);
+	Minimap mm;
 	
 	Random rand = new Random(); 
  	Font title = new Font("DialogInput",Font.BOLD,20);	
@@ -118,7 +119,7 @@ public class RPG extends Applet implements KeyListener
 		running = true;
 		
 		msg = new Message(appSizeX, appSizeY);
-		msg.setTextAndStart("Hi BAMAN HW QR YOU D)TAY!(", 2000);
+		msg.setTextAndStart("Hi BAMasdfAN HW QR YOU D)TAY!(", 2000);
 		
 		
 		System.out.println("anear beginning of init in RPG.java");
@@ -223,7 +224,8 @@ public class RPG extends Applet implements KeyListener
 		addKeyListener(this);
 		
 		hud = new HUD(p, icons, shop);
-		hud.initMinimap(MAPWIDTH, MAPHEIGHT, TILESIZE, theMap, tileImages, this.getSize());
+		//hud.initMinimap(MAPWIDTH, MAPHEIGHT, TILESIZE, theMap, tileImages, this.getSize());
+		mm = new Minimap(MAPWIDTH, MAPHEIGHT, TILESIZE, theMap, tileImages, p, this.getSize());
 			
 	}
 	
@@ -298,8 +300,8 @@ public class RPG extends Applet implements KeyListener
 		int appSizeY = appletSize.height;
 		int appSizeX = appletSize.width;
 		
-		for(int y=0; y<MAPHEIGHT[maptracker] && yDraw <= appSizeY; y++) {
-			for(int x=0; x<MAPWIDTH[maptracker]; x++) {
+		for(int y=Math.max(0,p.getY()-starty); y<MAPHEIGHT[maptracker] && yDraw <= appSizeY; y++) {
+			for(int x=Math.max(0,p.getX()-startx); x<MAPWIDTH[maptracker]; x++) {
 				xDraw = (startx-p.getX())*TILESIZE + x*TILESIZE;
 				yDraw = (starty-p.getY())*TILESIZE + y*TILESIZE;
 				if(xDraw >= appSizeX) break;
@@ -379,7 +381,8 @@ public class RPG extends Applet implements KeyListener
 		}
 		if (showminimap)
 		{
-			hud.drawMinimap(g,maptracker);
+			//hud.drawMinimap(g,maptracker);
+			mm.draw(g,maptracker);
 		}	
 	}
 	public void update(Graphics g) {
