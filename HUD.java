@@ -861,7 +861,10 @@ class HUD
 	public void drawCenteredString(Graphics g, String s, int x, int y){  
             int width = (int)g.getFontMetrics().getStringBounds(s, g).getWidth();  
             int height = (int)g.getFontMetrics().getStringBounds(s, g).getHeight();  
-            g.drawString(s, (int)(x-width/2), (int)(y-height/2));  
+            g.drawString(s, (int)(x-width/2), (int)(y+height/4));  
+            //above math is done using the fact that x,y for drawString
+            //specifies LOWER LEFT corner of string to be drawn
+            //also, height seems to be double what it should be (hence /4)
     }
 	
 	public void drawCenteredRect(Graphics g, int x, int y, int w, int h){  

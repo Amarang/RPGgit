@@ -55,10 +55,7 @@ class Monster
     	damage = 0;
     }
 	
-    public int getHealth() {
-		if(health < 0) return 0;
-		else return health;
-	}
+    public int getHealth() { return Math.max(0, health); }
     public int getHealthMax() { return healthmax; }
     public int getMana() { return mana; }
     public int getStrength() { return strength; }

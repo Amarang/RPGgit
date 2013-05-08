@@ -13,7 +13,7 @@ class Minimap
 	
 	private Player p;
     
-	private static int NUMSTATES = 5; //"off" is a state as well
+	private static int NUMSTATES = 4; //"off" is a state as well
 	private static int SCALE = 10; //new tile size is tilesize/scale
 	private int state = 0; // 0 is off
 	
@@ -65,8 +65,9 @@ class Minimap
 		Composite original = g2d.getComposite();		
 		
 		
-		int width, height, offsetx, offsety, facingx, facingy;
+		int width, height, offsetx, offsety, facingx, facingy, coordsx, coordsy;
 		boolean showFacing = true;
+		boolean showCoordinates = true;
 		String facingstr = "";
 		
 		
@@ -79,6 +80,10 @@ class Minimap
 			offsety = (appSizeY-height)/2;
 			facingx = (int)(offsetx + width/2);
 			facingy = (offsety + height + 30);
+			
+
+			coordsx = (int)(offsetx + width/2);
+			coordsy = (offsety + height + 47);
 		}
 		else if(state == 2)
 		{
@@ -89,8 +94,12 @@ class Minimap
 			offsety = 50;//(appSizeY-height)/2;
 			facingx = (int)(offsetx + width/2);
 			facingy = (offsety + height + 30);
+			
+
+			coordsx = (int)(offsetx + width/2);
+			coordsy = (offsety + height + 47);
 		}
-		else if(state == 3)
+		/*else if(state == 3)
 		{
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
@@ -102,10 +111,11 @@ class Minimap
 			facingx = (int)(offsetx + width/2);
 			facingy = (offsety + height + 30);
 			
-		}
-		else if(state == 4)
+		}*/
+		else if(state == 3)
 		{
 			showFacing = false;
+			showCoordinates = false;
 		
 			width = 150;//300;
 			height = 150;//300;
@@ -113,6 +123,10 @@ class Minimap
 			offsety = 50;//(appSizeY-height)/2;
 			facingx = (int)(offsetx + width/2);
 			facingy = (offsety + height + 30);
+			
+
+			coordsx = (int)(offsetx + width/2);
+			coordsy = (offsety + height + 47);
 			
 		} else {
 		
@@ -146,9 +160,11 @@ class Minimap
 		
 		g.setColor(Color.BLACK);
 		g.drawRect(offsetx-1, offsety-1, width+1, height+tilesizemini*2+1);
-		
+
 		if(showFacing)
 			drawCenteredString(g, "Facing " + facingstr, facingx, facingy);
+		if(showCoordinates)
+			drawCenteredString(g, "("+p.getX()+", "+p.getY()+")", coordsx, coordsy);
 		
 		g.setColor(Color.RED);
 		

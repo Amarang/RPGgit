@@ -1,15 +1,7 @@
-import java.io.*;
 import java.awt.*;
-import java.applet.*;
-import javax.swing.*;
 import java.util.*;
-import java.awt.image.*;
-import java.net.*;
-import javax.imageio.*;
 import java.util.Random;
-import java.awt.event.*;
 import java.lang.Math;
-import javax.sound.sampled.*;
 import java.util.List;
 
 class Battle
@@ -284,17 +276,17 @@ class Battle
 			g.setColor(Color.red);
 			switch(xchoice) {
 				case 0: 
-					hud.drawCenteredRoundRect(g, 800/2-90,400+35-22, 90,35, 10);
+					hud.drawCenteredRoundRect(g, 800/2-90,400+35, 90,35, 10);
 					//todo - y needed to be shifted by -22 ... why?
 					//spell
 					break;
 				case 1: 
-					hud.drawCenteredRoundRect(g, 800/2,400+35*(ychoice+1)-22, 90,35, 10);
+					hud.drawCenteredRoundRect(g, 800/2,400+35*(ychoice+1), 90,35, 10);
 					//attack, item, run (top to bottom)
 					System.out.println(ychoice);
 					break;
 				case 2: 
-					hud.drawCenteredRoundRect(g, 800/2+90,400+35-22, 90,35, 10);
+					hud.drawCenteredRoundRect(g, 800/2+90,400+35, 90,35, 10);
 					//defend
 					break;
 			}

@@ -22,10 +22,6 @@ class Spell
 	private BufferedReader br;
 	private int icon;
     private String spellname;
-    private boolean l = true;
-    private boolean r = true;
-    private boolean u = true;
-    private boolean d = true;
 	Random rand = new Random(); 
     
     public Spell(int spellid,String fileName) {
@@ -34,13 +30,6 @@ class Spell
 		
 		Load l = new Load();
 		String[][] data = l.readFileToArray(fileName);
-		
-		//copyOfRange just takes a range from an array
-		//data[itemid] looks like [i00, 3, 0, 0, 2, 5, 0]
-		//but you can't parseint on i00, so I'm skipping that one
-		//don't use it for anything anyways (same thing as itemid, right?)
-		
-		//setStats(Arrays.copyOfRange(data[itemid],1,data[itemid].length));
 		
 		setStats(data[spellid]);
 		
