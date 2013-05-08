@@ -285,6 +285,7 @@ class Battle extends Applet
 			switch(xchoice) {
 				case 0: 
 					hud.drawCenteredRoundRect(g, 800/2-90,400+35-22, 90,35, 10);
+					//todo - y needed to be shifted by -22 ... why?
 					//spell
 					break;
 				case 1: 

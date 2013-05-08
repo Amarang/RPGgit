@@ -375,21 +375,6 @@ class HUD extends Applet
 		
 		g.setColor(color);
 		g.fillRect(xStart, yStart, (int)(percentage*length), thickness);
-		
-		/* ROUNDED STUFF
-		
-		
-		int barRound = HUDround/2;
-		
-		g.drawRoundRect(xStart-1, yStart-1, length+1, thickness+1, barRound,barRound);
-		
-		g.setColor(Color.WHITE);
-		g.fillRoundRect(xStart, yStart, length, thickness, barRound,barRound);
-		
-		g.setColor(color);
-		g.fillRoundRect(xStart, yStart, (int)(percentage*length), thickness, barRound,barRound);
-		
-		ROUNDED STUFF */
 	}
 	
 	public void drawIcon(Graphics g, int iconID, int xStart, int yStart) {
@@ -507,7 +492,7 @@ class HUD extends Applet
 		String spdComp = "";
 		String prcComp = "";
 		
-		
+		//todo
 		//for some reason, alpha needs to be set lower here for it to look the same as other things
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha-0.1F));
 		g.setColor(Color.WHITE);
@@ -649,11 +634,9 @@ class HUD extends Applet
 	}
 	
 	public void drawMinimap(Graphics g, int maptracker) {	
-		
 		Color tempCol = g.getColor();
-	
 		
-		int scale = 10;
+		int scale = 4;
 		
 		int width = appSizeX/2;
 		int height = appSizeY/2;
@@ -662,12 +645,12 @@ class HUD extends Applet
 		int offsety = (appSizeY-height)/2;
 		
 		int tilesizemini = tilesize/scale;
+		
+		int startx = (int)(width/tilesizemini/2);
+		int starty = (int)(height/tilesizemini/2);
 	
 		int xDraw = 0;
 		int yDraw = 0;
-		// int startx = Math.max(0, p.getX()-width/tilesize/2);
-		// int starty = Math.max(0, p.getY()-height/tilesize/2);
-		
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(offsetx-1, offsety-1, width+1, height+tilesizemini*2+1);
@@ -675,19 +658,15 @@ class HUD extends Applet
 		g.setColor(Color.BLACK);
 		g.drawRect(offsetx-1, offsety-1, width+1, height+tilesizemini*2+1);
 		
-		
 		g.setColor(Color.RED);
-		//for(int y=0; y<mapheight[maptracker] && yDraw-offsety <= height; y++) {
 		
-		for(int y=0; y<mapheight[maptracker] && yDraw-offsety <= height; y++) {
-			for(int x=0; x<mapwidth[maptracker]; x++) {
+		for(int y=Math.max(0,p.getY()-starty); y<mapheight[maptracker] && yDraw-offsety <= height; y++) {
+			for(int x=Math.max(0,p.getX()-startx); x<mapwidth[maptracker]; x++) {
 			
-				xDraw = (offsetx + x*tilesizemini);
-				yDraw = (offsety + y*tilesizemini);
-				
+				xDraw = (offsetx + (x-Math.max(0,p.getX()-startx))*tilesizemini);
+				yDraw = (offsety + (y-Math.max(0,p.getY()-starty))*tilesizemini);
 				
 				if(xDraw-offsetx >= width) break;
-				
 				
 				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],xDraw,yDraw, tilesizemini, tilesizemini,this);
 				
@@ -697,29 +676,6 @@ class HUD extends Applet
 				
 			}
 		}
-		
-		/*for(int y=Math.max(0,p.getY()-height/tilesizemini/2); y<Math.min(mapheight[maptracker],p.getY()+height/tilesizemini/2); y++) {
-			for(int x=Math.max(0,p.getX()-width/tilesizemini/2); x<Math.min(mapwidth[maptracker],p.getX()+width/tilesizemini/2); x++) {
-			
-				xDraw = (offsetx + x*tilesizemini);
-				yDraw = (offsety + y*tilesizemini);
-				
-				
-				//if(xDraw-offsetx >= width) break;
-				
-				
-				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],xDraw,yDraw, tilesizemini, tilesizemini,this);
-				
-				if(x == p.getX() && y == p.getY()) {
-					g.fillRect(xDraw,yDraw,tilesizemini,tilesizemini);
-				}
-				
-			}
-		}*/
-		
-		
-		
-		
 		g.setColor(tempCol);		
 	}
 	
@@ -763,8 +719,6 @@ class HUD extends Applet
 		g.setFont(tempFont);
 		
 		g2d.setComposite(original);
-		
-	
 	}
 	public boolean drawItems(Graphics g, Pointer c, boolean key_space) {
 		System.out.println(c.getPointer());
@@ -836,7 +790,6 @@ class HUD extends Applet
 		
 		Composite original = g2d.getComposite();
 		
-		
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 				
@@ -859,20 +812,17 @@ class HUD extends Applet
 				g.drawString(inventory[i].getName(),650-paddingx,40+20*i+paddingy);
 				drawIcon(g, inventory[i].getIcon(), 620-paddingx, 25+20*i+paddingy);
 				
-				if(selectedItem<inventory.length&&!(inventory[selectedItem] == null))
+			if(selectedItem<inventory.length&&!(inventory[selectedItem] == null))
 					drawItemPane(g, inventory[selectedItem]);
 			}
 			
 			if (p.isEquipped(inventory[i])&&inventory[i]!=null) {
-				//g.drawString("E",605,40+20*i);	
 				drawIcon(g,3, 601-paddingx,24+20*i+paddingy);
 			}
 		}
 		g.drawString("Exit",640-paddingx,40+20*10+paddingy);
 		g.drawString("Save",640-paddingx,40+20*11+paddingy);
 		g.drawString("Load",640-paddingx,40+20*12+paddingy);
-		
-		
 		
 		g.setColor(tempCol);
 		g.setFont(tempFont);
@@ -932,7 +882,6 @@ class HUD extends Applet
 		
 		Composite original = g2d.getComposite();
 		
-		
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 				
@@ -952,16 +901,7 @@ class HUD extends Applet
 			if(spell[i]!=null)
 			{
 				g.drawString(spell[i].getName(),650-paddingx,40+20*i+paddingy);
-				//drawIcon(g, spell[i].getIcon(), 620-paddingx, 25+20*i+paddingy);
-				
-				//if(selectedItem<spell.length&&!(spell[selectedItem] == null))
-					//drawItemPane(g, spell[selectedItem]);
 			}
-			
-			/*if (p.isEquipped(spell[i])&&spell[i]!=null) {
-				//g.drawString("E",605,40+20*i);	
-				//drawIcon(g,3, 601-paddingx,24+20*i+paddingy);
-			}*/
 		}
 		g.drawString("Exit",640-paddingx,40+20*10+paddingy);
 		g.drawString("Save",640-paddingx,40+20*11+paddingy);
