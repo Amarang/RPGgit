@@ -623,10 +623,15 @@ public class RPG extends Applet implements KeyListener
 				sp[i].resetOrigin();
 			}	
 		}
-		if (td.isBed(currTile)&&p.getHealth()!=p.getHealthMax()&&p.getGold()>=7)
+		if (td.isBed(currTile))
 		{
-			p.setHealth(p.getHealthMax());
-			p.pay(7);
+			if( ( p.getHealth()!=p.getHealthMax()
+			   || p.getMana()!=p.getManaMax() ) && p.getGold()>=7 )
+			{
+				p.setHealth(p.getHealthMax());
+				p.setMana(p.getManaMax());
+				p.pay(7);
+			}
 		}
 		if(sound) {	
 			int sID = td.getSoundID(currTile);

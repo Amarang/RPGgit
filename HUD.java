@@ -39,6 +39,11 @@ class HUD extends Applet
 	private Color HPColor = new Color(230, 0, 0);
 	private Color ManaColor = new Color(0, 0, 170);
 	private Color ExperienceColor = new Color(255, 255, 50);
+	
+	private Color HPColor2 = new Color(108, 0, 0);
+	private Color ManaColor2 = new Color(0, 0, 80);
+	private Color ExperienceColor2 = new Color(155, 155, 0);
+	
 	private int thickness = 20;
 	private boolean battleHUD = false;
 	private boolean loadedRecently = false;
@@ -303,6 +308,8 @@ class HUD extends Applet
 	}
 	
 	public void draw(Graphics g) {
+		Color tempCol = g.getColor();
+	
 		int health = p.getHealth();
 		int healthmax = p.getHealthMax();
 		int level = p.getLevel();
@@ -316,9 +323,9 @@ class HUD extends Applet
 		int offsety = 5;		
 		
 		//hp, mana, exp bars
-		drawBar(g, offsetx, 0*thickness + offsety, 250, thickness, HPColor, health, healthmax);
-		drawBar(g, offsetx, 1*thickness + offsety, 250, thickness, ManaColor, mana, manamax);
-		drawBar(g, offsetx, 2*thickness + offsety, 250, thickness, ExperienceColor, experience, levelExperience);
+		drawBar(g, offsetx, 0*thickness + offsety, 250, thickness-2, HPColor, health, healthmax);
+		drawBar(g, offsetx, 1*thickness + offsety, 250, thickness-2, ManaColor, mana, manamax);
+		drawBar(g, offsetx, 2*thickness + offsety, 250, thickness-2, ExperienceColor, experience, levelExperience);
 		
 		//icons
 		drawIcon(g, 0, 0+offsetx,3*thickness+offsety+3); //gold
@@ -335,12 +342,24 @@ class HUD extends Applet
 		
 		drawLabel(g, p.getName() + " (level " + Integer.toString(p.getLevel()) + ")", 10+offsetx, (int)(thickness*4.7)+offsety+3, textColor);
 		
-		drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
+		if(health >= healthmax/3)
+			drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
 				  15+offsetx, (int)(0.7*thickness)+offsety, Color.WHITE);
-		drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(mana),
+		else
+			drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
+				  15+offsetx, (int)(0.7*thickness)+offsety, HPColor2);
+		
+		if(mana >= manamax/3)
+			drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(manamax),
 				  15+offsetx, (int)(1.7*thickness)+offsety, Color.WHITE);
+		else
+			drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(manamax),
+				  15+offsetx, (int)(1.7*thickness)+offsety, ManaColor2);
+				  
 		drawLabel(g, Integer.toString(experience)+" / "+Integer.toString(levelExperience),
-				  15+offsetx, (int)(2.7*thickness)+offsety, Color.BLACK);
+			  15+offsetx, (int)(2.7*thickness)+offsety, Color.BLACK);
+				  
+		g.setColor(tempCol);
 	}
 	
     public void drawBar(Graphics g, int xStart, int yStart, int length, int thickness, Color color, int currentVal, int maxVal) {
@@ -441,8 +460,8 @@ class HUD extends Applet
 		int offsetx = 550-5;
 		int offsety = 5;
 		
-		drawBar(g, offsetx, 0*thickness+offsety, 250, thickness, HPColor, health, healthmax);
-		drawBar(g, offsetx, 1*thickness+offsety, 250, thickness, ManaColor, mana, mana);
+		drawBar(g, offsetx, 0*thickness+offsety, 250, thickness-2, HPColor, health, healthmax);
+		drawBar(g, offsetx, 1*thickness+offsety, 250, thickness-2, ManaColor, mana, mana);
 		
 		drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
 				  offsetx+15, (int)(0.7*thickness)+offsety, Color.WHITE);
@@ -956,8 +975,26 @@ class HUD extends Applet
 		return -1;
 	}
 	
-	public void drawAlignedString(Graphics g, String s, int x, int y){  
+	public void drawCenteredString(Graphics g, String s, int x, int y){  
             int width = (int)g.getFontMetrics().getStringBounds(s, g).getWidth();  
-            g.drawString(s, (int)(x-width/2), y);  
-     } 
+            int height = (int)g.getFontMetrics().getStringBounds(s, g).getHeight();  
+            g.drawString(s, (int)(x-width/2), (int)(y-height/2));  
+    }
+	
+	public void drawCenteredRect(Graphics g, int x, int y, int w, int h){  
+            g.drawRect((int)(x-w/2),(int)(y-h/2),w,h);
+    }
+	public void drawCenteredRoundRect(Graphics g, int x, int y, int w, int h, int r){  
+            g.drawRoundRect((int)(x-w/2),(int)(y-h/2),w,h, r,r);
+    }
+	public void fillCenteredRect(Graphics g, int x, int y, int w, int h){  
+            g.fillRect((int)(x-w/2),(int)(y-h/2),w,h);
+    }
+	public void fillCenteredRoundRect(Graphics g, int x, int y, int w, int h, int r){  
+            g.fillRoundRect((int)(x-w/2),(int)(y-h/2),w,h, r,r);
+    }
+	
+	public void drawCenteredImage(Graphics g, Image img, int x, int y){  
+            g.drawImage(img, (int)(x-img.getWidth(null)/2), (int)(y-img.getHeight(null)/2), null);
+    }
 }

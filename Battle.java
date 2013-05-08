@@ -172,7 +172,7 @@ class Battle extends Applet
 		g.setColor(Color.white);
 		drawMonster(g);
 		//g.drawString(m.getName(),(int)(800/2-m.getName().length()*15/2),30+100);
-		hud.drawAlignedString(g, m.getName(), 800/2, 30+100);
+		hud.drawCenteredString(g, m.getName(), 800/2, 30+100+40);
   		//g.drawString("monster health = "+ m.getHealth(),300,50+100);
   		//g.drawString("strength = "+ m.getStrength(),300,71+100);
   		//g.drawString("defense = "+ m.getDefense(),300,91+100);
@@ -215,7 +215,7 @@ class Battle extends Applet
 	}
 	public void drawMonster(Graphics g)
 	{	
-		g.drawImage(monsterImages[m.getId()],350,250, this);
+		hud.drawCenteredImage(g,monsterImages[m.getId()],400,250);
 	}
 	public void Initialize(Graphics g)
 	{
@@ -259,75 +259,80 @@ class Battle extends Applet
   		if (!initemmenu)
   		{
   		
-  		switch(c.getPointer()) {
-			case 0:
-				xchoice=1; 
-				if (ychoice>-1)
-					ychoice--;
+			switch(c.getPointer()) {
+				case 0:
+					xchoice=1; 
+					if (ychoice>-1)
+						ychoice--;
+						break;
+				case 1: 
+					if (xchoice>0)
+						xchoice--;
+						break;
+				case 2: 
+					xchoice=1; 
+					if (ychoice<1)
+						ychoice++;
+						break;
+				case 3: 
+					if (xchoice<2)
+						xchoice++;
+						break;
+			}
+			Actions(g);
+			Display(g);
+			g.setColor(Color.red);
+			switch(xchoice) {
+				case 0: 
+					hud.drawCenteredRoundRect(g, 800/2-90,400+35-22, 90,35, 10);
+					//spell
 					break;
-			case 1: 
-				if (xchoice>0)
-					xchoice--;
+				case 1: 
+					hud.drawCenteredRoundRect(g, 800/2,400+35*(ychoice+1)-22, 90,35, 10);
+					//attack, item, run (top to bottom)
+					System.out.println(ychoice);
 					break;
-			case 2: 
-				xchoice=1; 
-				if (ychoice<1)
-					ychoice++;
+				case 2: 
+					hud.drawCenteredRoundRect(g, 800/2+90,400+35-22, 90,35, 10);
+					//defend
 					break;
-			case 3: 
-				if (xchoice<2)
-					xchoice++;
-					break;
-  		}
-  		Actions(g);
-		Display(g);
-		g.setColor(Color.red);
-  		switch(xchoice) {
-			case 0: 
-				g.drawRect(309,399,72,22); 
-					break;
-			case 1: 
-				g.drawRect(379,399+22*ychoice,72,22);
-					break;
-			case 2: 
-				g.drawRect(459,399,72,22); 
-					break;
-  		}
+			}
   		}
 	}
 	
 	
 	public void Actions(Graphics g)
-	{
-		g.drawString("Attack",380,400);
-  		g.drawString("Spell",310,420);
-  		g.drawString("Item",380,420);
-  		g.drawString("Defend",460,420);
-  		g.drawString("Run",380,440);
+	{		
+		hud.drawCenteredString(g, "Attack", 800/2,400);
+  		hud.drawCenteredString(g, "Spell", 800/2-90,400+35);
+  		hud.drawCenteredString(g, "Item", 800/2,400+35);
+  		hud.drawCenteredString(g, "Defend", 800/2+90,400+35);
+  		hud.drawCenteredString(g, "Run", 800/2,400+35*2);
+		
   		hit.stop();
   		System.out.println(c.getPointer());
   		if (initemmenu)
-	  		{
-		  		initemmenu=!hud.drawItems(g,c,key_space);
-		  		playernotgone=initemmenu;
-		  		key_space=false;
-		  		xchoice=-1;	
-	  		}
+		{
+			initemmenu=!hud.drawItems(g,c,key_space);
+			playernotgone=initemmenu;
+			key_space=false;
+			xchoice=-1;	
+		}
   		if (inspellmenu)
-	  		{
-		  		spelltracker=hud.drawSpells(g,c,key_space);
-		  		if(spelltracker>=0)
-			  		{
-			  		useSpell(spelltracker,g);
-					mdamagedealt=Math.max(0,(p.getDamage()-m.getDefense()));
-  					m.setDamage(mdamagedealt); 
-  					playernotgone=false;
-			  		inspellmenu=false;
-			  		key_space=false;
-			  		xchoice=-1;		
-			  		}
-			 	
-	  		}
+		{
+			spelltracker=hud.drawSpells(g,c,key_space);
+			if(spelltracker>=0)
+				{
+				useSpell(spelltracker,g);
+				mdamagedealt=Math.max(0,(p.getDamage()-m.getDefense()));
+				m.setDamage(mdamagedealt); 
+				playernotgone=false;
+				inspellmenu=false;
+				key_space=false;
+				xchoice=-1;		
+				}
+			
+		}
 		if (key_space&&xchoice!=-1&&playernotgone)
 		{	
 			switch(xchoice) {
@@ -404,8 +409,8 @@ class Battle extends Applet
 			xchoice=-1; 
 			if (mdefended)
 			{
-			m.setDefense(m.getDefense()/2);
-			mdefended=false;	
+				m.setDefense(m.getDefense()/2);
+				mdefended=false;	
 			}
 			key_w=false;key_a=false;key_s=false;key_d=false;
 			int monstaction=rand.nextInt(4);
@@ -441,8 +446,8 @@ class Battle extends Applet
 			}
 			if (pdefended)
 			{
-			p.setDefense(p.getDefense()/2);
-			pdefended=false;	
+				p.setDefense(p.getDefense()/2);
+				pdefended=false;	
 			}
 		
 		c.setPointer(5);
@@ -469,6 +474,7 @@ class Battle extends Applet
 		else
 		pushToTicker(spell[spellid].getName()+" failed!");	
 		
+		System.out.println("mana: " + p.getMana() + "\tmanamax: " + p.getManaMax());
 		
 			
 	}

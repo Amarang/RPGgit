@@ -132,6 +132,7 @@ class Player
     
     public void payMana(int d) {mana-=d;}
     public void setHealth(int d) { health=d; }
+    public void setMana(int d) { mana=d; }
     public void setHealthMax(int d) { healthmax=d; }
     public boolean setExperience(int d) 
     { 
