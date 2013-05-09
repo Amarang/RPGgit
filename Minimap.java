@@ -90,7 +90,7 @@ class Minimap
 		
 			width = 150;//300;
 			height = 150;//300;
-			offsetx = 800-20;//(appSizeX-width)/2;
+			offsetx = 800-width-20;//(appSizeX-width)/2;
 			offsety = 20;//(appSizeY-height)/2;
 			facingx = (int)(offsetx + width/2);
 			facingy = (offsety + height + 30);
@@ -119,7 +119,7 @@ class Minimap
 		
 			width = 150;//300;
 			height = 150;//300;
-			offsetx = 800-20;//(appSizeX-width)/2;
+			offsetx = 800-width-20;//(appSizeX-width)/2;
 			offsety = 20;//(appSizeY-height)/2;
 			facingx = (int)(offsetx + width/2);
 			facingy = (offsety + height + 30);
