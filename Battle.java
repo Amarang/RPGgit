@@ -203,7 +203,6 @@ class Battle
 		pushToTicker("Gained "+xp+" experience and " + gold + " gold.");
   		if (levelup)
 			pushToTicker("Congratulations! You are now level "+p.getLevel()+".");	
-		
 	}
 	public void drawMonster(Graphics g)
 	{	
