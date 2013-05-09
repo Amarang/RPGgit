@@ -8,6 +8,8 @@ import java.lang.Math;
 
 public class RPG extends Applet implements KeyListener
 {
+	
+	private static final long serialVersionUID = 2439786621293046662L;
 	static int TILESIZE = 20;
 	static int NUMMAPS = 4;
 	static int MAPWIDTH[] = {400,90,43,80};

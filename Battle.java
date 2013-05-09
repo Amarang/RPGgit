@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.util.*;
-import java.util.Random;
 import java.lang.Math;
 import java.util.List;
 
@@ -39,7 +38,8 @@ class Battle
 	private int spelltracker;
 	HUD hud;
 	
-	
+
+	private Utils u = new Utils();
 	
 	private boolean released = false;
 	private boolean key_a=false;
@@ -164,7 +164,7 @@ class Battle
 		g.setColor(Color.white);
 		drawMonster(g);
 		//g.drawString(m.getName(),(int)(800/2-m.getName().length()*15/2),30+100);
-		hud.drawCenteredString(g, m.getName(), 800/2, 30+100+40);
+		u.drawCenteredString(g, m.getName(), 800/2, 30+100+40);
   		//g.drawString("monster health = "+ m.getHealth(),300,50+100);
   		//g.drawString("strength = "+ m.getStrength(),300,71+100);
   		//g.drawString("defense = "+ m.getDefense(),300,91+100);
@@ -206,7 +206,7 @@ class Battle
 	}
 	public void drawMonster(Graphics g)
 	{	
-		hud.drawCenteredImage(g,monsterImages[m.getId()],400,250);
+		u.drawCenteredImage(g,monsterImages[m.getId()],400,250);
 	}
 	public void Initialize(Graphics g)
 	{
@@ -275,17 +275,17 @@ class Battle
 			g.setColor(Color.red);
 			switch(xchoice) {
 				case 0: 
-					hud.drawCenteredRoundRect(g, 800/2-90,400+35, 90,35, 10);
+					u.drawCenteredRoundRect(g, 800/2-90,400+35, 90,35, 10);
 					//todo - y needed to be shifted by -22 ... why?
 					//spell
 					break;
 				case 1: 
-					hud.drawCenteredRoundRect(g, 800/2,400+35*(ychoice+1), 90,35, 10);
+					u.drawCenteredRoundRect(g, 800/2,400+35*(ychoice+1), 90,35, 10);
 					//attack, item, run (top to bottom)
 					System.out.println(ychoice);
 					break;
 				case 2: 
-					hud.drawCenteredRoundRect(g, 800/2+90,400+35, 90,35, 10);
+					u.drawCenteredRoundRect(g, 800/2+90,400+35, 90,35, 10);
 					//defend
 					break;
 			}
@@ -295,11 +295,11 @@ class Battle
 	
 	public void Actions(Graphics g)
 	{		
-		hud.drawCenteredString(g, "Attack", 800/2,400);
-  		hud.drawCenteredString(g, "Spell", 800/2-90,400+35);
-  		hud.drawCenteredString(g, "Item", 800/2,400+35);
-  		hud.drawCenteredString(g, "Defend", 800/2+90,400+35);
-  		hud.drawCenteredString(g, "Run", 800/2,400+35*2);
+		u.drawCenteredString(g, "Attack", 800/2,400);
+  		u.drawCenteredString(g, "Spell", 800/2-90,400+35);
+  		u.drawCenteredString(g, "Item", 800/2,400+35);
+  		u.drawCenteredString(g, "Defend", 800/2+90,400+35);
+  		u.drawCenteredString(g, "Run", 800/2,400+35*2);
 		
   		hit.stop();
   		System.out.println(c.getPointer());

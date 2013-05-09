@@ -40,6 +40,8 @@ class HUD
 	private NPCData nd;// = new NPCData();
 	Spell[] spell;
 	
+	private Utils u = new Utils();
+	
 
     Message msg = new Message(800,600);
 	
@@ -329,27 +331,27 @@ class HUD
 		if(battleHUD) textColor = Color.WHITE;
 		else textColor = Color.BLACK;
 		
-		drawLabel(g, Integer.toString(p.getGold()), 30+offsetx, (int)(thickness*3.7)+offsety+3, textColor);
-		drawLabel(g, Integer.toString(p.getDefense()), 110+offsetx, (int)(thickness*3.7)+offsety+3, textColor);
-		drawLabel(g, Integer.toString(p.getStrength()), 190+offsetx, (int)(thickness*3.7)+offsety+3, textColor);
+		u.drawLabel(g, Integer.toString(p.getGold()), 30+offsetx, (int)(thickness*3.7)+offsety+3, textColor);
+		u.drawLabel(g, Integer.toString(p.getDefense()), 110+offsetx, (int)(thickness*3.7)+offsety+3, textColor);
+		u.drawLabel(g, Integer.toString(p.getStrength()), 190+offsetx, (int)(thickness*3.7)+offsety+3, textColor);
 		
-		drawLabel(g, p.getName() + " (level " + Integer.toString(p.getLevel()) + ")", 10+offsetx, (int)(thickness*4.7)+offsety+3, textColor);
+		u.drawLabel(g, p.getName() + " (level " + Integer.toString(p.getLevel()) + ")", 10+offsetx, (int)(thickness*4.7)+offsety+3, textColor);
 		
 		if(health >= healthmax/3)
-			drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
+			u.drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
 				  15+offsetx, (int)(0.7*thickness)+offsety, Color.WHITE);
 		else
-			drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
+			u.drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
 				  15+offsetx, (int)(0.7*thickness)+offsety, HPColor2);
 		
 		if(mana >= manamax/3)
-			drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(manamax),
+			u.drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(manamax),
 				  15+offsetx, (int)(1.7*thickness)+offsety, Color.WHITE);
 		else
-			drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(manamax),
+			u.drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(manamax),
 				  15+offsetx, (int)(1.7*thickness)+offsety, ManaColor2);
 				  
-		drawLabel(g, Integer.toString(experience)+" / "+Integer.toString(levelExperience),
+		u.drawLabel(g, Integer.toString(experience)+" / "+Integer.toString(levelExperience),
 			  15+offsetx, (int)(2.7*thickness)+offsety, Color.BLACK);
 				  
 		g.setColor(tempCol);
@@ -374,58 +376,6 @@ class HUD
 		g.drawImage(icons[iconID], xStart,yStart, null);
 	}
 	
-	public void drawLabel(Graphics g, String label, int xStart, int yStart, Color color) {
-		Color temp = g.getColor();
-		Font labelFont = new Font("DialogInput",Font.BOLD,15);	
-		g.setFont(labelFont);
-		g.setColor(color);
-  		g.drawString(label,xStart,yStart);
-		g.setColor(temp);
-	}
-	
-	public void drawLabelInt(Graphics g, String label, int val, int xStart, int yStart, Color color) {
-		Color temp = g.getColor();
-		Font labelFont = new Font("DialogInput",Font.BOLD,15);	
-		g.setFont(labelFont);
-		g.setColor(color);
-  		g.drawString(label + Integer.toString(val),xStart,yStart);
-		g.setColor(temp);
-	}
-	
-	public void drawLabelIntComp(Graphics g, String label, int val, String label2, int offsetx, int xStart, int yStart, Color color) {
-		Color temp = g.getColor();
-		Font labelFont = new Font("DialogInput",Font.BOLD,15);	
-		g.setFont(labelFont);
-		g.setColor(color);
-  		g.drawString(label + Integer.toString(val),xStart,yStart);
-		
-		Color color2;
-		if(label2 == "(+)") color2 = Color.GREEN;
-		else if(label2 == "(-)") color2 = Color.RED;
-		else color2 = Color.BLUE;
-		
-		g.setColor(color2);
-  		g.drawString(label2,xStart+offsetx,yStart);
-		
-		g.setColor(temp);
-	}
-	
-	public void drawTextInBox(Graphics g, String str, int xOffset, int yOffset, int width, int height) {
-		Font f = g.getFont();
-
-		JLabel textLabel = new JLabel(str);
-		textLabel.setFont(f);
-		textLabel.setSize(textLabel.getPreferredSize());
-		BufferedImage bi = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
-
-		Graphics g0 = bi.createGraphics();
-		g0.setColor(Color.BLACK);
-		textLabel.paint(g0);
-					
-		g.drawImage(bi, xOffset, yOffset, null);
-	
-	}
-	
 	public void battleDraw(Graphics g) {
 		Color temp = g.getColor();
 	
@@ -441,9 +391,9 @@ class HUD
 		drawBar(g, offsetx, 0*thickness+offsety, 250, thickness-2, HPColor, health, healthmax);
 		drawBar(g, offsetx, 1*thickness+offsety, 250, thickness-2, ManaColor, mana, mana);
 		
-		drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
+		u.drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
 				  offsetx+15, (int)(0.7*thickness)+offsety, Color.WHITE);
-		drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(mana),
+		u.drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(mana),
 				  offsetx+15, (int)(1.7*thickness)+offsety, Color.WHITE);
 				  
 		//icons
@@ -452,8 +402,8 @@ class HUD
 		
 		Color textColor = Color.WHITE;
 		
-		drawLabel(g, Integer.toString(m.getDefense()), 30+offsetx, (int)(thickness*2.7)+offsety+3, textColor);
-		drawLabel(g, Integer.toString(m.getStrength()), 110+offsetx, (int)(thickness*2.7)+offsety+3, textColor);
+		u.drawLabel(g, Integer.toString(m.getDefense()), 30+offsetx, (int)(thickness*2.7)+offsety+3, textColor);
+		u.drawLabel(g, Integer.toString(m.getStrength()), 110+offsetx, (int)(thickness*2.7)+offsety+3, textColor);
 		
 		g.setColor(temp);		  
 	}
@@ -509,31 +459,31 @@ class HUD
 		
 			//if(e.getName() == i.getName())
 			
-			healthComp = comparison(i.getHealth(), e.getHealth(), better, worse, same);
-			strComp = comparison(i.getStrength(), e.getStrength(), better, worse, same);
-			defComp = comparison(i.getDefense(), e.getDefense(), better, worse, same);
-			spdComp = comparison(i.getSpeed(), e.getSpeed(), better, worse, same);
-			prcComp = comparison(i.getPrice(), e.getPrice(), better, worse, same);
+			healthComp = u.comparison(i.getHealth(), e.getHealth(), better, worse, same);
+			strComp = u.comparison(i.getStrength(), e.getStrength(), better, worse, same);
+			defComp = u.comparison(i.getDefense(), e.getDefense(), better, worse, same);
+			spdComp = u.comparison(i.getSpeed(), e.getSpeed(), better, worse, same);
+			prcComp = u.comparison(i.getPrice(), e.getPrice(), better, worse, same);
 		
 		
 			drawIcon(g, e.getIcon(), offsetx+col2Offset, offsety+0*thickness-3);
-			drawLabel(g, e.getName(), offsetx+col2Offset+26, offsety+ 0*thickness + 10, Color.BLACK);
-			drawLabelInt(g, "Health: ", e.getHealth(), offsetx+col2Offset, offsety+ 1*thickness + 10, Color.BLACK);
-			drawLabelInt(g, "Strength: ", e.getStrength(), offsetx+col2Offset, offsety+ 2*thickness + 10, Color.BLACK);
-			drawLabelInt(g, "Defense: ", e.getDefense(), offsetx+col2Offset, offsety+ 3*thickness + 10, Color.BLACK);
-			drawLabelInt(g, "Speed: ", e.getSpeed(), offsetx+col2Offset, offsety+ 4*thickness + 10, Color.BLACK);
-			drawLabelInt(g, "Price: ", e.getPrice(), offsetx+col2Offset, offsety+ 5*thickness + 10, Color.BLACK);
+			u.drawLabel(g, e.getName(), offsetx+col2Offset+26, offsety+ 0*thickness + 10, Color.BLACK);
+			u.drawLabelInt(g, "Health: ", e.getHealth(), offsetx+col2Offset, offsety+ 1*thickness + 10, Color.BLACK);
+			u.drawLabelInt(g, "Strength: ", e.getStrength(), offsetx+col2Offset, offsety+ 2*thickness + 10, Color.BLACK);
+			u.drawLabelInt(g, "Defense: ", e.getDefense(), offsetx+col2Offset, offsety+ 3*thickness + 10, Color.BLACK);
+			u.drawLabelInt(g, "Speed: ", e.getSpeed(), offsetx+col2Offset, offsety+ 4*thickness + 10, Color.BLACK);
+			u.drawLabelInt(g, "Price: ", e.getPrice(), offsetx+col2Offset, offsety+ 5*thickness + 10, Color.BLACK);
 		}
 		
 		//getIcon returns int IconID
 		drawIcon(g, i.getIcon(), offsetx, offsety+0*thickness-3);
-		drawLabel(g, i.getName(), offsetx+26, offsety+ 0*thickness + 10, Color.BLACK);
+		u.drawLabel(g, i.getName(), offsetx+26, offsety+ 0*thickness + 10, Color.BLACK);
 		//drawLabelInt(g, "Health: ", i.getHealth(), offsetx, offsety+ 1*thickness + 10, Color.BLACK);
-		drawLabelIntComp(g, "Health: ", i.getHealth(), healthComp, compOffset, offsetx, offsety+ 1*thickness + 10, Color.BLACK);
-		drawLabelIntComp(g, "Strength: ", i.getStrength(), strComp, compOffset, offsetx, offsety+ 2*thickness + 10, Color.BLACK);
-		drawLabelIntComp(g, "Defense: ", i.getDefense(), defComp, compOffset, offsetx, offsety+ 3*thickness + 10, Color.BLACK);
-		drawLabelIntComp(g, "Speed: ", i.getSpeed(), spdComp, compOffset, offsetx, offsety+ 4*thickness + 10, Color.BLACK);
-		drawLabelIntComp(g, "Price: ", i.getPrice(), prcComp, compOffset, offsetx, offsety+ 5*thickness + 10, Color.BLACK);
+		u.drawLabelIntComp(g, "Health: ", i.getHealth(), healthComp, compOffset, offsetx, offsety+ 1*thickness + 10, Color.BLACK);
+		u.drawLabelIntComp(g, "Strength: ", i.getStrength(), strComp, compOffset, offsetx, offsety+ 2*thickness + 10, Color.BLACK);
+		u.drawLabelIntComp(g, "Defense: ", i.getDefense(), defComp, compOffset, offsetx, offsety+ 3*thickness + 10, Color.BLACK);
+		u.drawLabelIntComp(g, "Speed: ", i.getSpeed(), spdComp, compOffset, offsetx, offsety+ 4*thickness + 10, Color.BLACK);
+		u.drawLabelIntComp(g, "Price: ", i.getPrice(), prcComp, compOffset, offsetx, offsety+ 5*thickness + 10, Color.BLACK);
 		drawIcon(g,3, length-paddingx-20,offsety);
 		
 		
@@ -576,7 +526,7 @@ class HUD
 		
 		str =  "<html><h1>My name is " + nd.getName(sID) + ".</h1><br>";
 		str += nd.getDesc(sID);
-		drawTextInBox(g, str, offsetx, offsety, (int)(0.8*length), height); 
+		u.drawTextInBox(g, str, offsetx, offsety, (int)(0.8*length), height); 
 		
 		
 		g.setColor(tempCol);
@@ -655,7 +605,7 @@ class HUD
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0F));
 		
 		g.setColor(Color.RED);
-		drawCenteredRoundRect(g, offsetx + 166, offsety + thickness*(statSelectedY+3)-4, 25, thickness, HUDround);
+		u.drawCenteredRoundRect(g, offsetx + 166, offsety + thickness*(statSelectedY+3)-4, 25, thickness, HUDround);
 
 		g.setColor(Color.BLACK);
 		g.drawString(String.format("%-11s%3d", "Stat points", p.getStatPoints()), offsetx+paddingx*2, offsety+thickness);
@@ -684,12 +634,6 @@ class HUD
 		g.setColor(tempCol);
 		g.setFont(tempFont);
 		g2d.setComposite(original);
-	}
-	
-	public String comparison(int one, int two, String greater, String less, String equal) {
-		if(one == two) return equal;
-		else if(one > two) return greater;
-		else return less;
 	}
 	
 	public void initMinimap(int[] mapwidth, int[] mapheight, int tilesize, TileMap[] theMap, Image[] tileImages, Dimension d) {
@@ -937,30 +881,4 @@ class HUD
 		g2d.setComposite(original);
 		return -1;
 	}
-	
-	public void drawCenteredString(Graphics g, String s, int x, int y){  
-            int width = (int)g.getFontMetrics().getStringBounds(s, g).getWidth();  
-            int height = (int)g.getFontMetrics().getStringBounds(s, g).getHeight();  
-            g.drawString(s, (int)(x-width/2), (int)(y+height/4));  
-            //above math is done using the fact that x,y for drawString
-            //specifies LOWER LEFT corner of string to be drawn
-            //also, height seems to be double what it should be (hence /4)
-    }
-	
-	public void drawCenteredRect(Graphics g, int x, int y, int w, int h){  
-            g.drawRect((int)(x-w/2),(int)(y-h/2),w,h);
-    }
-	public void drawCenteredRoundRect(Graphics g, int x, int y, int w, int h, int r){  
-            g.drawRoundRect((int)(x-w/2),(int)(y-h/2),w,h, r,r);
-    }
-	public void fillCenteredRect(Graphics g, int x, int y, int w, int h){  
-            g.fillRect((int)(x-w/2),(int)(y-h/2),w,h);
-    }
-	public void fillCenteredRoundRect(Graphics g, int x, int y, int w, int h, int r){  
-            g.fillRoundRect((int)(x-w/2),(int)(y-h/2),w,h, r,r);
-    }
-	
-	public void drawCenteredImage(Graphics g, Image img, int x, int y){  
-            g.drawImage(img, (int)(x-img.getWidth(null)/2), (int)(y-img.getHeight(null)/2), null);
-    }
 }
