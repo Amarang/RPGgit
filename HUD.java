@@ -483,7 +483,12 @@ class HUD
 		
 		//todo
 		//for some reason, alpha needs to be set lower here for it to look the same as other things
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha-0.1F));
+		//I think issue is that itempane gets called twice (or more), so it gets drawn over itself
+		//so that makes it less transparent if you overlap it twice
+		//theory is that it gets overlapped twice, so I made alpha HUDalpha^2
+		
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha*HUDalpha));
 		g.setColor(Color.WHITE);
 		g.fillRoundRect(800-length-paddingx, 600-height-paddingy, length, height, HUDround,HUDround);
 		

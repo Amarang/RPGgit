@@ -90,8 +90,8 @@ class Minimap
 		
 			width = 150;//300;
 			height = 150;//300;
-			offsetx = 600;//(appSizeX-width)/2;
-			offsety = 50;//(appSizeY-height)/2;
+			offsetx = 800-20;//(appSizeX-width)/2;
+			offsety = 20;//(appSizeY-height)/2;
 			facingx = (int)(offsetx + width/2);
 			facingy = (offsety + height + 30);
 			
@@ -119,8 +119,8 @@ class Minimap
 		
 			width = 150;//300;
 			height = 150;//300;
-			offsetx = 600;//(appSizeX-width)/2;
-			offsety = 50;//(appSizeY-height)/2;
+			offsetx = 800-20;//(appSizeX-width)/2;
+			offsety = 20;//(appSizeY-height)/2;
 			facingx = (int)(offsetx + width/2);
 			facingy = (offsety + height + 30);
 			
@@ -162,7 +162,7 @@ class Minimap
 		g.drawRect(offsetx-1, offsety-1, width+1, height+tilesizemini*2+1);
 
 		if(showFacing)
-			drawCenteredString(g, "Facing " + facingstr, facingx, facingy);
+			drawCenteredString(g, "facing " + facingstr, facingx, facingy);
 		if(showCoordinates)
 			drawCenteredString(g, "("+p.getX()+", "+p.getY()+")", coordsx, coordsy);
 		
