@@ -20,7 +20,8 @@ class Player
     private int gold;
     private int experience;
 	private int levelExperience;
-    private int level;
+	private int level;
+    private int statpoints;
     private int lasttownx;
     private int lasttowny;
     private int townentrancex=3;
@@ -57,6 +58,7 @@ class Player
         level = lvl;
 		name = playerName;
 		levelExperience = lvl * 10;
+		statpoints = 5;
     }
     
     public void reset() {
@@ -107,21 +109,28 @@ class Player
     public int getHealthMax() { return healthmax; }
     public int getManaMax() { return manamax; }
     public int getGold() { return gold; }
+    public int getStatPoints() { return statpoints; }
     public int getExperience() { return experience; }
     public int getLevelExperience() { return levelExperience; }
     public String getName() { return name; }
     
     public void setDamage(int d) { if (health-d >healthmax) health = healthmax; else health-=d; }
     public void setLevel(int d) { level=d; }
-    public void setDefense(int d) { defense-=d; }
+    public void setDefense(int d) { defense=d; }
     public void setGold(int d) { gold=d; }
     public void addGold(int d) { gold+=d; }
+    public void setStatPoints(int d) { statpoints=d; }
+    public void addStatPoints(int d) { statpoints+=d; }
     public void pay(int d) {gold-=d;}
     
     public void payMana(int d) {mana-=d;}
     public void setHealth(int d) { health=d; }
     public void setMana(int d) { mana=d; }
     public void setHealthMax(int d) { healthmax=d; }
+    public void setStrength(int d) { strength=d; }
+    public void setSpeed(int d) { speed=d; }
+    public void setManaMax(int d) { manamax=d; }
+    
     public boolean setExperience(int d) 
     { 
 		experience+=d; 
@@ -146,6 +155,7 @@ class Player
 		strength+=rand.nextInt(4)+1;
 		speed+=rand.nextInt(4)+1;
 		defense+=rand.nextInt(4)+1;
+		statpoints+=2;
 		
 		levelExperience = 10*level*level;
 	}

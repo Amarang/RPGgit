@@ -25,6 +25,7 @@ class HUD
 	private Image[] icons;
 	private int selectedItem=0;
 	private int selectedItemx=0;
+	private int statSelectedY=0;
 	private Color HPColor = new Color(230, 0, 0);
 	private Color ManaColor = new Color(0, 0, 170);
 	private Color ExperienceColor = new Color(255, 255, 50);
@@ -580,8 +581,8 @@ class HUD
 		g2d.setComposite(original);
 	}
 	
-	public void drawStats(Graphics g, Player p) {
-	
+	public void drawStats(Graphics g, Player p, Pointer c) {
+		
 		Graphics2D g2d = (Graphics2D) g;
 		Color tempCol = g.getColor();
 		Font tempFont = g.getFont();
@@ -589,22 +590,83 @@ class HUD
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, HUDalpha));
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
+		int numStats = 4;
+		
 		int width = 200;
 		int height = 300;
 		
-		int paddingx = 5;
+		int paddingx = 10;
 		int paddingy = 5;
 		int offsetx = (800-width)/2; // dist from left of screen
 		int offsety = (600-height)/2; // dist from top of screen
+		int thickness = 20;
 		
-		g.setColor(Color.BLACK);
-		g.drawRect(offsetx, offsety, width, height);
+
+		if(c.getPointer() == 0) {
+			statSelectedY--;
+			c.setPointer(6);	
+		}
+		else if(c.getPointer() == 2) {
+			statSelectedY++;
+			c.setPointer(6);	
+		}
+		if(statSelectedY > numStats-1) statSelectedY = numStats-1;
+		if(statSelectedY < 0) statSelectedY = 0;
 		
+		if(c.getPointer() == 10) {
+			c.setPointer(6);	
+			if(p.getStatPoints() > 0) {
+			
+				p.addStatPoints(-1);
+				
+				switch(statSelectedY) {
+				
+				case 0:	//str
+					p.setStrength(p.getStrength()+1);
+					break;
+				case 1: //spd
+					p.setSpeed(p.getSpeed()+1);
+					break;
+				case 2: //def
+					p.setDefense(p.getDefense()+1);
+					break;
+				case 3: //mana
+					p.setManaMax(p.getManaMax()+1);
+					break;
+				}
+			
+			}
+			
+		}
+
 		g.setColor(Color.WHITE);
-		g.fillRect(offsetx, offsety, width, height);
+		g.fillRoundRect(offsetx, offsety, width, height, HUDround, HUDround);
 		
 		g.setColor(Color.BLACK);
-	
+		g.drawRoundRect(offsetx, offsety, width, height, HUDround, HUDround);
+		
+
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0F));
+		
+		g.setColor(Color.RED);
+		drawCenteredRoundRect(g, offsetx + 166, offsety + thickness*(statSelectedY+3)-4, 25, thickness, HUDround);
+
+		g.setColor(Color.BLACK);
+		g.drawString(String.format("%-11s%3d", "Stat points", p.getStatPoints()), offsetx+paddingx, offsety+thickness);
+		
+		//str 0, spd 1, def 2, mana 3
+		g.drawString(String.format("%-11s%3d", "Strength", p.getStrength()), offsetx+paddingx, offsety+thickness*3);
+		g.drawString(String.format("%-11s%3d", "Speed", p.getSpeed()), offsetx+paddingx, offsety+thickness*4);
+		g.drawString(String.format("%-11s%3d", "Defense", p.getDefense()), offsetx+paddingx, offsety+thickness*5);
+		g.drawString(String.format("%-11s%3d", "Mana", p.getManaMax()), offsetx+paddingx, offsety+thickness*6);
+		
+		g.drawString(String.format("%-14s  (+)", " "), offsetx+paddingx, offsety+thickness*3);
+		g.drawString(String.format("%-14s  (+)", " "), offsetx+paddingx, offsety+thickness*4);
+		g.drawString(String.format("%-14s  (+)", " "), offsetx+paddingx, offsety+thickness*5);
+		g.drawString(String.format("%-14s  (+)", " "), offsetx+paddingx, offsety+thickness*6);
+		g.drawString("pointer  " + c.getPointer(), offsetx+paddingx, offsety+thickness*7);
+		
+		
 		
 		g.setColor(tempCol);
 		g.setFont(tempFont);

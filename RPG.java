@@ -291,6 +291,12 @@ public class RPG extends Applet implements KeyListener
 		int appSizeY = appletSize.height;
 		int appSizeX = appletSize.width;
 		
+		for(int y=0; y<appSizeY/TILESIZE; y++) {
+			for(int x=0; x<appSizeX/TILESIZE; x++) {
+				g.drawImage(tileImages[3], x*TILESIZE, y*TILESIZE, this);
+			}
+		}
+		
 		for(int y=Math.max(0,p.getY()-starty); y<MAPHEIGHT[maptracker] && yDraw <= appSizeY; y++) {
 			for(int x=Math.max(0,p.getX()-startx); x<MAPWIDTH[maptracker]; x++) {
 				xDraw = (startx-p.getX())*TILESIZE + x*TILESIZE;
@@ -366,11 +372,10 @@ public class RPG extends Applet implements KeyListener
 		}	
 		if (showstats)
 		{
-			hud.drawStats(g,p);
+			hud.drawStats(g,p,c);
 		}
 		if (showminimap)
 		{
-			//hud.drawMinimap(g,maptracker);
 			mm.draw(g,maptracker);
 		}	
 	}
