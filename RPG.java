@@ -15,7 +15,7 @@ public class RPG extends Applet implements KeyListener
 	static int TILETYPES = 50;
 	static int NUMSPRITES = 2;
 	static int NUMITEMS = 11;
-	static int NUMICONS = 6;
+	static int NUMICONS = 7;
 	static int NUMMONSTERS = 10;
 	static int NUMSPELLS = 4;
 	static int NUMBOSSES = 1;

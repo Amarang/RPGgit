@@ -40,6 +40,9 @@ class HUD
 	private NPCData nd;// = new NPCData();
 	Spell[] spell;
 	
+
+    Message msg = new Message(800,600);
+	
 	private float HUDalpha = 0.85F;
 	private int HUDround = 10;
     
@@ -635,9 +638,12 @@ class HUD
 					break;
 				}
 			
+			} else {
+				msg.setTextAndStart("No more stat points!", 250);
 			}
 			
 		}
+		msg.update(g, System.currentTimeMillis());
 
 		g.setColor(Color.WHITE);
 		g.fillRoundRect(offsetx, offsety, width, height, HUDround, HUDround);
@@ -652,21 +658,28 @@ class HUD
 		drawCenteredRoundRect(g, offsetx + 166, offsety + thickness*(statSelectedY+3)-4, 25, thickness, HUDround);
 
 		g.setColor(Color.BLACK);
-		g.drawString(String.format("%-11s%3d", "Stat points", p.getStatPoints()), offsetx+paddingx, offsety+thickness);
+		g.drawString(String.format("%-11s%3d", "Stat points", p.getStatPoints()), offsetx+paddingx*2, offsety+thickness);
 		
 		//str 0, spd 1, def 2, mana 3
-		g.drawString(String.format("%-11s%3d", "Strength", p.getStrength()), offsetx+paddingx, offsety+thickness*3);
-		g.drawString(String.format("%-11s%3d", "Speed", p.getSpeed()), offsetx+paddingx, offsety+thickness*4);
-		g.drawString(String.format("%-11s%3d", "Defense", p.getDefense()), offsetx+paddingx, offsety+thickness*5);
-		g.drawString(String.format("%-11s%3d", "Mana", p.getManaMax()), offsetx+paddingx, offsety+thickness*6);
+		g.drawString(String.format("  %-9s%3d", "Strength", p.getStrength()), offsetx+paddingx*2, offsety+thickness*3);
+		g.drawString(String.format("  %-9s%3d", "Speed", p.getSpeed()), offsetx+paddingx*2, offsety+thickness*4);
+		g.drawString(String.format("  %-9s%3d", "Defense", p.getDefense()), offsetx+paddingx*2, offsety+thickness*5);
+		g.drawString(String.format("  %-9s%3d", "Mana", p.getManaMax()), offsetx+paddingx*2, offsety+thickness*6);
 		
 		g.drawString(String.format("%-14s  (+)", " "), offsetx+paddingx, offsety+thickness*3);
 		g.drawString(String.format("%-14s  (+)", " "), offsetx+paddingx, offsety+thickness*4);
 		g.drawString(String.format("%-14s  (+)", " "), offsetx+paddingx, offsety+thickness*5);
 		g.drawString(String.format("%-14s  (+)", " "), offsetx+paddingx, offsety+thickness*6);
-		g.drawString("pointer  " + c.getPointer(), offsetx+paddingx, offsety+thickness*7);
 		
+		drawIcon(g, 2, offsetx+paddingx, offsety+thickness*3-13);
+		drawIcon(g, 6, offsetx+paddingx, offsety+thickness*4-13);
+		drawIcon(g, 1, offsetx+paddingx, offsety+thickness*5-13);
+		drawIcon(g, 4, offsetx+paddingx, offsety+thickness*6-13);
 		
+		for(int i = 0; i < 8; i++) {
+			g.drawString("BANANA BANANA BANANA", offsetx+paddingx, offsety+thickness*(7+i));
+		
+		}
 		
 		g.setColor(tempCol);
 		g.setFont(tempFont);

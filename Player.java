@@ -31,6 +31,7 @@ class Player
     private String SaveFile = "data/save.txt";
     Random rand = new Random();
     
+    
     private boolean battling=false;
     
     private boolean l = true;
