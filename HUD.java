@@ -123,7 +123,7 @@ class HUD
 			{
 				if(!loadedRecently) {
 					p.load();
-					updateNPCInfo()
+					updateNPCInfo();
 				}
 				loadedRecently = true;
 			}
