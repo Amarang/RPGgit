@@ -1,7 +1,4 @@
 import java.util.Random;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 
 class Player
 {
@@ -128,7 +125,7 @@ class Player
     public void pay(int d) {gold-=d;}
     
     public void payMana(int d) {mana-=d;}
-    public void setHealth(int d) { health=d; }
+    public void setHealth(int d) { health=Math.max(0,d); }
     public void setMana(int d) { mana=d; }
     public void setHealthMax(int d) { healthmax=d; }
     public void setStrength(int d) { strength=d; }

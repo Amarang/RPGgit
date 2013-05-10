@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 
 class NPCData
@@ -8,8 +7,6 @@ class NPCData
 	// map integer (sprite ID) to string (NPC description (caption), or whatever)
 	private Map<Integer, String> NPCNameMap = new HashMap<Integer, String>();
 	private String NPCDataFile = "data/npc.txt";
-	private BufferedReader br;
-	private String dataStr;
 	
     public NPCData() {
 	

@@ -7,17 +7,8 @@ import java.util.List;
 class HUD
 {
 
-	private int appSizeX;
-	private int appSizeY;
-	private int tilesize;
-	private int[] mapwidth;
-	private int[] mapheight;
-	private TileMap[] theMap;
-	private Image[] tileImages;
-	
 	private Player p;
 	private Monster m;
-	private Pointer c;
 	private int INVENTORYSIZE;
 	Item[] inventory= new Item[INVENTORYSIZE];
 	Item[] equipped= new Item[INVENTORYSIZE];
@@ -70,7 +61,6 @@ class HUD
 	}
 	
 	public void drawInventory(Graphics g, Pointer c) {
-		this.c=c;
 		if (c.getPointer()==2)
 		{
 			if (selectedItem<12)
@@ -183,7 +173,6 @@ class HUD
 	}
 	
 	public void drawShop(Graphics g, Pointer c) {
-		this.c=c;
 		if (c.getPointer()==3)
 		{
 			selectedItemx=1;
@@ -315,8 +304,6 @@ class HUD
 	
 		int health = p.getHealth();
 		int healthmax = p.getHealthMax();
-		int level = p.getLevel();
-		int gold = p.getGold();
 		int experience = p.getExperience();
 		int mana = p.getMana();
 		int manamax = p.getManaMax();
@@ -516,8 +503,6 @@ class HUD
 		int offsety = 600-160+paddingy*3; // dist from top of screen
 		int length = 800-paddingx*2;
 		int height = 160-paddingy*2;
-		int col2Offset = length/2; // x distance between two main (inventory and equip) columns
-		int compOffset = 150; // x distance between column and comparison strings
 		//int thickness = 20;
 		
 		
@@ -644,17 +629,6 @@ class HUD
 		g2d.setComposite(original);
 	}
 	
-	public void initMinimap(int[] mapwidth, int[] mapheight, int tilesize, TileMap[] theMap, Image[] tileImages, Dimension d) {
-		this.mapwidth = mapwidth;
-		this.mapheight = mapheight;
-		this.tilesize = tilesize;
-		this.theMap = theMap;
-		this.tileImages = tileImages;
-		appSizeX = d.width;
-		appSizeY = d.height;
-	}
-
-	
 	public void drawTicker(Graphics g, List<String> inputStrings) {
 		Graphics2D g2d = (Graphics2D) g;
 		Color tempCol = g.getColor();
@@ -699,7 +673,6 @@ class HUD
 		System.out.println(c.getPointer());
 		System.out.println("hmm");
 		
-		this.c=c;
 		if (c.getPointer()==2)
 		{
 			if (selectedItem<12)
@@ -813,7 +786,6 @@ class HUD
 		return false;
 	}
 	public int drawSpells(Graphics g, Pointer c, boolean key_space) {
-		this.c=c;
 		if (c.getPointer()==2)
 		{
 			if (selectedItem<12)

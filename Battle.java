@@ -129,12 +129,7 @@ class Battle
 				{
 					battle=false;
 					initialize = false;	
-					p.setHealth(p.getHealthMax());
-					/*for (int i=0; i<NUMSPRITES; i++)
-					{
-						sp[i].reset();
-					}	*/
-					
+					p.setHealth(p.getHealthMax());					
 					p.setX(p.getTownX());
 					p.setY(p.getTownY());
 				}
@@ -152,15 +147,7 @@ class Battle
 		g.setFont(title);
 		g.setColor(Color.white);
 		drawMonster(g);
-		//g.drawString(m.getName(),(int)(800/2-m.getName().length()*15/2),30+100);
 		u.drawCenteredString(g, m.getName(), 800/2, 30+100+40);
-  		//g.drawString("monster health = "+ m.getHealth(),300,50+100);
-  		//g.drawString("strength = "+ m.getStrength(),300,71+100);
-  		//g.drawString("defense = "+ m.getDefense(),300,91+100);
-		
-  		//g.drawString("your health = "+ p.getHealth(),30,50);
-  		//g.drawString("strength = "+ p.getStrength(),30,71+100+100);
-  		//g.drawString("defense = "+ p.getDefense(),30,91+100);
 		
 		hud.battleDraw(g);
 		hud.drawTicker(g,ticker);

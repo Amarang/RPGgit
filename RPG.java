@@ -426,18 +426,12 @@ public class RPG extends Applet implements KeyListener
 		float fps = 1000.0F/(float)dt;
 		currPaint = prevPaint;
 		
-		
-		
-	
 		if(!battle)
 		{
 			p.setBattleCondition(false);
 			DrawMap(g);	
 			HandlePointer();
 			
-			//if(!withinrangesprite) showinteraction = false;
-			
-			//if(showinteraction && withinrangesprite && nearSprite >= 0) {
 			if(showinteraction && nearSprite >= 0) {
 				hud.drawInteractionPane(g,nearSprite);
 			}
@@ -484,14 +478,11 @@ public class RPG extends Applet implements KeyListener
 			}	
 		}
 		
-		int endPaint = (int)(System.currentTimeMillis() - currPaint);
-		
-		
 		////////////////////////
 		/////DEBUG DISPLAY//////
 		////////////////////////
-		
 		if(debug) {
+			int endPaint = (int)(System.currentTimeMillis() - currPaint);
 			Color tempc = g.getColor();
 			Composite original = g2d.getComposite();
 			
@@ -513,11 +504,9 @@ public class RPG extends Applet implements KeyListener
 			g.setColor(tempc);
 			g2d.setComposite(original);
 		}
-		
 		////////////////////////
 		/////DEBUG DISPLAY//////
 		////////////////////////
-		
 		
 	}
 
@@ -562,16 +551,11 @@ public class RPG extends Applet implements KeyListener
 		for (int i=0;i< sp.length;i++)
 		{
 			
-			//if(theMap[p.getMapTracker()].within(p, sp[i], 3)) {
-				//withinrangesprite = true;
-			//}
-				
 			if( (sp[i].getX() == facingCoords[0]
 			 &&  sp[i].getY() == facingCoords[1])
 			 || (sp[i].getX() == p.getX())
 			 &&  sp[i].getY() == p.getY() )
 			{
-				//System.out.println("NEAR SPRITE id = " + sp[i].getID());
 				nearSprite = sp[i].getID();
 				break;
 			}
