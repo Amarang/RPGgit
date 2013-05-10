@@ -23,6 +23,7 @@ class Battle
 	private Random rand = new Random(); 
  	private Font title = new Font("DialogInput",Font.PLAIN,20);
 	
+	private boolean statsscreen=false;
 	private boolean battle=true;
 	private boolean initialize = false;
 	private boolean mdefended = false;
@@ -98,11 +99,13 @@ class Battle
 						levelup=true;
 				}
 				Victory(g);
-				if (key_space)
+				if (key_space&&statsscreen)
 				{
 					battle=false;
 					initialize = false;
 				}
+				else if (key_space)
+					statsscreen=true;
 					
 			}
 			if (p.getHealth()<=0)
@@ -122,7 +125,7 @@ class Battle
 				battlemusic.stop();
 				death.play();
 				Defeat(g);
-				if (key_space)
+				if (key_space&&statsscreen)
 				{
 					battle=false;
 					initialize = false;	
@@ -135,6 +138,8 @@ class Battle
 					p.setX(p.getTownX());
 					p.setY(p.getTownY());
 				}
+				else if (key_space)
+					statsscreen=true;
 					
 			}
 		}	
@@ -231,7 +236,7 @@ class Battle
 		g.fillRect(0,0,800,600);
 		g.setColor(Color.white);
 		drawMonster(g);
-  		if (!initemmenu)
+  		if (!initemmenu&&!inspellmenu)
   		{
   		
 			switch(c.getPointer()) {
@@ -253,7 +258,9 @@ class Battle
 					if (xchoice<2)
 						xchoice++;
 						break;
-			}
+				
+			}c.setPointer(5);
+  		}
 			Actions(g);
 			Display(g);
 			g.setColor(Color.red);
@@ -273,7 +280,7 @@ class Battle
 					//defend
 					break;
 			}
-  		}
+  		
 	}
 	
 	
