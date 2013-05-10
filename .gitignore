@@ -4,6 +4,7 @@
 
 *.class
 *.jar
+RPG.jar
 *.pydevproject
 .project
 .metadata

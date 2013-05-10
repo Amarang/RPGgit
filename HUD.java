@@ -37,6 +37,7 @@ class HUD
 	private int thickness = 20;
 	private boolean battleHUD = false;
 	private boolean loadedRecently = false;
+	private boolean savedRecently = false;
 	private NPCData nd;// = new NPCData();
 	Spell[] spell;
 	
@@ -109,9 +110,15 @@ class HUD
 			{
 				c.setPointer(7);//back out of inventory
 				loadedRecently = false;
+				savedRecently = false;
 			}
 			else if(selectedItem==11)
-				p.save();
+			{
+				if(!savedRecently) {
+					p.save();
+				}
+				savedRecently = true;
+			}
 			else if(selectedItem==12)
 			{
 				if(!loadedRecently) {
@@ -734,10 +741,17 @@ class HUD
 			{
 				c.setPointer(7);//back out of inventory
 				loadedRecently = false;
+				savedRecently = false;
 				return true;
 			}
 			else if(selectedItem==11)
-				p.save();
+			{
+				if(!savedRecently)
+				{
+					p.save();
+				}
+				savedRecently = true;
+			}
 			else if(selectedItem==12)
 			{
 				if(!loadedRecently) {
@@ -829,7 +843,13 @@ class HUD
 				return 0;
 			}
 			else if(selectedItem==11)
-				p.save();
+			{
+				if(!savedRecently)
+				{
+					p.save();
+				}
+				savedRecently = true;
+			}
 			else if(selectedItem==12)
 			{
 				if(!loadedRecently) {

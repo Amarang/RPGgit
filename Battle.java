@@ -23,7 +23,6 @@ class Battle
 	private Random rand = new Random(); 
  	private Font title = new Font("DialogInput",Font.PLAIN,20);
 	
-	private boolean run=false;
 	private boolean battle=true;
 	private boolean initialize = false;
 	private boolean mdefended = false;
@@ -41,21 +40,7 @@ class Battle
 
 	private Utils u = new Utils();
 	
-	private boolean released = false;
-	private boolean key_a=false;
-	private boolean key_s=false;
-	private boolean key_d=false;
-	private boolean key_w=false;
-	private boolean key_a1=false;
-	private boolean key_s1=false;
-	private boolean key_d1=false;
-	private boolean key_w1=false;
-	private boolean key_a2=false;
-	private boolean key_s2=false;
-	private boolean key_d2=false;
-	private boolean key_w2=false;
 	private boolean key_space=false;
-	private boolean key_enter=false;
 	private boolean buffer=false;
 	private int pdamagedealt;
   	private int mdamagedealt;
@@ -86,10 +71,9 @@ class Battle
 		if(ticker.size() > TICKERLENGTH) ticker.remove(0);	
 	}
 	
-	public boolean BattleSequence(Graphics g, boolean key_space,boolean key_enter)
+	public boolean BattleSequence(Graphics g, boolean key_space)
 	{
 		this.key_space = key_space;
-		this.key_enter = key_enter;
 		if (battle)
 		{
 			if (!initialize)
@@ -404,7 +388,6 @@ class Battle
 				m.setDefense(m.getDefense()/2);
 				mdefended=false;	
 			}
-			key_w=false;key_a=false;key_s=false;key_d=false;
 			int monstaction=rand.nextInt(4);
 			if (monstaction==0)
 			{

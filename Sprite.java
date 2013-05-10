@@ -1,6 +1,6 @@
 import java.awt.*;
-import java.applet.*;
 import java.util.Random;
+
 
 class Sprite
 {
@@ -25,9 +25,7 @@ class Sprite
     private boolean r = true;
     private boolean u = true;
     private boolean d = true;
-	
-    private boolean loop = true;
-    private boolean resetIt = true;
+    
     private int counter = 0;
 	
 	private Player p;

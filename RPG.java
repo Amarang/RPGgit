@@ -48,11 +48,7 @@ public class RPG extends Applet implements KeyListener
 	static boolean music = true;
 	boolean sound = true;	
 	SoundClip[] soundClips = new SoundClip[NUMSOUNDCLIPS];
-	SoundClip hit;
-	SoundClip death;
-	SoundClip battlemusic;
-	SoundClip bossmusic;
-	SoundClip outofbounds;
+	SoundClip hit, death, battlemusic, bossmusic, outofbounds;
 	
 	Image[] tileImages = new Image[TILETYPES];
 	Image[] monsterImages = new Image[NUMMONSTERS];
@@ -103,6 +99,7 @@ public class RPG extends Applet implements KeyListener
 	
 	public void init()
 	{
+
 		
 		setSize(appSizeX, appSizeY);
 		
@@ -473,7 +470,7 @@ public class RPG extends Applet implements KeyListener
 				firsttimebattle = false;
 			} else {
 				
-				if(!b.BattleSequence(g, key_space, key_enter)) {
+				if(!b.BattleSequence(g, key_space)) {
 					battle = false;
 					firsttimebattle = true;
 					battlemusic.stop();
@@ -554,7 +551,7 @@ public class RPG extends Applet implements KeyListener
 				break;
 		}
 		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
-		int facingTile = theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing());
+		//int facingTile = theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing());
 		//{x, y}
 		int[] facingCoords = theMap[maptracker].getFacingCoords(p.getX(), p.getY(), p.getFacing());
 		

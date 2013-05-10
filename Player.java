@@ -277,16 +277,12 @@ class Player
 	}
 	public void save() 
 	{ 	
-		try {
-          File file = new File("data/save.txt");
-          System.out.println("saving, please don\'t turn off the power.");
-          BufferedWriter output = new BufferedWriter(new FileWriter(file));
-          output.write(level+"\t"+health+"\t"+healthmax+"\t"+gold);
-          output.close();
-          System.out.println("Batman has saved the game.");
-        } catch ( Exception e ) {
-           e.printStackTrace();
-        }
+		
+      Load l = new Load();
+      System.out.println("saving, please don\'t turn off the power.");
+
+      l.loadSite("http://people.tamu.edu/~amin.nj/rpgsave.php?stats="+level+"|"+health+"|"+healthmax+"|"+gold);
+      System.out.println("Batman has saved the game.");
         
 	}
 	
@@ -294,7 +290,8 @@ class Player
 	public void load() 
 	{ 	
 		Load l = new Load();
-		String[][] stats = l.readFileToArray(SaveFile);
+		String[][] stats = l.readSiteToArray("http://people.tamu.edu/~amin.nj/rpgsave.txt");
+		//String[][] stats = l.readFileToArray(SaveFile);
 		
 		setLevel(Integer.parseInt(stats[0][0].trim()));
 		setHealth(Integer.parseInt(stats[0][1].trim()));

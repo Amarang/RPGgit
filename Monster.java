@@ -77,11 +77,5 @@ class Monster
 		if (health==1)	
 		return true; 
 		else return false;
-	}	
-	private boolean isRestricted(int t)
-	{
-		for(int i = 0; i < restricted.length; i++)
-			if(t == restricted[i]) return true;
-		return false;
 	}
 }
