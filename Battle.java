@@ -354,7 +354,11 @@ class Battle
 					}
 					else
 					initemmenu = false;
-					pushToTicker("Item used: "+ (p.getDamage()-m.getDefense())+" damage!");
+					
+					pushToTicker("Item used: "+ Math.max(0,(p.getDamage()-m.getDefense()))+" damage!");
+					//when equipping and whatnot, it shows negative since your stats increase
+					//so the max(0, __) will make it 0, but then when you heal, it shows 0 as well
+					//maybe have a separate message that comes up when you heal so it's clear?
 					mdamagedealt=Math.max(0,(p.getDamage()-m.getDefense()));
 	  				m.setDamage(mdamagedealt);
 	  						 

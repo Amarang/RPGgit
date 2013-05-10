@@ -123,6 +123,7 @@ class HUD
 			{
 				if(!loadedRecently) {
 					p.load();
+					updateNPCInfo()
 				}
 				loadedRecently = true;
 			}
@@ -744,7 +745,7 @@ class HUD
 				savedRecently = false;
 				return true;
 			}
-			else if(selectedItem==11)
+			/*else if(selectedItem==11)
 			{
 				if(!savedRecently)
 				{
@@ -756,10 +757,11 @@ class HUD
 			{
 				if(!loadedRecently) {
 					p.load();
+					updateNPCInfo()
 				}
 				loadedRecently = true;
 			}
-			//load.LoadData(p);
+			//load.LoadData(p);*/
 		}
 		
 		int paddingx = 7;
@@ -802,8 +804,8 @@ class HUD
 			}
 		}
 		g.drawString("Exit",640-paddingx,40+20*10+paddingy);
-		g.drawString("Save",640-paddingx,40+20*11+paddingy);
-		g.drawString("Load",640-paddingx,40+20*12+paddingy);
+		//g.drawString("Save",640-paddingx,40+20*11+paddingy);
+		//g.drawString("Load",640-paddingx,40+20*12+paddingy);
 		
 		g.setColor(tempCol);
 		g.setFont(tempFont);
@@ -842,7 +844,7 @@ class HUD
 				loadedRecently = false;
 				return 0;
 			}
-			else if(selectedItem==11)
+			/*else if(selectedItem==11)
 			{
 				if(!savedRecently)
 				{
@@ -854,10 +856,11 @@ class HUD
 			{
 				if(!loadedRecently) {
 					p.load();
+					updateNPCInfo()
 				}
 				loadedRecently = true;
 			}
-			//load.LoadData(p);
+			//load.LoadData(p);*/
 		}
 		
 		int paddingx = 7;
@@ -891,8 +894,8 @@ class HUD
 			}
 		}
 		g.drawString("Exit",640-paddingx,40+20*10+paddingy);
-		g.drawString("Save",640-paddingx,40+20*11+paddingy);
-		g.drawString("Load",640-paddingx,40+20*12+paddingy);
+		//g.drawString("Save",640-paddingx,40+20*11+paddingy);
+		//g.drawString("Load",640-paddingx,40+20*12+paddingy);
 		
 		
 		
