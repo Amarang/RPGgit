@@ -27,8 +27,10 @@ class Player
     private int townentrancex=3;
     private int townentrancey=36;
 	private int facing = 0; //0-3 north east south west
+	private int maptracker;
     private String name;
-    private String SaveFile = "data/save.txt";
+    private String loadFile = "http://people.tamu.edu/~amin.nj/rpgsave.txt";
+    private String saveFile = "http://people.tamu.edu/~amin.nj/rpgsave.php?stats=";
     Random rand = new Random();
     
     
@@ -41,7 +43,7 @@ class Player
 	
 	TileData td = new TileData();
 	
-    public Player(int xPos, int yPos,int h, int m, int str, int spd,int def,int g,int xp,int lvl,String playerName) {
+    public Player(int xPos, int yPos,int h, int m, int str, int spd,int def,int g,int xp,int lvl,String playerName, int mt) {
 		System.out.println("made Player");
         x = xPos;
         y = yPos;
@@ -60,6 +62,7 @@ class Player
 		name = playerName;
 		levelExperience = lvl * 10;
 		statpoints = 5;
+		maptracker = mt;
     }
     
     public void reset() {
@@ -131,6 +134,9 @@ class Player
     public void setStrength(int d) { strength=d; }
     public void setSpeed(int d) { speed=d; }
     public void setManaMax(int d) { manamax=d; }
+
+	public int getMapTracker() { return maptracker; }
+	public void setMapTracker(int mt) {	this.maptracker = mt; }
     
     public boolean setExperience(int d) 
     { 
@@ -281,8 +287,17 @@ class Player
       Load l = new Load();
       System.out.println("saving, please don\'t turn off the power.");
 
-      l.loadSite("http://people.tamu.edu/~amin.nj/rpgsave.php?stats="+level+"|"+health+"|"+healthmax+"|"+gold);
-      System.out.println("Batman has saved the game.");
+      //l.loadSite("http://people.tamu.edu/~amin.nj/rpgsave.php?stats="
+    	//	  	+level+"|"+health+"|"+healthmax+"|"+gold+"|"+x+"|"+y);
+      
+      l.loadSite(saveFile      
+    		  +x+"|"+y+"|"+health+"|"+healthmax+"|"+mana+"|"+manamax+"|"+strength
+    		  +"|"+speed+"|"+damage+"|"+defense+"|"+gold+"|"+experience+"|"
+    		  +levelExperience+"|"+level+"|"+statpoints+"|"+lasttownx+"|"
+    		  +lasttowny+"|"+townentrancex+"|"+townentrancey+"|"+facing+"|"+maptracker);
+      
+      
+      System.out.println(name + " has saved the game.");
         
 	}
 	
@@ -290,13 +305,38 @@ class Player
 	public void load() 
 	{ 	
 		Load l = new Load();
-		String[][] stats = l.readSiteToArray("http://people.tamu.edu/~amin.nj/rpgsave.txt");
+		String[][] stats = l.readSiteToArray(loadFile);
 		//String[][] stats = l.readFileToArray(SaveFile);
 		
-		setLevel(Integer.parseInt(stats[0][0].trim()));
+		this.x = Integer.parseInt(stats[0][0].trim());
+		this.y = Integer.parseInt(stats[0][1].trim());
+		this.health = Integer.parseInt(stats[0][2].trim());
+		this.healthmax = Integer.parseInt(stats[0][3].trim());
+		this.mana = Integer.parseInt(stats[0][4].trim());
+		this.manamax = Integer.parseInt(stats[0][5].trim());
+		this.strength = Integer.parseInt(stats[0][6].trim());
+		this.speed = Integer.parseInt(stats[0][7].trim());
+		this.damage = Integer.parseInt(stats[0][8].trim());
+		this.defense = Integer.parseInt(stats[0][9].trim());
+		this.gold = Integer.parseInt(stats[0][10].trim());
+		this.experience = Integer.parseInt(stats[0][11].trim());
+		this.levelExperience = Integer.parseInt(stats[0][12].trim());
+		this.level = Integer.parseInt(stats[0][13].trim());
+		this.statpoints = Integer.parseInt(stats[0][14].trim());
+		this.lasttownx = Integer.parseInt(stats[0][15].trim());
+		this.lasttowny = Integer.parseInt(stats[0][16].trim());
+		this.townentrancex = Integer.parseInt(stats[0][17].trim());
+		this.townentrancey = Integer.parseInt(stats[0][18].trim());
+		this.facing = Integer.parseInt(stats[0][19].trim());
+		this.maptracker = Integer.parseInt(stats[0][20].trim());
+		
+		
+		/*setLevel(Integer.parseInt(stats[0][0].trim()));
 		setHealth(Integer.parseInt(stats[0][1].trim()));
 		setHealthMax(Integer.parseInt(stats[0][2].trim()));
 		setGold(Integer.parseInt(stats[0][3].trim()));
+		this.x = Integer.parseInt(stats[0][4].trim());
+		this.y = Integer.parseInt(stats[0][5].trim());*/
         
 	}
 	
@@ -311,4 +351,5 @@ class Player
 		u = td.isWalkRestricted(directions[2]) ? false : true;
 		d = td.isWalkRestricted(directions[3]) ? false : true;
 	}
+
 }

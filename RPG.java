@@ -37,7 +37,7 @@ public class RPG extends Applet implements KeyListener
 	private TileMap[] theMap = new TileMap[NUMMAPS];
 	int startx = appSizeX/2/TILESIZE;
 	int starty = appSizeY/2/TILESIZE;
-	int maptracker = 0;
+	int startMap = 0;
 	
 	long prevPaint = 0;
 	long currPaint = 0;
@@ -55,7 +55,7 @@ public class RPG extends Applet implements KeyListener
 	Image[] icons = new Image[NUMICONS];
 
 	
-	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman");
+	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman", startMap);
 	Monster m;
 	Spell[] spell = new Spell[NUMSPELLS];
 	Battle b;
@@ -296,13 +296,13 @@ public class RPG extends Applet implements KeyListener
 			}
 		}
 		
-		for(int y=Math.max(0,p.getY()-starty); y<MAPHEIGHT[maptracker] && yDraw <= appSizeY; y++) {
-			for(int x=Math.max(0,p.getX()-startx); x<MAPWIDTH[maptracker]; x++) {
+		for(int y=Math.max(0,p.getY()-starty); y<MAPHEIGHT[p.getMapTracker()] && yDraw <= appSizeY; y++) {
+			for(int x=Math.max(0,p.getX()-startx); x<MAPWIDTH[p.getMapTracker()]; x++) {
 				xDraw = (startx-p.getX())*TILESIZE + x*TILESIZE;
 				yDraw = (starty-p.getY())*TILESIZE + y*TILESIZE;
 				if(xDraw >= appSizeX) break;
 				
-				g.drawImage(tileImages[theMap[maptracker].getVal(x,y)],xDraw,yDraw, TILESIZE, TILESIZE,this);
+				g.drawImage(tileImages[theMap[p.getMapTracker()].getVal(x,y)],xDraw,yDraw, TILESIZE, TILESIZE,this);
 				
 			}
 		}
@@ -375,7 +375,7 @@ public class RPG extends Applet implements KeyListener
 		}
 		if (showminimap)
 		{
-			mm.draw(g,maptracker);
+			mm.draw(g,p.getMapTracker());
 		}	
 	}
 	public void update(Graphics g) {
@@ -450,9 +450,9 @@ public class RPG extends Applet implements KeyListener
 			
 			for (int i = 0; i< NUMSPRITES; i++)
          	{
-				if(sp[i].isReady()&&maptracker==1) {
+				if(sp[i].isReady()&&p.getMapTracker()==1) {
 					sp[i].updateAnimationRand(g, System.currentTimeMillis(), p);
-					sp[i].allowMove(theMap[maptracker].getNeighbors(sp[i].getX(), sp[i].getY()));
+					sp[i].allowMove(theMap[p.getMapTracker()].getNeighbors(sp[i].getX(), sp[i].getY()));
 				}
          	}
 			PlayerMenu(g);
@@ -504,8 +504,8 @@ public class RPG extends Applet implements KeyListener
 			g.setColor(Color.WHITE);
 			
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.85F));
-			g.drawString("curr tile:  " + theMap[maptracker].getVal(p.getX(), p.getY()), 620,500);
-			g.drawString("face tile:  " + theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing()), 620,520);
+			g.drawString("curr tile:  " + theMap[p.getMapTracker()].getVal(p.getX(), p.getY()), 620,500);
+			g.drawString("face tile:  " + theMap[p.getMapTracker()].getFacing(p.getX(), p.getY(), p.getFacing()), 620,520);
 			g.drawString("(x,y):     (" + p.getX() + "," + p.getY() + ")", 620,540);
 			g.drawString("fps:        " + Math.round(fps), 620,560);
 			g.drawString("ms to paint:" + endPaint, 620,580);
@@ -550,10 +550,10 @@ public class RPG extends Applet implements KeyListener
 				}
 				break;
 		}
-		int currTile = theMap[maptracker].getVal(p.getX(), p.getY());
-		//int facingTile = theMap[maptracker].getFacing(p.getX(), p.getY(), p.getFacing());
+		int currTile = theMap[p.getMapTracker()].getVal(p.getX(), p.getY());
+		//int facingTile = theMap[p.getMapTracker()].getFacing(p.getX(), p.getY(), p.getFacing());
 		//{x, y}
-		int[] facingCoords = theMap[maptracker].getFacingCoords(p.getX(), p.getY(), p.getFacing());
+		int[] facingCoords = theMap[p.getMapTracker()].getFacingCoords(p.getX(), p.getY(), p.getFacing());
 		
 		pSp.start();
 		
@@ -562,7 +562,7 @@ public class RPG extends Applet implements KeyListener
 		for (int i=0;i< sp.length;i++)
 		{
 			
-			//if(theMap[maptracker].within(p, sp[i], 3)) {
+			//if(theMap[p.getMapTracker()].within(p, sp[i], 3)) {
 				//withinrangesprite = true;
 			//}
 				
@@ -578,7 +578,7 @@ public class RPG extends Applet implements KeyListener
 		}	
 		
 		if ((rand.nextInt(1000) < BATTLEFREQUENCY * 10||(p.getX()==85&&p.getY()==57))
-			&& !td.isBattleRestricted(currTile) && maptracker == 0)
+			&& !td.isBattleRestricted(currTile) && p.getMapTracker() == 0)
 		{
 			if(p.getX()==85&&p.getY()==57)
 				boss=1; 
@@ -588,15 +588,15 @@ public class RPG extends Applet implements KeyListener
 		if (td.isTown(currTile))
 		{
 			msg.setTextAndStart("Changing maps", 1500);
-			if (maptracker==1)
+			if (p.getMapTracker()==1)
 			{
-				maptracker=0;
+				p.setMapTracker(0);
 				p.setX(p.getTownX());
 				p.setY(p.getTownY());
 			}
-			else if (maptracker==0)
+			else if (p.getMapTracker()==0)
 			{
-				maptracker=1;
+				p.setMapTracker(1);
 				hud.updateNPCInfo();
 				
 				p.setTownX(p.getX());
@@ -604,7 +604,7 @@ public class RPG extends Applet implements KeyListener
 				p.setX(p.getTownEntranceX());
 				p.setY(p.getTownEntranceY());	
 			}
-			//System.out.println(maptracker);
+			//System.out.println(p.getMapTracker());
 			
 			
 			for (int i=0;i< NUMSPRITES;i++)
@@ -629,7 +629,7 @@ public class RPG extends Applet implements KeyListener
 				soundClips[sID].play();	
 			}
 		}
-		p.allowMove(theMap[maptracker].getNeighbors(p.getX(), p.getY()));
+		p.allowMove(theMap[p.getMapTracker()].getNeighbors(p.getX(), p.getY()));
 	}
 
 	public void keyReleased(KeyEvent evt)	
