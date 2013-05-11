@@ -22,9 +22,11 @@ public class RPG extends Applet implements KeyListener
 	static int NUMSPELLS = 4;
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
-	static int WALKINGDELAY = 10; //default 125
-	static int BATTLEFREQUENCY = 4; //percentage of encounter per step (default 3)
+	static int WALKINGDELAY = 125; //default 125
+	static int BATTLEFREQUENCY = 3; //percentage of encounter per step (default 3)
 	static int FPS = 60;
+	static int STARTMAP = 0;
+	
 	int boss=0;
 	
 	
@@ -37,7 +39,6 @@ public class RPG extends Applet implements KeyListener
 	private TileMap[] theMap = new TileMap[NUMMAPS];
 	int startx = appSizeX/2/TILESIZE;
 	int starty = appSizeY/2/TILESIZE;
-	int startMap = 0;
 	
 	long prevPaint = 0;
 	long currPaint = 0;
@@ -55,7 +56,7 @@ public class RPG extends Applet implements KeyListener
 	Image[] icons = new Image[NUMICONS];
 
 	
-	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman", startMap);
+	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman", STARTMAP);
 	Monster m;
 	Spell[] spell = new Spell[NUMSPELLS];
 	Battle b;
@@ -543,6 +544,9 @@ public class RPG extends Applet implements KeyListener
 		//int facingTile = theMap[p.getMapTracker()].getFacing(p.getX(), p.getY(), p.getFacing());
 		//{x, y}
 		int[] facingCoords = theMap[p.getMapTracker()].getFacingCoords(p.getX(), p.getY(), p.getFacing());
+		
+		//int specTile = theMap[p.getMapTracker()].getSpecial1(p.getX(), p.getY());
+		//System.out.println(specTile);
 		
 		pSp.start();
 		

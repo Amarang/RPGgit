@@ -23,7 +23,7 @@ class Item
 		
 		
 		Load l = new Load();
-		String[][] data = l.readFileToArray(fileName);
+		String[][] data = l.readFileToArray(fileName, "\t");
 		
 		//copyOfRange just takes a range from an array
 		//data[itemid] looks like [i00, 3, 0, 0, 2, 5, 0]

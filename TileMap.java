@@ -7,39 +7,42 @@ class TileMap
 	private int MAPHEIGHT;
 	private int matrix[][];
 	
-	private String map;
-	private BufferedReader br;
+	private int special1[][];
+	private int special2[][];
 	
 	public TileMap(int MAPWIDTH, int MAPHEIGHT, String fileName) {
 		//System.out.println("made TileMap");
-	
 		matrix = new int[MAPHEIGHT][MAPWIDTH];
+		special1 = new int[MAPHEIGHT][MAPWIDTH];
+		special2 = new int[MAPHEIGHT][MAPWIDTH];
 		
-		for(int w=0; w<MAPWIDTH;w++)
-			for(int h=0; h<MAPHEIGHT;h++) matrix[h][w]=-1;
+		for(int w=0; w<MAPWIDTH;w++) {
+			for(int h=0; h<MAPHEIGHT;h++) {
+				matrix[h][w]=-1;
+				special1[h][w]=-1;
+				special2[h][w]=-1;
+			}
+		}
 			
-		
 		Load l = new Load();
-		String mapStr = l.readFileToString(fileName);
+
+		String[][] mapArr = l.readFileToArray(fileName, " ");
 		
-		int x=0;
-		int y=0;
-		for (int i=0; i < mapStr.length(); i++) {
-			char c = mapStr.charAt(i);
-			if(c == ' ') x++;
-			if(c == '\n') {
-				y++;
-				x = 0;
+		for(int i=0; i < mapArr.length; i++) {
+			for(int j=0; j < mapArr[0].length; j++) {
+				matrix[i][j] = (int)mapArr[i][j].charAt(0) - 65;
+				if(mapArr[i][j].length() <= 1) continue;
+					special1[i][j] = (int)mapArr[i][j].charAt(1) - 65;
+				if(mapArr[i][j].length() <= 2) continue;
+					special2[i][j] = (int)mapArr[i][j].charAt(2) - 65;
 			}
 			
-			if(i != mapStr.length()-1 && c != '\n' && c != '\r') 
-				if(x < MAPWIDTH && y < MAPHEIGHT)
-					if(!(c > 126 || c < 64))
-						matrix[y][x] = (int)c - 65;
-		}
+		}		
 	}
-	
+
 	public int getVal(int x, int y) { return matrix[y][x]; }
+	public int getSpecial1(int x, int y) { return special1[y][x]; }
+	public int getSpecial2(int x, int y) { return special2[y][x]; }
 	
 	public int getFacing(int x, int y, int facing) {
 		int f = -1;
@@ -66,12 +69,21 @@ class TileMap
 	public int getWidth() { return MAPWIDTH; }
 	public int getHeight() { return MAPHEIGHT; }
 	
-	public void printMap() {
-		for(int i = 0; i < matrix.length; i++)
+	public void printMap(int type) {
+		switch(type) {
+			case 1: printArray(matrix); break;
+			case 2: printArray(special1); break;
+			case 3: printArray(special2); break;
+			default: printArray(matrix); break;
+		}
+	}
+	
+	private void printArray(int[][] arr) {
+		for(int i = 0; i < arr.length; i++)
         {
             String buff = new String();
-            for(int j = 0; j < matrix[0].length; j++)
-				buff += Integer.toString(matrix[i][j]) + " ";
+            for(int j = 0; j < arr[0].length; j++)
+				buff += Integer.toString(arr[i][j]) + " ";
             System.out.println(buff);
         }
 	}
@@ -89,13 +101,5 @@ class TileMap
 		return ( (a.getX()-b.getX())*(a.getX()-b.getX()) +
 				(a.getY()-b.getY())*(a.getY()-b.getY()) <= distance*distance);
 	}
-	public boolean within(Sprite a, Player b, int distance) {
-		return ( (a.getX()-b.getX())*(a.getX()-b.getX()) +
-				(a.getY()-b.getY())*(a.getY()-b.getY()) <= distance*distance);
-	}
 	
-	public boolean within(Sprite a, Sprite b, int distance) {
-		return ( (a.getX()-b.getX())*(a.getX()-b.getX()) +
-				(a.getY()-b.getY())*(a.getY()-b.getY()) <= distance*distance);
-	}
 }

@@ -29,7 +29,7 @@ class Load
 		return dataStr;
 	}
 	
-	public String[][] readFileToArray(String fileName) {
+	public String[][] readFileToArray(String fileName, String delimiter) {
 		String dataStr = "";
 		
 		String[] lineArray;
@@ -37,6 +37,7 @@ class Load
 		int numLines = 0;
 		int numCols = 0;
 		
+		//delimiter = "\t";
 		
 		try {
 			InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
@@ -62,7 +63,7 @@ class Load
 			String[] colCountArray = dataStr.split("\n");
 			
 			for(int i = 0; i < colCountArray.length; i++) {
-				int cols = colCountArray[i].split("\t").length;
+				int cols = colCountArray[i].split(delimiter).length;
 				
 				if(cols > numCols) numCols = cols;
 				
@@ -75,7 +76,7 @@ class Load
 		for (int i=0; i < dataStr.length(); i++) {
 			char c = dataStr.charAt(i);
 			if(c == '\n') {
-				Pattern pattern = Pattern.compile(Pattern.quote("\t"));
+				Pattern pattern = Pattern.compile(Pattern.quote(delimiter));
 				temp = temp.replace("\n", "");
 				lineArray = pattern.split(temp);
 				
@@ -140,7 +141,7 @@ class Load
 		return strbuff;
 	}
 	
-	public String[][] readSiteToArray(String surl) {
+	public String[][] readSiteToArray(String surl, String delimiter) {
 
 		String[] lineArray;
 		
@@ -148,6 +149,8 @@ class Load
 		int numCols = 0;
 		String strbuff = "";
 		String[][] linesClean = null;
+		
+		//delimiter = "\t";
 
 		try {
 			URL url = new URL(surl);
@@ -167,7 +170,7 @@ class Load
 			String[] colCountArray = strbuff.split("\n");
 			
 			for(int i = 0; i < colCountArray.length; i++) {
-				int cols = colCountArray[i].split("\t").length;
+				int cols = colCountArray[i].split(delimiter).length;
 				
 				if(cols > numCols) numCols = cols;
 				
@@ -180,7 +183,7 @@ class Load
 			for (int i=0; i < strbuff.length(); i++) {
 				char c = strbuff.charAt(i);
 				if(c == '\n') {
-					Pattern pattern = Pattern.compile(Pattern.quote("\t"));
+					Pattern pattern = Pattern.compile(Pattern.quote(delimiter));
 					temp = temp.replace("\n", "");
 					lineArray = pattern.split(temp);
 					

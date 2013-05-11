@@ -302,7 +302,7 @@ class Player
 	public void load() 
 	{ 	
 		Load l = new Load();
-		String[][] stats = l.readSiteToArray(loadFile);
+		String[][] stats = l.readSiteToArray(loadFile, "\t");
 		//String[][] stats = l.readFileToArray(SaveFile);
 		
 		this.x = Integer.parseInt(stats[0][0].trim());

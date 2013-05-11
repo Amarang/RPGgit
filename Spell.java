@@ -29,7 +29,7 @@ class Spell
 		
 		
 		Load l = new Load();
-		String[][] data = l.readFileToArray(fileName);
+		String[][] data = l.readFileToArray(fileName, "\t");
 		
 		setStats(data[spellid]);
 		

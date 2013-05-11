@@ -32,7 +32,7 @@ class Monster
 	public Monster(int id, double statScale) {
 		System.out.println("made Monsterdynamic");
 		Load l = new Load();
-		String[][] data = l.readFileToArray(monsterDataFile);
+		String[][] data = l.readFileToArray(monsterDataFile, "\t");
 		//NAME ID HP MANA STR SPD DEF
 		name = data[id][0];
 		this.id = id;

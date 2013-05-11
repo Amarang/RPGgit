@@ -1,14 +1,21 @@
 from PIL import Image
-imgfile = Image.open("map3.png")
+#######################
+#######################
+MAPNUMBER = 1  ########
+#######################
+#######################
+
+
+imgfile = Image.open("map" + str(MAPNUMBER) + ".png")
 
 pic = imgfile.load()
 
 xSize, ySize = imgfile.size
 colorls = []
 
-out = open('file3.txt', 'w')
+out = open("file" + str(MAPNUMBER) + ".txt", 'w')
 
-alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+alphabet = ['AAA', 'BAA', 'CAA', 'DAA', 'EAA', 'FAA', 'GAA', 'HAA', 'IAA', 'JAA', 'KAA', 'LAA', 'MAA', 'NAA', 'OAA', 'PAA', 'QAA', 'RAA', 'SAA', 'TAA', 'UAA', 'VAA', 'WAA', 'XAA', 'YAA', 'ZAA', '[AA', '\\AA', ']AA', '^AA', '_AA', '`AA', 'aAA', 'bAA', 'cAA', 'dAA', 'eAA', 'fAA', 'gAA', 'hAA', 'iAA', 'jAA', 'kAA', 'lAA', 'mAA', 'nAA', 'oAA', 'pAA', 'qAA', 'rAA', 'sAA', 'tAA', 'uAA', 'vAA', 'wAA', 'xAA', 'yAA', 'zAA']
 
 def removeDuplicates(seq):
    checked = []

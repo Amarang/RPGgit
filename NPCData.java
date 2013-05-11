@@ -13,7 +13,7 @@ class NPCData
 		//System.out.println("making NPC data");
 		
 		Load l = new Load();
-		String[][] data = l.readFileToArray(NPCDataFile);
+		String[][] data = l.readFileToArray(NPCDataFile, "\t");
 		
 		for(int i = 0; i < data.length; i++) {
 			NPCNameMap.put(Integer.parseInt(data[i][0]), data[i][1]); //ID, name
