@@ -25,7 +25,7 @@ public class RPG extends Applet implements KeyListener
 	static int WALKINGDELAY = 15; //default 125
 	static int BATTLEFREQUENCY = 0; //percentage of encounter per step (default 3)
 	static int FPS = 60;
-	static int STARTMAP = 0;
+	static int STARTMAP = 3;
 	
 	int boss=0;
 	
@@ -492,12 +492,18 @@ public class RPG extends Applet implements KeyListener
 			
 			g.setColor(Color.BLACK);
 			
-			g.fillRoundRect(610,480, 175, 110, 20, 20);
+			g.fillRoundRect(610,460, 175, 130, 20, 20);
 			g.setColor(Color.WHITE);
+
+			int specTile1 = theMap[p.getMapTracker()].getSpecial1(p.getX(), p.getY());
+			int specTile2 = theMap[p.getMapTracker()].getSpecial2(p.getX(), p.getY());
+			//int specTile3 = theMap[p.getMapTracker()].getSpecial3(p.getX(), p.getY());
 			
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.85F));
-			g.drawString("curr tile:  " + theMap[p.getMapTracker()].getVal(p.getX(), p.getY()), 620,500);
-			g.drawString("face tile:  " + theMap[p.getMapTracker()].getFacing(p.getX(), p.getY(), p.getFacing()), 620,520);
+			g.drawString("curr tile:  " + theMap[p.getMapTracker()].getVal(p.getX(), p.getY()), 620,480);
+			g.drawString("face tile:  " + theMap[p.getMapTracker()].getFacing(p.getX(), p.getY(), p.getFacing()), 620,500);
+			g.drawString("s1: " + specTile1 + " s2: " + specTile2, 620,520);
+			
 			g.drawString("(x,y):     (" + p.getX() + "," + p.getY() + ")", 620,540);
 			g.drawString("fps:        " + Math.round(fps), 620,560);
 			g.drawString("ms to paint:" + endPaint, 620,580);
@@ -547,9 +553,9 @@ public class RPG extends Applet implements KeyListener
 
 		int specTile1 = theMap[p.getMapTracker()].getSpecial1(p.getX(), p.getY());
 		int specTile2 = theMap[p.getMapTracker()].getSpecial2(p.getX(), p.getY());
-		int specTile3 = theMap[p.getMapTracker()].getSpecial3(p.getX(), p.getY());
-		System.out.println("currTile: " + currTile + " spec1: " + specTile1
-				+ " spec2: " + specTile2 + " spec3: " + specTile3);
+		//int specTile3 = theMap[p.getMapTracker()].getSpecial3(p.getX(), p.getY());
+		//System.out.println("currTile: " + currTile + " spec1: " + specTile1
+		//		+ " spec2: " + specTile2 + " spec3: " + specTile3);
 		
 		pSp.start();
 		

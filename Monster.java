@@ -16,7 +16,7 @@ class Monster
 	Random rand = new Random(); 
 	
 	TileData td = new TileData();
-	int[] restricted = td.getRestricted();
+	//int[] restricted = td.getRestricted();
     
     public Monster(int h, int m, int str, int spd,int def,int identity) {
 		System.out.println("made Monstermanual");

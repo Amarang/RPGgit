@@ -1,6 +1,3 @@
-import java.io.*;
-
-
 class TileMap
 {
 	private int MAPWIDTH;
@@ -10,6 +7,8 @@ class TileMap
 	private int special1[][];
 	private int special2[][];
 	private int special3[][];
+	
+	TileData td = new TileData();
 	
 	public TileMap(int MAPWIDTH, int MAPHEIGHT, String fileName) {
 		//System.out.println("made TileMap");
@@ -100,6 +99,12 @@ class TileMap
 		try { r = (x == MAPWIDTH-1) ? -1 : matrix[y][x+1]; } catch (Exception e) { r = -1; }
 		try { u = (y == 0) ? -1 : matrix[y-1][x]; } catch (Exception e) { u = -1; }
 		try { d = (y == MAPHEIGHT-1) ? -1 : matrix[y+1][x]; } catch (Exception e) { d = -1; }
+		
+		if(td.isVertRestricted(matrix[y][x]))
+		{
+			u = -1;
+			d = -1;
+		}
 		return new int[] {l, r, u, d};
 	}
 	

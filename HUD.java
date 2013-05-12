@@ -517,8 +517,8 @@ class HUD
 		
 		String str;
 		
-		str =  "<html><h1>My name is " + nd.getName(sID) + ".</h1><br>";
-		str += nd.getDesc(sID);
+		//str =  "<html><h1>My name is " + nd.getName(sID) + ".</h1><br>";
+		str = nd.getDesc(sID).replace("%s", nd.getName(sID));
 		u.drawTextInBox(g, str, offsetx, offsety, (int)(0.8*length), height); 
 		
 		
