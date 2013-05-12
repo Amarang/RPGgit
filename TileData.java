@@ -11,8 +11,9 @@ class TileData
 	//private int[] restricted = new int[] {-1, 2, 3}; //-1 is outside map
 	private int[] walkRestricted = new int[] {-1, 2, 3, 10, 13, 14, 15, 16, 18, 21, 23, 29, 30};
 	private int[] battleRestricted = new int[] {-1, 4};
-	
+
 	private int[] vertRestricted = new int[] {5, 6, 24, 25, 26}; // horizontal bridges
+	private int[] horizRestricted = new int[] {}; // vertical bridges
 	
 	//private int town = 4;
 	private int bed = 12;
@@ -45,6 +46,15 @@ class TileData
 		
 		for(int i = 0; i < vertRestricted.length; i++)
 			if(t == vertRestricted[i])
+				return true;
+		return false;
+	}
+	public boolean isHorizRestricted(int t)
+	{
+		if(NOCLIP && t != -1) return false;
+		
+		for(int i = 0; i < horizRestricted.length; i++)
+			if(t == horizRestricted[i])
 				return true;
 		return false;
 	}

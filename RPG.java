@@ -4,6 +4,7 @@ import java.applet.*;
 import java.net.*;
 import java.util.Random;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.lang.Math;
 
 public class RPG extends Applet implements KeyListener
@@ -54,6 +55,8 @@ public class RPG extends Applet implements KeyListener
 	Image[] tileImages = new Image[TILETYPES];
 	Image[] monsterImages = new Image[NUMMONSTERS];
 	Image[] icons = new Image[NUMICONS];
+	
+	BufferedImage mapbuff;
 
 	
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman", STARTMAP);
@@ -92,6 +95,8 @@ public class RPG extends Applet implements KeyListener
 	boolean showstats = false;
 	boolean showminimap = false;
 	boolean showinteraction = false;
+	
+	boolean mapupdated = true;
 
 	
 	Message msg;
@@ -286,14 +291,25 @@ public class RPG extends Applet implements KeyListener
 	{	
 		int xDraw = 0;
 		int yDraw = 0;
-		
+
 		Dimension appletSize = this.getSize();
 		int appSizeY = appletSize.height;
 		int appSizeX = appletSize.width;
 		
+		//System.out.println(mapupdated);
+		if(mapupdated) {
+			mapupdated = false;
+		} else {
+			return;
+		}
+		
+		mapbuff = new BufferedImage(appSizeX, appSizeY, BufferedImage.TYPE_INT_RGB);
+		
+		Graphics gbuff = mapbuff.createGraphics();
+		
 		for(int y=0; y<appSizeY/TILESIZE; y++) {
 			for(int x=0; x<appSizeX/TILESIZE; x++) {
-				g.drawImage(tileImages[3], x*TILESIZE, y*TILESIZE, this);
+				gbuff.drawImage(tileImages[3], x*TILESIZE, y*TILESIZE, this);
 			}
 		}
 		
@@ -303,13 +319,11 @@ public class RPG extends Applet implements KeyListener
 				yDraw = (starty-p.getY())*TILESIZE + y*TILESIZE;
 				if(xDraw >= appSizeX) break;
 				
-				g.drawImage(tileImages[theMap[p.getMapTracker()].getVal(x,y)],xDraw,yDraw, TILESIZE, TILESIZE,this);
+				gbuff.drawImage(tileImages[theMap[p.getMapTracker()].getVal(x,y)],xDraw,yDraw, TILESIZE, TILESIZE,this);
 				
 			}
 		}
-		
-		
-		repaint();			
+				
 	}
 	
 	public void HandlePointer() {
@@ -426,6 +440,9 @@ public class RPG extends Applet implements KeyListener
 		int dt = (int)(prevPaint - currPaint);
 		float fps = 1000.0F/(float)dt;
 		currPaint = prevPaint;
+		
+		//draw map
+		g.drawImage(mapbuff, 0, 0, this);
 		
 		if(!battle)
 		{
@@ -546,6 +563,8 @@ public class RPG extends Applet implements KeyListener
 				}
 				break;
 		}
+		mapupdated = true;
+		
 		int currTile = theMap[p.getMapTracker()].getVal(p.getX(), p.getY());
 		//int facingTile = theMap[p.getMapTracker()].getFacing(p.getX(), p.getY(), p.getFacing());
 		//{x, y}

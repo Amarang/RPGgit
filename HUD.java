@@ -619,10 +619,10 @@ class HUD
 		drawIcon(g, 1, offsetx+paddingx, offsety+thickness*5-13);
 		drawIcon(g, 4, offsetx+paddingx, offsety+thickness*6-13);
 		
-		for(int i = 0; i < 8; i++) {
-			g.drawString("BANANA BANANA BANANA", offsetx+paddingx, offsety+thickness*(7+i));
+		//for(int i = 0; i < 8; i++) {
+		//	g.drawString("BANANA BANANA BANANA", offsetx+paddingx, offsety+thickness*(7+i));
 		
-		}
+		//}
 		
 		g.setColor(tempCol);
 		g.setFont(tempFont);
