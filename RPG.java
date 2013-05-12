@@ -576,16 +576,30 @@ public class RPG extends Applet implements KeyListener
 			battle=true;
 		}
 		
-		if (td.isTown(currTile))
+		if (specTile1==1)
 		{
+			System.out.println(specTile2);
 			msg.setTextAndStart("Changing maps", 1500);
-			if (p.getMapTracker()==1)
+			//if (p.getMapTracker()==1)
 			{
-				p.setMapTracker(0);
-				p.setX(p.getTownX());
-				p.setY(p.getTownY());
+				if (p.getMapTracker()==0)
+				{
+					hud.updateNPCInfo();
+					
+					p.setTownX(p.getX());
+					p.setTownY(p.getY());
+					p.setX(p.getTownEntranceX());
+					p.setY(p.getTownEntranceY());	
+				}
+				else
+				{
+					p.setX(p.getTownX());
+					p.setY(p.getTownY());
+				}
+				p.setMapTracker(specTile2);
+				
 			}
-			else if (p.getMapTracker()==0)
+			/*else if (p.getMapTracker()==0)
 			{
 				p.setMapTracker(1);
 				hud.updateNPCInfo();
@@ -594,7 +608,7 @@ public class RPG extends Applet implements KeyListener
 				p.setTownY(p.getY());
 				p.setX(p.getTownEntranceX());
 				p.setY(p.getTownEntranceY());	
-			}
+			}*/
 			//System.out.println(p.getMapTracker());
 			
 			
