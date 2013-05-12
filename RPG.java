@@ -53,7 +53,7 @@ public class RPG extends Applet implements KeyListener
 	static boolean music = true;
 	boolean sound = true;	
 	SoundClip[] soundClips = new SoundClip[NUMSOUNDCLIPS];
-	SoundClip hit, death, battlemusic, bossmusic, outofbounds;
+	SoundClip hit, death, battlemusic, bossmusic, outofbounds, teleport;
 	
 	Image[] tileImages = new Image[TILETYPES];
 	Image[] monsterImages = new Image[NUMMONSTERS];
@@ -152,6 +152,7 @@ public class RPG extends Applet implements KeyListener
 		battlemusic = new SoundClip("battlemusic");
 		bossmusic = new SoundClip("bossmusic");
 		outofbounds = new SoundClip("goat");
+		teleport = new SoundClip("teleport");
 		
 		try { 
 			base = getDocumentBase();    
@@ -622,7 +623,6 @@ public class RPG extends Applet implements KeyListener
 		{
 			System.out.println(specTile2);
 			msg.setTextAndStart("Changing maps", 1500);
-			//if (p.getMapTracker()==1)
 			{
 				if (p.getMapTracker()==0)
 				{
@@ -642,23 +642,25 @@ public class RPG extends Applet implements KeyListener
 				p.setMapTracker(specTile2);
 				
 			}
-			/*else if (p.getMapTracker()==0)
-			{
-				p.setMapTracker(1);
-				hud.updateNPCInfo();
-				
-				p.setTownX(p.getX());
-				p.setTownY(p.getY());
-				p.setX(p.getTownEntranceX());
-				p.setY(p.getTownEntranceY());	
-			}*/
-			//System.out.println(p.getMapTracker());
-			
-			
 			for (int i=0;i< NUMSPRITES;i++)
 			{
 				sp[i].resetOrigin();
 			}	
+		}
+		if (specTile1==2)
+		{
+			for (int x=0; x<MAPWIDTH[p.getMapTracker()];x++)
+				for (int y=0; y<MAPHEIGHT[p.getMapTracker()];y++)
+				{
+					if (theMap[p.getMapTracker()].getSpecial1(x,y)==2 && theMap[p.getMapTracker()].getSpecial3(x,y)==specTile2)
+					{
+						p.setX(x);
+						p.setY(y);
+						teleport.stop();
+						teleport.play();	
+					}	
+				}
+			
 		}
 		if (td.isBed(currTile))
 		{
