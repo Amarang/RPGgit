@@ -589,9 +589,9 @@ public class RPG extends Applet implements KeyListener
 
 		int specTile1 = theMap[p.getMapTracker()].getSpecial1(p.getX(), p.getY());
 		int specTile2 = theMap[p.getMapTracker()].getSpecial2(p.getX(), p.getY());
-		//int specTile3 = theMap[p.getMapTracker()].getSpecial3(p.getX(), p.getY());
-		//System.out.println("currTile: " + currTile + " spec1: " + specTile1
-		//		+ " spec2: " + specTile2 + " spec3: " + specTile3);
+		int specTile3 = theMap[p.getMapTracker()].getSpecial3(p.getX(), p.getY());
+		System.out.println("currTile: " + currTile + " spec1: " + specTile1
+				+ " spec2: " + specTile2 + " spec3: " + specTile3);
 		
 		pSp.start();
 		
@@ -611,7 +611,7 @@ public class RPG extends Applet implements KeyListener
 		}	
 		
 		if ((rand.nextInt(1000) < BATTLEFREQUENCY * 10||(p.getX()==85&&p.getY()==57))
-			&& !td.isBattleRestricted(currTile) && p.getMapTracker() == 0)
+			&& !td.isBattleRestricted(currTile))
 		{
 			if(p.getX()==85&&p.getY()==57)
 				boss=1; 
@@ -638,6 +638,7 @@ public class RPG extends Applet implements KeyListener
 					p.setX(p.getTownX());
 					p.setY(p.getTownY());
 				}
+				BATTLEFREQUENCY=specTile3;
 				p.setMapTracker(specTile2);
 				
 			}

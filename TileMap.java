@@ -6,7 +6,7 @@ class TileMap
 	
 	private int special1[][];
 	private int special2[][];
-	//private int special3[][];
+	private int special3[][];
 	
 	TileData td = new TileData();
 	
@@ -15,14 +15,14 @@ class TileMap
 		matrix   = new int[MAPHEIGHT][MAPWIDTH];
 		special1 = new int[MAPHEIGHT][MAPWIDTH];
 		special2 = new int[MAPHEIGHT][MAPWIDTH];
-		//special3 = new int[MAPHEIGHT][MAPWIDTH];
+		special3 = new int[MAPHEIGHT][MAPWIDTH];
 		
 		for(int w=0; w<MAPWIDTH;w++) {
 			for(int h=0; h<MAPHEIGHT;h++) {
 				matrix[h][w]=-1;
 				special1[h][w]=-1;
 				special2[h][w]=-1;
-				//special3[h][w]=-1;
+				special3[h][w]=-1;
 			}
 		}
 			
@@ -37,8 +37,8 @@ class TileMap
 					special1[i][j] = (int)mapArr[i][j].charAt(1) - 65;
 				if(mapArr[i][j].length() <= 2) continue;
 					special2[i][j] = (int)mapArr[i][j].charAt(2) - 65;
-				//if(mapArr[i][j].length() <= 3) continue;
-					//special3[i][j] = (int)mapArr[i][j].charAt(3) - 65;
+				if(mapArr[i][j].length() <= 3) continue;
+					special3[i][j] = (int)mapArr[i][j].charAt(3) - 65;
 			}
 			
 		}		
@@ -47,7 +47,7 @@ class TileMap
 	public int getVal(int x, int y) { return matrix[y][x]; }
 	public int getSpecial1(int x, int y) { return special1[y][x]; }
 	public int getSpecial2(int x, int y) { return special2[y][x]; }
-	//public int getSpecial3(int x, int y) { return special3[y][x]; }
+	public int getSpecial3(int x, int y) { return special3[y][x]; }
 	
 	public int getFacing(int x, int y, int facing) {
 		int f = -1;
