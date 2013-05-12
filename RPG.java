@@ -27,7 +27,7 @@ public class RPG extends Applet implements KeyListener
 	static int WALKINGDELAY = 15; //default 125
 	static int BATTLEFREQUENCY = 0; //percentage of encounter per step (default 3)
 	static int FPS = 60;
-	static int STARTMAP = 3;
+	static int STARTMAP = 0;
 	
 	int boss=0;
 	
@@ -652,7 +652,7 @@ public class RPG extends Applet implements KeyListener
 			for (int x=0; x<MAPWIDTH[p.getMapTracker()];x++)
 				for (int y=0; y<MAPHEIGHT[p.getMapTracker()];y++)
 				{
-					if (theMap[p.getMapTracker()].getSpecial1(x,y)==2 && theMap[p.getMapTracker()].getSpecial3(x,y)==specTile2)
+					if (theMap[p.getMapTracker()].getSpecial1(x,y)==2 && theMap[p.getMapTracker()].getSpecial2(x,y)==specTile3)
 					{
 						p.setX(x);
 						p.setY(y);
