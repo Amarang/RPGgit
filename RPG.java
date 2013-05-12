@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.Random;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.lang.Math;
 
 public class RPG extends Applet implements KeyListener
@@ -30,6 +31,8 @@ public class RPG extends Applet implements KeyListener
 	
 	int boss=0;
 	
+	double t = 0.0;
+	double dt = 1.0/FPS;
 	
 	
 	boolean running;// = true;
@@ -108,6 +111,7 @@ public class RPG extends Applet implements KeyListener
 
 		
 		setSize(appSizeX, appSizeY);
+		mapbuff = new BufferedImage(appSizeX, appSizeY, BufferedImage.TYPE_INT_RGB);
 		
 		running = true;
 		
@@ -435,14 +439,27 @@ public class RPG extends Applet implements KeyListener
 	
 		try { Thread.sleep((int)(1000.0/FPS)); }
 		catch(InterruptedException e) {}
+		
 
 		prevPaint = System.currentTimeMillis();
-		int dt = (int)(prevPaint - currPaint);
-		float fps = 1000.0F/(float)dt;
+		int dtpaint = (int)(prevPaint - currPaint);
+		float fps = 1000.0F/(float)dtpaint;
 		currPaint = prevPaint;
 		
-		//draw map
-		g.drawImage(mapbuff, 0, 0, this);
+		
+		t += dt;
+		if(t > 10) t = 0.0;
+		
+		/////////draw map
+		//could tie this to weather/time/caves maybe?
+		//float scaleFactor = 1.2F; // 0.0F to 1.0F for darkness, if you go higher than 1.0, it makes it brighter
+		float scaleFactor = (float)Math.abs(Math.sin(t));
+		//System.out.println(t + " " + scaleFactor);
+		RescaleOp op = new RescaleOp(scaleFactor, 0, null);
+		BufferedImage mapbuff2 = op.filter(mapbuff, null);
+		//to disable darkness, change mapbuff2 below to mapbuff
+		g.drawImage(mapbuff2, 0, 0, this);
+		////////draw map
 		
 		if(!battle)
 		{
