@@ -22,8 +22,8 @@ public class RPG extends Applet implements KeyListener
 	static int NUMSPELLS = 4;
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
-	static int WALKINGDELAY = 125; //default 125
-	static int BATTLEFREQUENCY = 3; //percentage of encounter per step (default 3)
+	static int WALKINGDELAY = 15; //default 125
+	static int BATTLEFREQUENCY = 0; //percentage of encounter per step (default 3)
 	static int FPS = 60;
 	static int STARTMAP = 0;
 	
@@ -544,9 +544,12 @@ public class RPG extends Applet implements KeyListener
 		//int facingTile = theMap[p.getMapTracker()].getFacing(p.getX(), p.getY(), p.getFacing());
 		//{x, y}
 		int[] facingCoords = theMap[p.getMapTracker()].getFacingCoords(p.getX(), p.getY(), p.getFacing());
-		
-		//int specTile = theMap[p.getMapTracker()].getSpecial1(p.getX(), p.getY());
-		//System.out.println(specTile);
+
+		int specTile1 = theMap[p.getMapTracker()].getSpecial1(p.getX(), p.getY());
+		int specTile2 = theMap[p.getMapTracker()].getSpecial2(p.getX(), p.getY());
+		int specTile3 = theMap[p.getMapTracker()].getSpecial3(p.getX(), p.getY());
+		System.out.println("currTile: " + currTile + " spec1: " + specTile1
+				+ " spec2: " + specTile2 + " spec3: " + specTile3);
 		
 		pSp.start();
 		
