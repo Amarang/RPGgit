@@ -25,7 +25,8 @@ public class RPG extends Applet implements KeyListener
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 15; //default 125
-	static int BATTLEFREQUENCY = 0; //percentage of encounter per step (default 3)
+	static int BATTLEFREQUENCY = 3; //percentage of encounter per step (default 3)
+	static int BATTLEFREQUENCYCOPY = 3;//used to get the encounter value after standing up again.
 	static int FPS = 60;
 	static int STARTMAP = 0;
 	
@@ -36,6 +37,7 @@ public class RPG extends Applet implements KeyListener
 	
 	
 	boolean running;// = true;
+	boolean crouching = false;
 	
 	TileData td = new TileData();
 	int appSizeX = 800;
@@ -267,10 +269,6 @@ public class RPG extends Applet implements KeyListener
 				if (isFree()) step('u');
 				oktomove=false;
 			}
-			/*if(key==KeyEvent.VK_SPACE)
-			{
-				c.setPointer(10);
-			}*/
 			if(key==KeyEvent.VK_ENTER)
 			{
 				c.setPointer(7);
@@ -639,6 +637,8 @@ public class RPG extends Applet implements KeyListener
 					p.setY(p.getTownY());
 				}
 				BATTLEFREQUENCY=specTile3;
+				BATTLEFREQUENCYCOPY=specTile3;
+				crouching=false;
 				p.setMapTracker(specTile2);
 				
 			}
@@ -693,6 +693,12 @@ public class RPG extends Applet implements KeyListener
 			key_space=true;
 			if (!battle)
 			c.setPointer(10);
+		}
+		if(key==KeyEvent.VK_SHIFT)
+		{
+			crouching = !crouching;
+			msg.setTextAndStart(crouching ? "Crouching" : "Standing", 200);
+			BATTLEFREQUENCY=crouching ? 0 : BATTLEFREQUENCYCOPY;
 		}
 		if(key==KeyEvent.VK_E)
 		{
