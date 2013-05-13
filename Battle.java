@@ -7,7 +7,7 @@ class Battle
 {
 	private static int NUMMONSTERS = 10;
 	private static int NUMBOSSES = 1;
-	private static int TICKERLENGTH = 4;
+	private static int TICKERLENGTH = 5;
 	private SoundClip hit;
 	private SoundClip death;
 	private SoundClip battlemusic;

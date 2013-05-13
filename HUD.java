@@ -386,8 +386,14 @@ class HUD
 		drawBar(g, offsetx, 0*thickness+offsety, 250, thickness-2, HPColor, health, healthmax);
 		drawBar(g, offsetx, 1*thickness+offsety, 250, thickness-2, ManaColor, mana, mana);
 		
-		u.drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
-				  offsetx+15, (int)(0.7*thickness)+offsety, Color.WHITE);
+
+		if(health >= healthmax/3)
+			u.drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
+				  15+offsetx, (int)(0.7*thickness)+offsety, Color.WHITE);
+		else
+			u.drawLabel(g, Integer.toString(health)+" / "+Integer.toString(healthmax),
+				  15+offsetx, (int)(0.7*thickness)+offsety, HPColor2);
+		
 		u.drawLabel(g, Integer.toString(mana)+" / "+Integer.toString(mana),
 				  offsetx+15, (int)(1.7*thickness)+offsety, Color.WHITE);
 				  
