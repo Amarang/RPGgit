@@ -1,7 +1,5 @@
 import java.awt.*;
-import javax.swing.*;
 import java.lang.Math;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 class HUD
@@ -23,7 +21,6 @@ class HUD
 	
 	private Color HPColor2 = new Color(108, 0, 0);
 	private Color ManaColor2 = new Color(0, 0, 80);
-	private Color ExperienceColor2 = new Color(155, 155, 0);
 	
 	private int thickness = 20;
 	private boolean battleHUD = false;

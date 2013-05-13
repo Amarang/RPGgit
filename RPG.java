@@ -57,6 +57,7 @@ public class RPG extends Applet implements KeyListener
 	
 	BufferedImage mapbuff;
 
+	Effects eff = new Effects();
 	
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman", STARTMAP);
 	Monster m;
@@ -288,9 +289,9 @@ public class RPG extends Applet implements KeyListener
 		int xDraw = 0;
 		int yDraw = 0;
 
-		Dimension appletSize = this.getSize();
-		int appSizeY = appletSize.height;
-		int appSizeX = appletSize.width;
+		//Dimension appletSize = this.getSize();
+		//int appSizeY = appletSize.height;
+		//int appSizeX = appletSize.width;
 		
 		//System.out.println(mapupdated);
 		if(mapupdated) {
@@ -341,8 +342,6 @@ public class RPG extends Applet implements KeyListener
 			}
 			else showinteraction=true;
 			if(nearSprite >= 0) showinteraction=true;
-			
-			System.out.println(c.getPointer());	
 				
 			c.setPointer(5);
 			
@@ -439,8 +438,9 @@ public class RPG extends Applet implements KeyListener
 		float fps = 1000.0F/(float)dtpaint;
 		currPaint = prevPaint;
 		
+		//System.out.println((int)(10*Math.sin((System.currentTimeMillis()%10000)/10)));
 		/////////draw map
-		g.drawImage(mapbuff, 0, 0, this);
+		eff.draw(g, mapbuff);
 		////////draw map
 		
 		if(!battle)
@@ -576,6 +576,7 @@ public class RPG extends Applet implements KeyListener
 				+ " spec2: " + specTile2 + " spec3: " + specTile3);
 		
 		pSp.start();
+		eff.initEffectParams(10, 1000);
 		
 		//withinrangesprite = false;
 		nearSprite = -1;

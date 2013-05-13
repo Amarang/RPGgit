@@ -154,11 +154,11 @@ class Player
 	{ 
 		experience = 0;
 		level++; 
-		healthmax+=rand.nextInt(4)+1;
-		manamax+=rand.nextInt(4)+1;
-		strength+=rand.nextInt(4)+1;
-		speed+=rand.nextInt(4)+1;
-		defense+=rand.nextInt(4)+1;
+		healthmax+=rand.nextInt(3)+2;
+		manamax+=rand.nextInt(3)+2;
+		strength+=rand.nextInt(3)+2;
+		speed+=rand.nextInt(3)+2;
+		defense+=rand.nextInt(3)+2;
 		statpoints+=2;
 		
 		levelExperience = 10*level*level;
@@ -326,14 +326,6 @@ class Player
 		this.townentrancey = Integer.parseInt(stats[0][18].trim());
 		this.facing = Integer.parseInt(stats[0][19].trim());
 		this.maptracker = Integer.parseInt(stats[0][20].trim());
-		
-		
-		/*setLevel(Integer.parseInt(stats[0][0].trim()));
-		setHealth(Integer.parseInt(stats[0][1].trim()));
-		setHealthMax(Integer.parseInt(stats[0][2].trim()));
-		setGold(Integer.parseInt(stats[0][3].trim()));
-		this.x = Integer.parseInt(stats[0][4].trim());
-		this.y = Integer.parseInt(stats[0][5].trim());*/
         
 	}
 	
