@@ -5,7 +5,6 @@ import java.net.*;
 import java.util.Random;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 import java.lang.Math;
 
 public class RPG extends Applet implements KeyListener
@@ -25,23 +24,18 @@ public class RPG extends Applet implements KeyListener
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 15; //default 125
-	static int BATTLEFREQUENCY = 3; //percentage of encounter per step (default 3)
-	static int BATTLEFREQUENCYCOPY = 3;//used to get the encounter value after standing up again.
+	int BATTLEFREQUENCY = 3; //percentage of encounter per step (default 3)
 	static int FPS = 60;
 	static int STARTMAP = 0;
 	
-	int boss=0;
-	
-	double t = 0.0;
-	double dt = 1.0/FPS;
-	
+	int boss=0;	
 	
 	boolean running;// = true;
 	boolean crouching = false;
 	
 	TileData td = new TileData();
-	int appSizeX = 800;
-	int appSizeY = 600;
+	static int appSizeX = 800;
+	static int appSizeY = 600;
 	private TileMap[] theMap = new TileMap[NUMMAPS];
 	int startx = appSizeX/2/TILESIZE;
 	int starty = appSizeY/2/TILESIZE;
@@ -79,7 +73,6 @@ public class RPG extends Applet implements KeyListener
 	Random rand = new Random(); 
  	Font title = new Font("DialogInput",Font.BOLD,20);	
 	
-	BufferedReader br;
 	AudioClip intro;
     URL base;
 	WaitThread wait;
@@ -118,7 +111,7 @@ public class RPG extends Applet implements KeyListener
 		running = true;
 		
 		msg = new Message(appSizeX, appSizeY);
-		msg.setTextAndStart("Hi BAMasdfAN HW QR YOU D)TAY!(", 2000);
+		//msg.setTextAndStart("Hi BAMasdfAN HW QR YOU D)TAY!(", 2000);
 		
 		
 		System.out.println("near beginning of init in RPG.java");
@@ -133,7 +126,7 @@ public class RPG extends Applet implements KeyListener
 			URL soundURL = getClass().getResource("music/glory.wav");
 			intro = Applet.newAudioClip(soundURL);
 		} catch (Exception e) {System.out.println("failed to load clip");}
-		intro.play();
+		//intro.play();
 		
 		for(int i = 0; i < soundClips.length; i++) {
 			soundClips[i] = new SoundClip("clip" + Integer.toString(i));
@@ -306,6 +299,7 @@ public class RPG extends Applet implements KeyListener
 			return;
 		}
 		
+		
 		mapbuff = new BufferedImage(appSizeX, appSizeY, BufferedImage.TYPE_INT_RGB);
 		
 		Graphics gbuff = mapbuff.createGraphics();
@@ -402,7 +396,7 @@ public class RPG extends Applet implements KeyListener
 		
 		Graphics offgc;
 		Image offscreen = null;
-		Dimension d = size();
+		Dimension d = this.getSize();
 		offscreen = createImage(d.width, d.height);
 		offgc = offscreen.getGraphics();
 		offgc.setColor(getBackground());
@@ -445,19 +439,8 @@ public class RPG extends Applet implements KeyListener
 		float fps = 1000.0F/(float)dtpaint;
 		currPaint = prevPaint;
 		
-		
-		t += dt;
-		if(t > 10) t = 0.0;
-		
 		/////////draw map
-		//could tie this to weather/time/caves maybe?
-		//float scaleFactor = 1.2F; // 0.0F to 1.0F for darkness, if you go higher than 1.0, it makes it brighter
-		float scaleFactor = (float)Math.abs(Math.sin(t));
-		//System.out.println(t + " " + scaleFactor);
-		RescaleOp op = new RescaleOp(scaleFactor, 0, null);
-		BufferedImage mapbuff2 = op.filter(mapbuff, null);
-		//to disable darkness, change mapbuff2 below to mapbuff
-		g.drawImage(mapbuff2, 0, 0, this);
+		g.drawImage(mapbuff, 0, 0, this);
 		////////draw map
 		
 		if(!battle)
@@ -609,7 +592,16 @@ public class RPG extends Applet implements KeyListener
 			}
 		}	
 		
-		if ((rand.nextInt(1000) < BATTLEFREQUENCY * 10||(p.getX()==85&&p.getY()==57))
+		int icrouch = crouching ? 1 : 0;
+		//bool to int
+		//battlefrequency gets multiplied by 0 if crouching
+		//mult by 1 if not crouching, so this eliminates need for
+		//battlefrequencycopy in key method
+		// you can put the ternary statement inside the if statement
+		// but switch 1 and 0, since it does a 1-icrouch
+		// I just kept it out like this to not confuse ourselves later
+		if ((rand.nextInt(1000) < 10*BATTLEFREQUENCY*(1-icrouch)
+				||(p.getX()==85&&p.getY()==57))
 			&& !td.isBattleRestricted(currTile))
 		{
 			if(p.getX()==85&&p.getY()==57)
@@ -637,7 +629,6 @@ public class RPG extends Applet implements KeyListener
 					p.setY(p.getTownY());
 				}
 				BATTLEFREQUENCY=specTile3;
-				BATTLEFREQUENCYCOPY=specTile3;
 				crouching=false;
 				p.setMapTracker(specTile2);
 				
@@ -686,7 +677,7 @@ public class RPG extends Applet implements KeyListener
 	{
 		int key=0; key = evt.getKeyCode(); 
 		if (battle)
-		oktomove=true;
+			oktomove=true;
 		repaint();
 		if(key==KeyEvent.VK_SPACE)
 		{
@@ -696,9 +687,8 @@ public class RPG extends Applet implements KeyListener
 		}
 		if(key==KeyEvent.VK_SHIFT)
 		{
-			crouching = !crouching;
-			msg.setTextAndStart(crouching ? "Crouching" : "Standing", 200);
-			BATTLEFREQUENCY=crouching ? 0 : BATTLEFREQUENCYCOPY;
+			crouching ^= true; //hehe bit operations! (toggle)
+			msg.setTextAndStart(crouching ? "Crouching" : "Standing", 600);
 		}
 		if(key==KeyEvent.VK_E)
 		{
@@ -718,8 +708,7 @@ public class RPG extends Applet implements KeyListener
 		
 		if(key==KeyEvent.VK_F)
 		{
-			if(debug) debug = false;
-			else debug = true;
+			debug ^= true;
 		}
 	} 	
 	
