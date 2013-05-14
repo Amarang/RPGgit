@@ -16,10 +16,12 @@ public class RPG extends Applet implements KeyListener
 	static int MAPWIDTH[] = {400,90,43,80,80,80};
 	static int MAPHEIGHT[] = {300,70,50,60,60,60};
 	static int TILETYPES = 50;
-	static int NUMSPRITES = 2;
+	static int NUMSPRITES = 5;
 	static int NUMITEMS = 11;
 	static int NUMICONS = 7;
 	static int NUMMONSTERS = 10;
+	static int SPRITEFIRST = -1;
+	static int SPRITELAST = -1;
 	static int NUMSPELLS = 4;
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
@@ -459,9 +461,9 @@ public class RPG extends Applet implements KeyListener
 			
 			msg.update(g, System.currentTimeMillis());
 			
-			for (int i = 0; i< NUMSPRITES; i++)
+			for (int i = SPRITEFIRST; i< SPRITELAST; i++)
          	{
-				if(sp[i].isReady()&&p.getMapTracker()==1) {
+				if(sp[i].isReady()) {
 					sp[i].updateAnimationRand(g, System.currentTimeMillis(), p);
 					sp[i].allowMove(theMap[p.getMapTracker()].getNeighbors(sp[i].getX(), sp[i].getY()));
 				}
@@ -513,7 +515,7 @@ public class RPG extends Applet implements KeyListener
 
 			int specTile1 = theMap[p.getMapTracker()].getSpecial1(p.getX(), p.getY());
 			int specTile2 = theMap[p.getMapTracker()].getSpecial2(p.getX(), p.getY());
-			//int specTile3 = theMap[p.getMapTracker()].getSpecial3(p.getX(), p.getY());
+			int specTile3 = theMap[p.getMapTracker()].getSpecial3(p.getX(), p.getY());
 			
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.85F));
 			g.drawString("curr tile:  " + theMap[p.getMapTracker()].getVal(p.getX(), p.getY()), 620,480);
@@ -563,12 +565,15 @@ public class RPG extends Applet implements KeyListener
 		int specTile1 = theMap[p.getMapTracker()].getSpecial1(p.getX(), p.getY());
 		int specTile2 = theMap[p.getMapTracker()].getSpecial2(p.getX(), p.getY());
 		int specTile3 = theMap[p.getMapTracker()].getSpecial3(p.getX(), p.getY());
+		int specTile4 = theMap[p.getMapTracker()].getSpecial4(p.getX(), p.getY());
+		int specTile5 = theMap[p.getMapTracker()].getSpecial5(p.getX(), p.getY());
+		int specTile6 = theMap[p.getMapTracker()].getSpecial6(p.getX(), p.getY());
 		System.out.println("currTile: " + currTile + " spec1: " + specTile1
 				+ " spec2: " + specTile2 + " spec3: " + specTile3);
 		
 		pSp.start();
 		eff.initEffectParams(5, 1000,Color.red,0.3f);
-		
+			
 		//withinrangesprite = false;
 		nearSprite = -1;
 		for (int i=0;i< sp.length;i++)
@@ -615,6 +620,8 @@ public class RPG extends Applet implements KeyListener
 					p.setY(p.getTownY());
 				}
 				BATTLEFREQUENCY=specTile3;
+				SPRITEFIRST=specTile4;
+				SPRITELAST=specTile5;
 				crouching=false;
 				p.setMapTracker(specTile2);
 				

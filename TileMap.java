@@ -7,6 +7,9 @@ class TileMap
 	private int special1[][];
 	private int special2[][];
 	private int special3[][];
+	private int special4[][];
+	private int special5[][];
+	private int special6[][];
 	
 	TileData td = new TileData();
 	
@@ -16,6 +19,9 @@ class TileMap
 		special1 = new int[MAPHEIGHT][MAPWIDTH];
 		special2 = new int[MAPHEIGHT][MAPWIDTH];
 		special3 = new int[MAPHEIGHT][MAPWIDTH];
+		special4 = new int[MAPHEIGHT][MAPWIDTH];
+		special5 = new int[MAPHEIGHT][MAPWIDTH];
+		special6 = new int[MAPHEIGHT][MAPWIDTH];
 		
 		for(int w=0; w<MAPWIDTH;w++) {
 			for(int h=0; h<MAPHEIGHT;h++) {
@@ -23,6 +29,9 @@ class TileMap
 				special1[h][w]=-1;
 				special2[h][w]=-1;
 				special3[h][w]=-1;
+				special4[h][w]=-1;
+				special5[h][w]=-1;
+				special6[h][w]=-1;
 			}
 		}
 			
@@ -39,6 +48,12 @@ class TileMap
 					special2[i][j] = (int)mapArr[i][j].charAt(2) - 65;
 				if(mapArr[i][j].length() <= 3) continue;
 					special3[i][j] = (int)mapArr[i][j].charAt(3) - 65;
+				if(mapArr[i][j].length() <= 4) continue;
+					special4[i][j] = (int)mapArr[i][j].charAt(4) - 65;
+				if(mapArr[i][j].length() <= 5) continue;
+					special5[i][j] = (int)mapArr[i][j].charAt(5) - 65;
+				if(mapArr[i][j].length() <= 6) continue;
+					special6[i][j] = (int)mapArr[i][j].charAt(6) - 65;
 			}
 			
 		}		
@@ -48,6 +63,9 @@ class TileMap
 	public int getSpecial1(int x, int y) { return special1[y][x]; }
 	public int getSpecial2(int x, int y) { return special2[y][x]; }
 	public int getSpecial3(int x, int y) { return special3[y][x]; }
+	public int getSpecial4(int x, int y) { return special4[y][x]; }
+	public int getSpecial5(int x, int y) { return special5[y][x]; }
+	public int getSpecial6(int x, int y) { return special6[y][x]; }
 	
 	public int getFacing(int x, int y, int facing) {
 		int f = -1;
