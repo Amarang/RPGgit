@@ -440,7 +440,7 @@ public class RPG extends Applet implements KeyListener
 		
 		//System.out.println((int)(10*Math.sin((System.currentTimeMillis()%10000)/10)));
 		/////////draw map
-		eff.draw(g, mapbuff);
+		eff.draw(g, mapbuff,0);
 		////////draw map
 		
 		if(!battle)
