@@ -5,7 +5,6 @@ import java.util.List;
 
 class Battle
 {
-	Effects eff = new Effects();
 	private static int NUMMONSTERS = 10;
 	private static int NUMBOSSES = 1;
 	private static int TICKERLENGTH = 5;
@@ -31,7 +30,6 @@ class Battle
 	private boolean pdefended = false;
 	private boolean initemmenu = false;
 	private boolean inspellmenu = false;
-	private boolean attacked = false;
 	private int xp;
 	private int gold;
 	private int boss;
@@ -230,24 +228,20 @@ class Battle
   		
 			switch(c.getPointer()) {
 				case 0:
-					attacked=false;
 					xchoice=1; 
 					if (ychoice>-1)
 						ychoice--;
 						break;
-				case 1:
-					attacked=false; 
+				case 1: 
 					if (xchoice>0)
 						xchoice--;
 						break;
-				case 2:
-					attacked=false; 
+				case 2: 
 					xchoice=1; 
 					if (ychoice<1)
 						ychoice++;
 						break;
-				case 3:
-					attacked=false; 
+				case 3: 
 					if (xchoice<2)
 						xchoice++;
 						break;
@@ -268,7 +262,7 @@ class Battle
 					//attack, item, run (top to bottom)
 					System.out.println(ychoice);
 					break;
-				case 2:
+				case 2: 
 					u.drawCenteredRoundRect(g, 800/2+90,400+35, 90,35, 10);
 					//defend
 					break;
@@ -311,7 +305,6 @@ class Battle
 		}
 		if (key_space&&xchoice!=-1&&playernotgone)
 		{	
-			eff.initEffectParams(10, 1000);
 			switch(xchoice) {
 			case 0: 
 				hit.play();
@@ -396,7 +389,6 @@ class Battle
 			int monstaction=rand.nextInt(4);
 			if (monstaction==0)
 			{
-				attacked=true;
 				hit.play();
 				m.attack();
 				pushToTicker("Attack! "+m.getName()+" dealt "+ m.getDamage()+" damage!");
@@ -406,7 +398,6 @@ class Battle
 				
 			if (monstaction==1)
 			{
-				attacked=true;
 				hit.play();
 				m.spell();
 				pushToTicker("Spell! "+m.getName()+" dealt "+ m.getDamage()+" damage!");	
@@ -433,12 +424,6 @@ class Battle
 			}
 		
 		c.setPointer(5);
-		}
-		System.out.println(attacked);
-		if (attacked)
-		{
-			System.out.println("attacked me");
-			eff.draw(g,1);
 		}
 		key_space=false;	 
 	}
