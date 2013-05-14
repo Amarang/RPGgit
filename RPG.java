@@ -57,7 +57,7 @@ public class RPG extends Applet implements KeyListener
 	
 	BufferedImage mapbuff;
 
-	Effects eff = new Effects();
+	Effects eff = new Effects(appSizeX, appSizeY);
 	
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman", STARTMAP);
 	Monster m;
@@ -127,7 +127,7 @@ public class RPG extends Applet implements KeyListener
 			URL soundURL = getClass().getResource("music/glory.wav");
 			intro = Applet.newAudioClip(soundURL);
 		} catch (Exception e) {System.out.println("failed to load clip");}
-		//intro.play();
+		intro.play();
 		
 		for(int i = 0; i < soundClips.length; i++) {
 			soundClips[i] = new SoundClip("clip" + Integer.toString(i));
@@ -576,7 +576,14 @@ public class RPG extends Applet implements KeyListener
 				+ " spec2: " + specTile2 + " spec3: " + specTile3);
 		
 		pSp.start();
-		eff.initEffectParams(10, 1000);
+		
+		///effect stuff///
+		
+		//initEffectParams(amplitude (in pixels), duration (in milliseconds), color, alpha)
+		eff.initEffectParams(4, 1000, new Color(200,200,24), 0.8f);//0.0f through 1.0f for opacity
+		eff.setEffect("shake");
+		//we have "shake", "tint", and "fadetint" so far
+		///effect stuff///
 		
 		//withinrangesprite = false;
 		nearSprite = -1;
