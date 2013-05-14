@@ -1,5 +1,5 @@
 0	Bobby	<html><h1>My name is %s.</h1><br><b><a href=\"http://google.com\">hello</a></b></html>
 1	Shopkeeper	hello there, have a look at my wares.
-2	Joan	I am but a wee lass.
+2	Joan	<html><h1>My name is %s.</h1><br>I am but a wee lass</html>
 3	Shopkeeper	Hello there, have a look at my better wares.
-4	Brian	I will be the hope of the omniverse. I will be the bacon in the fridge left over for the hungry to eat.
+4	Brian	<html><h1>My name is %s.</h1><br>I will be the hope of the omniverse. I will be the bacon in the fridge left over for the hungry to eat.</html>
