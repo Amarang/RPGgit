@@ -2,15 +2,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-import java.awt.*;
-
 
 class Effects {
-	
 	private long tBegin = 0;
 	private long tCurrent;
 	private long tEnd = 1000;
-	public boolean effect = false;
+	private boolean effect = false;
 	Random rand = new Random();
 	private int appSizeX;
 	private int appSizeY;
@@ -20,6 +17,8 @@ class Effects {
 	private float effAlpha;
 	private int effAmp;
 	
+	private BufferedImage bf;
+	
 	public Effects(int aX, int aY) {
 		appSizeX = aX;
 		appSizeY = aY;
@@ -28,7 +27,6 @@ class Effects {
 	public void initEffectParams(int amplitude, int duration, Color color, float alpha) {
 		tBegin = System.currentTimeMillis();
 		tEnd = tBegin + duration;//duration in ms
-		effect = true;
 		effCol = color;
 		effAmp = amplitude;
 		effAlpha = alpha;
@@ -36,11 +34,21 @@ class Effects {
 	}
 
 	public void setEffect(String effectString) {
+		effect = true;
 		effStr = effectString;		
+		if(effStr == "" || effStr == "none") effect = false;
 	}
 	
-	public void draw(Graphics g, BufferedImage bf,String effStr) {
-
+	public void draw(Graphics g, BufferedImage bf) {
+		this.bf = bf;
+		handleEffect(g, true);
+		
+	}
+	public void draw(Graphics g) {
+		handleEffect(g, false);
+	}
+	
+	private void handleEffect(Graphics g, boolean hasBufferedImage) {
 		tCurrent = System.currentTimeMillis();
 		double completion = (double)(tCurrent - tBegin)/(tEnd - tBegin);
 		
@@ -68,29 +76,11 @@ class Effects {
 					break;
 			}
 		} else {
-			g.drawImage(bf, 0, 0, null);
+			if(hasBufferedImage)
+				g.drawImage(this.bf, 0, 0, null);
 		}
 	}
-	public void draw(Graphics g,String effStr) {
-
-		tCurrent = System.currentTimeMillis();
-		double completion = (double)(tCurrent - tBegin)/(tEnd - tBegin);
-		
-		if(tCurrent > tEnd) effect = false;
-		
-		if(effect) {
-			
-			switch(effStr) {
-				case "blood":
-					attacked(g, tCurrent, completion); 
-					break;
-				default:
-					break;
-			}
-		} else {
-			//g.drawImage(bf, 0, 0, null);
-		}
-	}
+	
 	public void earthquake(Graphics g, BufferedImage bf, long tcurr, double completion) {
 		if(tCurrent > tEnd) return;
 		System.out.println(completion);
@@ -99,7 +89,6 @@ class Effects {
 		double period = 0.4*Math.pow((1-completion),2); //seconds
 		int x = (int)(amplitude * Math.sin(2.4*2*3.142/period*(t/1000)));
 		int y = (int)(amplitude * Math.sin(3.1*2*3.142/period*(t/1000)));
-		//int y = x;
 		
 		if(tCurrent < tEnd) {
 			g.drawImage(bf, x, y, null);
@@ -123,8 +112,10 @@ class Effects {
 		}
 	}
 	public void attacked(Graphics g, long tcurr, double completion) {
-		
 		if(tCurrent > tEnd) return;
+
+		Color tempCol = g.getColor();
+		
 		if(tCurrent < tEnd) {
 			g.setColor(Color.RED);
 			for (int i = 0; i<2000;i++)
@@ -133,8 +124,8 @@ class Effects {
 			}
 			
 		} else {
-			//g.drawImage(bf,0,0, null);
 		}	
+		g.setColor(tempCol);
 	}
 	
 	public void fadeTint(Graphics g, BufferedImage bf, long tcurr, double completion, Color col, float alpha) {

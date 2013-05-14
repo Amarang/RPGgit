@@ -333,6 +333,13 @@ class Player
     private boolean canMoveRight() { return r; }
     private boolean canMoveUp() { return u; }
     private boolean canMoveDown() { return d; }
+
+    public boolean isBlocked() {
+    	return ( (!l && facing==3) ||
+    			 (!r && facing==1) ||
+    			 (!u && facing==0) ||
+    			 (!d && facing==2) );    	
+    }
     
 	public void allowMove(int[] directions) {
 		l = td.isWalkRestricted(directions[0]) ? false : true;

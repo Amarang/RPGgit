@@ -440,7 +440,7 @@ public class RPG extends Applet implements KeyListener
 		
 		//System.out.println((int)(10*Math.sin((System.currentTimeMillis()%10000)/10)));
 		/////////draw map
-		eff.draw(g, mapbuff,"gradient");
+		eff.draw(g, mapbuff);
 		////////draw map
 		
 		if(!battle)
@@ -536,32 +536,23 @@ public class RPG extends Applet implements KeyListener
 	public void step(char direction) {
 		
 		outofbounds.stop();
+		eff.setEffect("");
+		
+		
 		switch(direction) {
-			case 'l':
-				if(!p.moveLeftB()) {
-					outofbounds.play();
-					msg.setTextAndStart("You can\'t move there!",600);
-				}
-				break;
-			case 'r':
-				if(!p.moveRightB()) {
-					outofbounds.play();
-					msg.setTextAndStart("You can\'t move there!",600);
-				}
-				break;
-			case 'u':
-				if(!p.moveUpB()) {
-					outofbounds.play();
-					msg.setTextAndStart("You can\'t move there!",600);
-				}
-				break;
-			case 'd':
-				if(!p.moveDownB()) {
-					outofbounds.play();
-					msg.setTextAndStart("You can\'t move there!",600);
-				}
-				break;
+			case 'l': p.moveLeft(); break;
+			case 'r': p.moveRight(); break;
+			case 'u': p.moveUp(); break;
+			case 'd': p.moveDown(); break;
 		}
+		
+
+		if(p.isBlocked()) {
+			outofbounds.play();
+			eff.setEffect("shake");
+			msg.setTextAndStart("You can\'t move there!",600);
+		}
+		
 		mapupdated = true;
 		
 		int currTile = theMap[p.getMapTracker()].getVal(p.getX(), p.getY());
@@ -576,7 +567,7 @@ public class RPG extends Applet implements KeyListener
 				+ " spec2: " + specTile2 + " spec3: " + specTile3);
 		
 		pSp.start();
-		eff.initEffectParams(10, 1000,Color.red,0);
+		eff.initEffectParams(5, 1000,Color.red,0.3f);
 		
 		//withinrangesprite = false;
 		nearSprite = -1;
@@ -594,13 +585,6 @@ public class RPG extends Applet implements KeyListener
 		}	
 		
 		int icrouch = crouching ? 1 : 0;
-		//bool to int
-		//battlefrequency gets multiplied by 0 if crouching
-		//mult by 1 if not crouching, so this eliminates need for
-		//battlefrequencycopy in key method
-		// you can put the ternary statement inside the if statement
-		// but switch 1 and 0, since it does a 1-icrouch
-		// I just kept it out like this to not confuse ourselves later
 		if ((rand.nextInt(1000) < 10*BATTLEFREQUENCY*(1-icrouch)
 				||(p.getX()==85&&p.getY()==57))
 			&& !td.isBattleRestricted(currTile))
@@ -612,6 +596,7 @@ public class RPG extends Applet implements KeyListener
 		
 		if (specTile1==1)
 		{
+			eff.setEffect("gradient");
 			System.out.println(specTile2);
 			msg.setTextAndStart("Changing maps", 1500);
 			{
@@ -641,6 +626,7 @@ public class RPG extends Applet implements KeyListener
 		}
 		if (specTile1==2)
 		{
+			eff.setEffect("gradient");
 			for (int x=0; x<MAPWIDTH[p.getMapTracker()];x++)
 				for (int y=0; y<MAPHEIGHT[p.getMapTracker()];y++)
 				{

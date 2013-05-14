@@ -189,6 +189,7 @@ class Battle
 	public void Initialize(Graphics g)
 	{
 		death.stop();
+		
 		if (boss==0)
 		{
 			battlemusic.play();
@@ -311,7 +312,9 @@ class Battle
 		}
 		if (key_space&&xchoice!=-1&&playernotgone)
 		{	
-			eff.initEffectParams(10, 1000, Color.red,1);
+			eff.initEffectParams(10, 1000, Color.red,0.9f);
+			eff.setEffect("blood");
+			
 			switch(xchoice) {
 			case 0: 
 				hit.play();
@@ -438,7 +441,7 @@ class Battle
 		if (attacked)
 		{
 			System.out.println("attacked me");
-			eff.draw(g,"blood");
+			eff.draw(g);
 		}
 		key_space=false;	 
 	}
