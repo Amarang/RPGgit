@@ -21,22 +21,6 @@ class Effects {
 		appSizeY = aY;
 	}
 	
-	/*public void applyEffect(Graphics g, BufferedImage bf, String effectName) {
-		if(effectName == "shake") {
-			shake(g, bf);
-		}
-		switch(effectName) {
-			case "none":
-				draw(g, bf);
-				break;
-			case "shake":
-				shake(g, bf);
-				break;
-			default:
-				draw(g, bf);
-				break;
-		}
-	}*/
 	public void initEffectParams(int amplitude, int duration, Color color, float alpha) {
 		tBegin = System.currentTimeMillis();
 		tEnd = tBegin + duration;//duration in ms
@@ -68,6 +52,9 @@ class Effects {
 					break;
 				case "fadetint":
 					fadeTint(g, bf, tCurrent, completion, effCol, effAlpha);
+					break;
+				case "gradient":
+					gradient(g, bf, tCurrent, completion, effAlpha);
 					break;
 				default:
 					break;
@@ -112,12 +99,31 @@ class Effects {
 		
 		g.setColor(tempCol);
 	}
-	
+
 	public void tint(Graphics g, BufferedImage bf, long tcurr, double completion, Color col, float alpha) {
 		if(tCurrent > tEnd) return;
 		Color tempCol = g.getColor();
 				
 		int icol = (col.getRGB() + ((int)(alpha*256) << 24)); //woo, bit operation
+		Color shade = new Color(icol, true);
+		
+		g.setColor(shade);
+		
+		if(tCurrent < tEnd) {
+			g.drawImage(bf, 0,0, null);
+			g.fillRect(0,0,appSizeX,appSizeY);
+		} else {
+			g.drawImage(bf,0,0, null);
+		}
+		
+		g.setColor(tempCol);
+	}
+	
+	public void gradient(Graphics g, BufferedImage bf, long tcurr, double completion, float alpha) {
+		if(tCurrent > tEnd) return;
+		Color tempCol = g.getColor();
+				
+		int icol = (int)(completion*(0xFFFFFF + ((int)(alpha*256) << 24))); //woo, bit operation
 		Color shade = new Color(icol, true);
 		
 		g.setColor(shade);

@@ -580,9 +580,9 @@ public class RPG extends Applet implements KeyListener
 		///effect stuff///
 		
 		//initEffectParams(amplitude (in pixels), duration (in milliseconds), color, alpha)
-		eff.initEffectParams(4, 1000, new Color(200,200,24), 0.8f);//0.0f through 1.0f for opacity
-		eff.setEffect("shake");
-		//we have "shake", "tint", and "fadetint" so far
+		eff.initEffectParams(4, 1000, new Color(200,200,24), 0.5f);//0.0f through 1.0f for opacity
+		eff.setEffect("fadetint");
+		//we have "shake", "tint", "fadetint", and "gradient" so far
 		///effect stuff///
 		
 		//withinrangesprite = false;
@@ -621,7 +621,7 @@ public class RPG extends Applet implements KeyListener
 		{
 			System.out.println(specTile2);
 			msg.setTextAndStart("Changing maps", 1500);
-			{
+			
 				if (p.getMapTracker()==0)
 				{
 					hud.updateNPCInfo();
@@ -640,7 +640,7 @@ public class RPG extends Applet implements KeyListener
 				crouching=false;
 				p.setMapTracker(specTile2);
 				
-			}
+			
 			for (int i=0;i< NUMSPRITES;i++)
 			{
 				sp[i].resetOrigin();
