@@ -12,9 +12,9 @@ public class RPG extends Applet implements KeyListener
 	
 	private static final long serialVersionUID = 2439786621293046662L;
 	static int TILESIZE = 20;
-	static int NUMMAPS = 4;
-	static int MAPWIDTH[] = {400,90,43,80};
-	static int MAPHEIGHT[] = {300,70,50,60};
+	static int NUMMAPS = 6;
+	static int MAPWIDTH[] = {400,90,43,80,80,80};
+	static int MAPHEIGHT[] = {300,70,50,60,60,60};
 	static int TILETYPES = 50;
 	static int NUMSPRITES = 2;
 	static int NUMITEMS = 11;
