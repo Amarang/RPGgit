@@ -57,7 +57,7 @@ public class RPG extends Applet implements KeyListener
 	
 	BufferedImage mapbuff;
 
-	Effects eff = new Effects();
+	Effects eff = new Effects(appSizeX,appSizeY);
 	
 	Player p = new Player(startx, starty,20,5,6,3,2,20,0,1, "Batman", STARTMAP);
 	Monster m;
@@ -440,7 +440,7 @@ public class RPG extends Applet implements KeyListener
 		
 		//System.out.println((int)(10*Math.sin((System.currentTimeMillis()%10000)/10)));
 		/////////draw map
-		eff.draw(g, mapbuff);
+		eff.draw(g, mapbuff,"gradient");
 		////////draw map
 		
 		if(!battle)
@@ -576,7 +576,7 @@ public class RPG extends Applet implements KeyListener
 				+ " spec2: " + specTile2 + " spec3: " + specTile3);
 		
 		pSp.start();
-		eff.initEffectParams(10, 1000);
+		eff.initEffectParams(10, 1000,Color.red,0);
 		
 		//withinrangesprite = false;
 		nearSprite = -1;
