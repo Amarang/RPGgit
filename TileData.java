@@ -9,7 +9,7 @@ class TileData
 	private boolean NOCLIP = false;
 	
 	//private int[] restricted = new int[] {-1, 2, 3}; //-1 is outside map
-	private int[] walkRestricted = new int[] {-1, 2, 3, 10, 14, 15, 16, 18, 21, 23, 29, 30};
+	private int[] walkRestricted = new int[] {-1, 2, 3, 10, 14, 15, 16, 18, 20, 21, 23, 28, 29, 30, 32};
 	private int[] battleRestricted = new int[] {-1, 4};
 
 	private int[] vertRestricted = new int[] {5, 6, 24, 25, 26}; // horizontal bridges

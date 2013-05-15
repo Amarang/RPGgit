@@ -31,6 +31,7 @@ class Player
     private String saveFile = "http://people.tamu.edu/~amin.nj/rpgsave.php?stats=";
     Random rand = new Random();
     private int battlefrequency=3;
+    private int treasurespots[][][]= new int [400][300][40];
     
     
     private boolean battling=false;
@@ -140,6 +141,17 @@ class Player
 	public void setMapSpawner(int ms) {	this.mapspawner = ms; }
 	public int getBattleFrequency() { return battlefrequency; }
 	public void setBattleFrequency(int bf) {	this.battlefrequency = bf; }
+	
+	public boolean foundTreasure(int x, int y, int m) 
+	{
+		if (treasurespots[x][y][m]==1)
+		return true;
+		else
+		return false;
+	}
+	public void addTreasure(int x, int y, int m) {
+	treasurespots[x][y][m]=1;
+	}
     
     public boolean setExperience(int d) 
     { 

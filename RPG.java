@@ -592,11 +592,9 @@ public class RPG extends Applet implements KeyListener
 		
 		int icrouch = crouching ? 1 : 0;
 		if ((rand.nextInt(1000) < 10*p.getBattleFrequency()*(1-icrouch)
-				||(p.getX()==85&&p.getY()==57))
+				||boss>0)
 			&& !td.isBattleRestricted(currTile))
 		{
-			if(p.getX()==85&&p.getY()==57)
-				boss=1; 
 			battle=true;
 		}
 		
@@ -644,6 +642,27 @@ public class RPG extends Applet implements KeyListener
 						teleport.play();	
 					}	
 				}
+			
+		}
+		if (specTile1==3)
+		{
+			boss=specTile2;
+			
+		}
+		if (specTile1==4&&!p.foundTreasure(p.getX(),p.getY(),p.getMapTracker()))
+		{
+			p.addTreasure(p.getX(),p.getY(),p.getMapTracker());
+			if (specTile2==0)
+			{
+			msg.setTextAndStart("You got "+specTile3 + " Gold!",600);
+			p.addGold(specTile3);	
+			}
+			else
+			{
+			msg.setTextAndStart("You found: "+specTile3 + " "+item[specTile2].getName() + "!",600);	
+			for(int i=0; i< specTile3; i++);
+			p.addItem(item[specTile2]);
+			}
 			
 		}
 		if (td.isBed(currTile))
