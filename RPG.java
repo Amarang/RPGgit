@@ -12,9 +12,9 @@ public class RPG extends Applet implements KeyListener
 	
 	private static final long serialVersionUID = 2439786621293046662L;
 	static int TILESIZE = 20;
-	static int NUMMAPS = 6;
-	static int MAPWIDTH[] = {400,90,43,80,80,80};
-	static int MAPHEIGHT[] = {300,70,50,60,60,60};
+	static int NUMMAPS = 9;
+	static int MAPWIDTH[] = {400,90,43,80,80,80,30,30,7};
+	static int MAPHEIGHT[] = {300,70,50,60,60,60,42,42,30};
 	static int TILETYPES = 50;
 	static int NUMSPRITES = 5;
 	static int NUMITEMS = 11;
@@ -26,10 +26,11 @@ public class RPG extends Applet implements KeyListener
 	static int NUMBOSSES = 1;
 	static int NUMSOUNDCLIPS = 2;
 	static int WALKINGDELAY = 15; //default 125
-	int BATTLEFREQUENCY = 3; //percentage of encounter per step (default 3)
+	//int BATTLEFREQUENCY = 3; //percentage of encounter per step (default 3)
 	static int FPS = 60;
 	static int STARTMAP = 0;
 	
+	static int maptracker = 0;
 	int boss=0;	
 	
 	boolean running;// = true;
@@ -590,7 +591,7 @@ public class RPG extends Applet implements KeyListener
 		}	
 		
 		int icrouch = crouching ? 1 : 0;
-		if ((rand.nextInt(1000) < 10*BATTLEFREQUENCY*(1-icrouch)
+		if ((rand.nextInt(1000) < 10*p.getBattleFrequency()*(1-icrouch)
 				||(p.getX()==85&&p.getY()==57))
 			&& !td.isBattleRestricted(currTile))
 		{
@@ -605,25 +606,23 @@ public class RPG extends Applet implements KeyListener
 			System.out.println(specTile2);
 			msg.setTextAndStart("Changing maps", 1500);
 			{
-				if (p.getMapTracker()==0)
-				{
+			maptracker = p.getMapTracker();
 					hud.updateNPCInfo();
-					
-					p.setTownX(p.getX());
-					p.setTownY(p.getY());
-					p.setX(p.getTownEntranceX());
-					p.setY(p.getTownEntranceY());	
-				}
-				else
+			p.setMapTracker(specTile2);		
+			for (int x=0; x<MAPWIDTH[p.getMapTracker()];x++)
+				for (int y=0; y<MAPHEIGHT[p.getMapTracker()];y++)
 				{
-					p.setX(p.getTownX());
-					p.setY(p.getTownY());
+					if (theMap[p.getMapTracker()].getSpecial1(x,y)==1 && theMap[p.getMapTracker()].getSpecial2(x,y)==maptracker)
+					{
+						p.setX(x);
+						p.setY(y);
+						maptracker = specTile2;
+					}
 				}
-				BATTLEFREQUENCY=specTile3;
+				p.setBattleFrequency(specTile3);
 				SPRITEFIRST=specTile4;
 				SPRITELAST=specTile5;
 				crouching=false;
-				p.setMapTracker(specTile2);
 				
 			}
 			for (int i=0;i< NUMSPRITES;i++)
@@ -655,6 +654,9 @@ public class RPG extends Applet implements KeyListener
 				p.setHealth(p.getHealthMax());
 				p.setMana(p.getManaMax());
 				p.pay(7);
+				p.setMapSpawner(p.getMapTracker());
+				p.setTownX(p.getX());
+				p.setTownY(p.getY());
 			}
 		}
 		if(sound) {	

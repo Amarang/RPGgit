@@ -25,10 +25,12 @@ class Player
     private int townentrancey=36;
 	private int facing = 0; //0-3 north east south west
 	private int maptracker;
+	private int mapspawner=0;
     private String name;
     private String loadFile = "http://people.tamu.edu/~amin.nj/rpgsave.txt";
     private String saveFile = "http://people.tamu.edu/~amin.nj/rpgsave.php?stats=";
     Random rand = new Random();
+    private int battlefrequency=3;
     
     
     private boolean battling=false;
@@ -134,6 +136,10 @@ class Player
 
 	public int getMapTracker() { return maptracker; }
 	public void setMapTracker(int mt) {	this.maptracker = mt; }
+	public int getMapSpawner() { return mapspawner; }
+	public void setMapSpawner(int ms) {	this.mapspawner = ms; }
+	public int getBattleFrequency() { return battlefrequency; }
+	public void setBattleFrequency(int bf) {	this.battlefrequency = bf; }
     
     public boolean setExperience(int d) 
     { 

@@ -131,9 +131,12 @@ class Battle
 				{
 					battle=false;
 					initialize = false;	
-					p.setHealth(p.getHealthMax());					
+					p.setHealth(p.getHealthMax());	
+					p.setMapTracker(p.getMapSpawner());				
 					p.setX(p.getTownX());
 					p.setY(p.getTownY());
+					p.setBattleFrequency(0);
+					
 				}
 				else if (key_space)
 					statsscreen=true;
