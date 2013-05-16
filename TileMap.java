@@ -2,26 +2,26 @@ class TileMap
 {
 	private int MAPWIDTH;
 	private int MAPHEIGHT;
-	private int matrix[][];
+	private byte matrix[][];
 	
-	private int special1[][];
-	private int special2[][];
-	private int special3[][];
-	private int special4[][];
-	private int special5[][];
-	private int special6[][];
+	private byte special1[][];
+	private byte special2[][];
+	private byte special3[][];
+	private byte special4[][];
+	private byte special5[][];
+	private byte special6[][];
 	
 	TileData td = new TileData();
 	
 	public TileMap(int MAPWIDTH, int MAPHEIGHT, String fileName) {
 		//System.out.println("made TileMap");
-		matrix   = new int[MAPHEIGHT][MAPWIDTH];
-		special1 = new int[MAPHEIGHT][MAPWIDTH];
-		special2 = new int[MAPHEIGHT][MAPWIDTH];
-		special3 = new int[MAPHEIGHT][MAPWIDTH];
-		special4 = new int[MAPHEIGHT][MAPWIDTH];
-		special5 = new int[MAPHEIGHT][MAPWIDTH];
-		special6 = new int[MAPHEIGHT][MAPWIDTH];
+		matrix   = new byte[MAPHEIGHT][MAPWIDTH];
+		special1 = new byte[MAPHEIGHT][MAPWIDTH];
+		special2 = new byte[MAPHEIGHT][MAPWIDTH];
+		special3 = new byte[MAPHEIGHT][MAPWIDTH];
+		special4 = new byte[MAPHEIGHT][MAPWIDTH];
+		special5 = new byte[MAPHEIGHT][MAPWIDTH];
+		special6 = new byte[MAPHEIGHT][MAPWIDTH];
 		
 		for(int w=0; w<MAPWIDTH;w++) {
 			for(int h=0; h<MAPHEIGHT;h++) {
@@ -41,19 +41,19 @@ class TileMap
 		
 		for(int i=0; i < mapArr.length; i++) {
 			for(int j=0; j < mapArr[0].length; j++) {
-				matrix[i][j] = (int)mapArr[i][j].charAt(0) - 65;
+				matrix[i][j] = (byte)((int)mapArr[i][j].charAt(0) - 65);
 				if(mapArr[i][j].length() <= 1) continue;
-					special1[i][j] = (int)mapArr[i][j].charAt(1) - 65;
+					special1[i][j] = (byte) ((int)mapArr[i][j].charAt(1) - 65);
 				if(mapArr[i][j].length() <= 2) continue;
-					special2[i][j] = (int)mapArr[i][j].charAt(2) - 65;
+					special2[i][j] = (byte) ((int)mapArr[i][j].charAt(2) - 65);
 				if(mapArr[i][j].length() <= 3) continue;
-					special3[i][j] = (int)mapArr[i][j].charAt(3) - 65;
+					special3[i][j] = (byte) ((int)mapArr[i][j].charAt(3) - 65);
 				if(mapArr[i][j].length() <= 4) continue;
-					special4[i][j] = (int)mapArr[i][j].charAt(4) - 65;
+					special4[i][j] = (byte) ((int)mapArr[i][j].charAt(4) - 65);
 				if(mapArr[i][j].length() <= 5) continue;
-					special5[i][j] = (int)mapArr[i][j].charAt(5) - 65;
+					special5[i][j] = (byte) ((int)mapArr[i][j].charAt(5) - 65);
 				if(mapArr[i][j].length() <= 6) continue;
-					special6[i][j] = (int)mapArr[i][j].charAt(6) - 65;
+					special6[i][j] = (byte) ((int)mapArr[i][j].charAt(6) - 65);
 			}
 			
 		}		
@@ -101,7 +101,7 @@ class TileMap
 		}
 	}
 	
-	private void printArray(int[][] arr) {
+	private void printArray(byte[][] arr) {
 		for(int i = 0; i < arr.length; i++)
         {
             String buff = new String();
