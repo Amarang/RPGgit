@@ -6,8 +6,9 @@ import java.util.Random;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.lang.Math;
+import java.awt.event.*;
 
-public class RPG extends Applet implements KeyListener
+public class RPG extends Applet implements KeyListener, MouseListener
 {
 	
 	private static final long serialVersionUID = 2439786621293046662L;
@@ -48,6 +49,9 @@ public class RPG extends Applet implements KeyListener
 	
 	int nearSprite = -1;
 	int shopkeeperID = 1;
+	
+	int mX = -1;
+	int mY = -1;
 	
 	static boolean music = true;
 	boolean sound = true;	
@@ -219,6 +223,7 @@ public class RPG extends Applet implements KeyListener
          } catch (InterruptedException  e) {}
 		  
 		addKeyListener(this);
+		addMouseListener(this); 
 		
 		hud = new HUD(p, icons, shop);
 		mm = new Minimap(MAPWIDTH, MAPHEIGHT, TILESIZE, theMap, tileImages, p, this.getSize());
@@ -320,8 +325,19 @@ public class RPG extends Applet implements KeyListener
 				yDraw = (starty-p.getY())*TILESIZE + y*TILESIZE;
 				if(xDraw >= appSizeX) break;
 				
-				gbuff.drawImage(tileImages[theMap[p.getMapTracker()].getVal(x,y)],xDraw,yDraw, TILESIZE, TILESIZE,this);
 				
+				gbuff.drawImage(tileImages[theMap[p.getMapTracker()].getVal(x,y)],xDraw,yDraw, TILESIZE, TILESIZE,this);
+
+				//System.out.println(xDraw + " " + yDraw + " " + mX + " " + mY);
+				if(mX != -1 && mY != -1 && xDraw == mX && yDraw == mY) {
+					//Color tempCol = gbuff.getColor();
+					//gbuff.setColor(Color.BLUE);
+					gbuff.fillRect(xDraw, yDraw, TILESIZE, TILESIZE);	
+					System.out.println("filling xDraw, yDraw");
+					//gbuff.setColor(tempCol);
+					mX = -1;
+					mY = -1;
+				}
 			}
 		}
 				
@@ -735,6 +751,8 @@ public class RPG extends Applet implements KeyListener
 			}
 			
     	} 
+    
+        
     public void delay(double n)
 	{
 		long startDelay = System.currentTimeMillis();
@@ -742,4 +760,21 @@ public class RPG extends Applet implements KeyListener
 		while (endDelay - startDelay < n)
 			endDelay = System.currentTimeMillis();	
 	}
+
+
+	public void mouseClicked(MouseEvent e) {
+		//int division, so will round to tile
+    	mX = e.getX()/TILESIZE * TILESIZE;
+    	mY = e.getY()/TILESIZE * TILESIZE;
+    	System.out.println("x: " + mX + " y: " + mY);
+    	
+	}
+
+
+	public void mouseEntered(MouseEvent e) { }
+	public void mouseExited(MouseEvent e) { }
+	public void mousePressed(MouseEvent e) { }
+	public void mouseReleased(MouseEvent e) { }
+
+
 }
