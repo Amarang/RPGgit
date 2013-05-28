@@ -327,17 +327,6 @@ public class RPG extends Applet implements KeyListener, MouseListener
 				
 				
 				gbuff.drawImage(tileImages[theMap[p.getMapTracker()].getVal(x,y)],xDraw,yDraw, TILESIZE, TILESIZE,this);
-
-				//System.out.println(xDraw + " " + yDraw + " " + mX + " " + mY);
-				if(mX != -1 && mY != -1 && xDraw == mX && yDraw == mY) {
-					//Color tempCol = gbuff.getColor();
-					//gbuff.setColor(Color.BLUE);
-					gbuff.fillRect(xDraw, yDraw, TILESIZE, TILESIZE);	
-					System.out.println("filling xDraw, yDraw");
-					//gbuff.setColor(tempCol);
-					mX = -1;
-					mY = -1;
-				}
 			}
 		}
 				
@@ -763,10 +752,21 @@ public class RPG extends Applet implements KeyListener, MouseListener
 
 
 	public void mouseClicked(MouseEvent e) {
-		//int division, so will round to tile
-    	mX = e.getX()/TILESIZE * TILESIZE;
-    	mY = e.getY()/TILESIZE * TILESIZE;
-    	System.out.println("x: " + mX + " y: " + mY);
+
+    	mX = e.getX();
+    	mY = e.getY();
+    	
+    	double aY = appSizeY;
+    	double aX = appSizeX;
+
+    	//imagine screen is rectangle, and there are two lines connecting the corners
+    	//to make an x, forming 4 triangles. depending on which triangle you click in,
+    	//you'll move accordingly. inequalities below.
+    	if(mY < (aY - aY*(mX/aX)) && mY < (aY*(mX/aX))) { step('u'); }
+    	else if(mY > (aY - aY*(mX/aX)) && mY < (aY*(mX/aX))) { step('r'); }
+    	else if(mY > (aY - aY*(mX/aX)) && mY > (aY*(mX/aX))) { step('d'); }
+    	else if(mY < (aY - aY*(mX/aX)) && mY > (aY*(mX/aX))) { step('l'); }
+    	else { System.out.println("uhoh"); }
     	
 	}
 
